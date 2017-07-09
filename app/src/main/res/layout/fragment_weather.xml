@@ -4,4 +4,11 @@
     android:layout_height="match_parent"
     tools:context="com.kondenko.yamblzweather.screens.weather.FragmentWeather">
 
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:alpha=".1"
+        android:src="@drawable/ic_weather_black_24dp"
+        android:layout_gravity="center"/>
+
 </FrameLayout>

@@ -4,4 +4,5 @@
     <string name="title_about">О приложении</string>
     <string name="title_settings">Настройки</string>
     <string name="title_weather">Погода</string>
+    <string name="about_text">Мобилизация 2017 \n Владимир Конденко</string>
 </resources>

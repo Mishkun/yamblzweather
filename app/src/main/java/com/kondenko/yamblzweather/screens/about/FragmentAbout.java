@@ -17,7 +17,7 @@ public class FragmentAbout extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_weather, container, false);
+        View root = inflater.inflate(R.layout.fragment_about, container, false);
         return root;
     }
 
