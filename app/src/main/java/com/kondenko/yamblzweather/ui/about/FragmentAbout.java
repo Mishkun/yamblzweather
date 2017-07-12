@@ -1,4 +1,4 @@
-package com.kondenko.yamblzweather.screens.about;
+package com.kondenko.yamblzweather.ui.about;
 
 
 import android.os.Bundle;

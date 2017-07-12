@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kondenko.yamblzweather.screens.weather.FragmentWeather">
+    tools:context="com.kondenko.yamblzweather.ui.weather.FragmentWeather">
 
     <ImageView
         android:layout_width="96dp"

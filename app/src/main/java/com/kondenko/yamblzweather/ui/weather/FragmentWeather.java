@@ -1,4 +1,4 @@
-package com.kondenko.yamblzweather.screens.settings;
+package com.kondenko.yamblzweather.ui.weather;
 
 
 import android.os.Bundle;
@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 
 import com.kondenko.yamblzweather.R;
 
-public class FragmentSettings extends Fragment {
+public class FragmentWeather extends Fragment {
 
-    public FragmentSettings() {}
+    public FragmentWeather() {}
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_settings, container, false);
+        View root = inflater.inflate(R.layout.fragment_weather, container, false);
         return root;
     }
 

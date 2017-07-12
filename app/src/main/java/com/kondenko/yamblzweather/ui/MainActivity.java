@@ -1,4 +1,4 @@
-package com.kondenko.yamblzweather;
+package com.kondenko.yamblzweather.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,9 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.kondenko.yamblzweather.screens.about.FragmentAbout;
-import com.kondenko.yamblzweather.screens.settings.FragmentSettings;
-import com.kondenko.yamblzweather.screens.weather.FragmentWeather;
+import com.kondenko.yamblzweather.R;
+import com.kondenko.yamblzweather.ui.about.FragmentAbout;
+import com.kondenko.yamblzweather.ui.settings.FragmentSettings;
+import com.kondenko.yamblzweather.ui.weather.FragmentWeather;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
