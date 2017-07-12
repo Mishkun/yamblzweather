@@ -25,6 +25,7 @@ ext {
     verConstraintLayout ='1.0.2'
     verDagger = '2.11'
     verRetrofit = '2.3.0'
+    verRxAndroid = '2.0.1'
     verRxJava2 = '2.1.1'
 }
 
@@ -42,6 +43,7 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$verRetrofit"
 
     compile "io.reactivex.rxjava2:rxjava:$verRxJava2"
+    compile "io.reactivex.rxjava2:rxandroid:$verRxAndroid"
 
     compile "com.android.support:appcompat-v7:$verSupportLib"
     compile "com.android.support:design:$verSupportLib"
