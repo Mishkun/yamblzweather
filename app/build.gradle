@@ -41,6 +41,7 @@ dependencies {
     compile "com.google.dagger:dagger-android-support:$verDagger"
 
     compile "com.squareup.retrofit2:retrofit:$verRetrofit"
+    compile "com.squareup.retrofit2:converter-gson:$verRetrofit"
 
     compile "io.reactivex.rxjava2:rxjava:$verRxJava2"
     compile "io.reactivex.rxjava2:rxandroid:$verRxAndroid"
