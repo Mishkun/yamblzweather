@@ -5,10 +5,13 @@ import com.kondenko.yamblzweather.dagger.BindersModule;
 import com.kondenko.yamblzweather.dagger.modules.AppModule;
 import com.kondenko.yamblzweather.dagger.modules.NetModule;
 
+import javax.inject.Singleton;
+
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.support.AndroidSupportInjectionModule;
 
+@Singleton
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         BindersModule.class,

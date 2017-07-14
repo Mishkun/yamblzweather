@@ -18,14 +18,14 @@ import dagger.android.support.AndroidSupportInjection;
 
 public class FragmentWeather extends Fragment implements WeatherView {
 
-//    @Inject
-//    public WeatherPresenter presenter;
+    @Inject
+    public WeatherPresenter presenter;
 
     public FragmentWeather() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-//        AndroidSupportInjection.inject(this);
+        AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
     }
 

@@ -25,10 +25,10 @@ import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector {
 
-//    @Inject
-//    public DispatchingAndroidInjector<Fragment> fragmentInjector;
+    @Inject
+    public DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     private DrawerLayout drawer;
     private FragmentWeather fragmentWeather = new FragmentWeather();
@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-//    @Override
-//    public AndroidInjector<Fragment> supportFragmentInjector() {
-//        return fragmentInjector;
-//    }
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentInjector;
+    }
 
 }
