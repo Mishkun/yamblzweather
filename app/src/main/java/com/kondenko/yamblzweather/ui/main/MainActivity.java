@@ -1,4 +1,4 @@
-package com.kondenko.yamblzweather.ui;
+package com.kondenko.yamblzweather.ui.main;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -15,8 +15,20 @@ import com.kondenko.yamblzweather.ui.about.FragmentAbout;
 import com.kondenko.yamblzweather.ui.settings.FragmentSettings;
 import com.kondenko.yamblzweather.ui.weather.FragmentWeather;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasFragmentInjector;
+import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.HasSupportFragmentInjector;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+//    @Inject
+//    public DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     private DrawerLayout drawer;
     private FragmentWeather fragmentWeather = new FragmentWeather();
@@ -26,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidInjection.inject(this);
         setContentView(R.layout.activity_main);
         setupDrawer();
         setFragment(fragmentWeather);
@@ -87,5 +100,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.all_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+
+//    @Override
+//    public AndroidInjector<Fragment> supportFragmentInjector() {
+//        return fragmentInjector;
+//    }
 
 }

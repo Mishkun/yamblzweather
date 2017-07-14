@@ -1,0 +1,37 @@
+package com.kondenko.yamblzweather;
+
+import android.app.Activity;
+import android.app.Application;
+
+import com.kondenko.yamblzweather.dagger.components.DaggerAppComponent;
+import com.kondenko.yamblzweather.dagger.modules.AppModule;
+import com.kondenko.yamblzweather.dagger.modules.NetModule;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+
+
+public class App extends Application implements HasActivityInjector {
+
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        DaggerAppComponent.builder()
+                .application(this)
+                .appModule(new AppModule(this))
+                .netModule(new NetModule(Const.BASE_URL))
+                .build()
+                .inject(this);
+    }
+
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return dispatchingActivityInjector;
+    }
+}

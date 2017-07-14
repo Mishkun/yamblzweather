@@ -42,6 +42,9 @@ dependencies {
 
     compile "com.squareup.retrofit2:retrofit:$verRetrofit"
     compile "com.squareup.retrofit2:converter-gson:$verRetrofit"
+    compile "com.squareup.retrofit2:converter-gson:$verRetrofit"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$verRetrofit"
+
 
     compile "io.reactivex.rxjava2:rxjava:$verRxJava2"
     compile "io.reactivex.rxjava2:rxandroid:$verRxAndroid"
