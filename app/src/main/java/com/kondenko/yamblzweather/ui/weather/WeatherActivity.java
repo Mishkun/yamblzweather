@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.kondenko.yamblzweather.R;
+import com.kondenko.yamblzweather.ui.BaseActivity;
+import com.kondenko.yamblzweather.ui.BasePresenter;
 import com.kondenko.yamblzweather.ui.about.AboutActivity;
 import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
 
@@ -21,7 +23,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class WeatherActivity extends AppCompatActivity
+public class WeatherActivity extends BaseActivity
         implements WeatherView {
 
 //    @Inject
@@ -32,8 +34,7 @@ public class WeatherActivity extends AppCompatActivity
         AndroidInjection.inject(this);
         setContentView(R.layout.layout_weather);
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(false);
+        setToolbar(toolbar, false);
     }
 
     @Override
