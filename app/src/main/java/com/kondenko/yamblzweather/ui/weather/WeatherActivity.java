@@ -2,32 +2,29 @@ package com.kondenko.yamblzweather.ui.weather;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.kondenko.yamblzweather.R;
+import com.kondenko.yamblzweather.model.entity.WeatherData;
 import com.kondenko.yamblzweather.ui.BaseActivity;
-import com.kondenko.yamblzweather.ui.BasePresenter;
 import com.kondenko.yamblzweather.ui.about.AboutActivity;
 import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
+import com.kondenko.yamblzweather.utils.L;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
 
 public class WeatherActivity extends BaseActivity
         implements WeatherView {
 
-//    @Inject
-//    public WeatherPresenter presenter;
+    private static final String TAG = "WeatherActivity";
+
+    @Inject
+    public WeatherPresenter presenter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +32,18 @@ public class WeatherActivity extends BaseActivity
         setContentView(R.layout.layout_weather);
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         setToolbar(toolbar, false);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.onAttach(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.onDetach();
     }
 
     @Override
@@ -62,4 +71,14 @@ public class WeatherActivity extends BaseActivity
         return true;
     }
 
+    @Override
+    public void showWeather(WeatherData weatherData) {
+        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showError(Throwable error) {
+        L.w(TAG, error);
+        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+    }
 }

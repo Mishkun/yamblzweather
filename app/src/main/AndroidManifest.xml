@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kondenko.yamblzweather">
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".App"
@@ -22,7 +24,7 @@
         </activity>
         <activity android:name=".ui.settings.SettingsActivity" android:parentActivityName=".ui.weather.WeatherActivity" />
         <activity android:name=".ui.about.AboutActivity" android:parentActivityName=".ui.weather.WeatherActivity"/>
-        <activity android:name=".ui.BaseActivity"></activity>
+        <activity android:name=".ui.BaseActivity" android:enabled="false"/>
     </application>
 
 </manifest>

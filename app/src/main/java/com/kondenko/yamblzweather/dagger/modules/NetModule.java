@@ -1,8 +1,8 @@
 package com.kondenko.yamblzweather.dagger.modules;
 
-import com.kondenko.yamblzweather.Const;
+import com.kondenko.yamblzweather.utils.interceptors.ApiKeyInterceptor;
+import com.kondenko.yamblzweather.utils.interceptors.LoggingInterceptor;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -16,15 +16,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetModule {
 
     private String baseUrl;
+    private String apiKey;
 
-    public NetModule(String baseUrl) {
+    public NetModule(String baseUrl, String apiKey) {
         this.baseUrl = baseUrl;
+        this.apiKey = apiKey;
     }
 
     @Provides
     @Singleton
     public OkHttpClient provideHttpClient() {
         return new OkHttpClient.Builder()
+                .addInterceptor(new ApiKeyInterceptor(apiKey))
+                .addInterceptor(new LoggingInterceptor())
                 .build();
     }
 
@@ -33,6 +37,7 @@ public class NetModule {
     public Retrofit provideRetrofit(OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
+                .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

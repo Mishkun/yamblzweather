@@ -21,6 +21,10 @@ android {
             minifyEnabled false
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 ext {
@@ -30,6 +34,7 @@ ext {
     verRetrofit = '2.3.0'
     verRxAndroid = '2.0.1'
     verRxJava2 = '2.1.1'
+    verRxLifecycle = '2.1.0'
 }
 
 dependencies {
@@ -51,6 +56,10 @@ dependencies {
 
     compile "io.reactivex.rxjava2:rxjava:$verRxJava2"
     compile "io.reactivex.rxjava2:rxandroid:$verRxAndroid"
+
+    compile "com.trello.rxlifecycle2:rxlifecycle:$verRxLifecycle"
+    compile "com.trello.rxlifecycle2:rxlifecycle-android:$verRxLifecycle"
+    compile "com.trello.rxlifecycle2:rxlifecycle-components:$verRxLifecycle"
 
     compile "com.android.support:appcompat-v7:$verSupportLib"
     compile "com.android.support:design:$verSupportLib"
