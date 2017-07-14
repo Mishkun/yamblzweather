@@ -25,7 +25,7 @@ android {
 
 ext {
     verSupportLib = '26.0.0-alpha1'
-    verConstraintLayout ='1.0.2'
+    verConstraintLayout = '1.0.2'
     verDagger = '2.11'
     verRetrofit = '2.3.0'
     verRxAndroid = '2.0.1'
@@ -57,5 +57,6 @@ dependencies {
     compile "com.android.support:support-v4:$verSupportLib"
     compile "com.android.support.constraint:constraint-layout:$verConstraintLayout"
 
-    testCompile "junit:junit:4.12"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }
