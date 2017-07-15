@@ -13,6 +13,8 @@ public abstract class Const {
     public static String UNIT_TEMP_CELSIUS = "celsius";
     public static String UNIT_TEMP_KELVIN = "kelvin";
 
+    public static String KEY_UNIT_TEMP_DEFAULT = "default";
+
 
 
 }

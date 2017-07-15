@@ -27,7 +27,7 @@
 
     <string name="pref_key_unit_fahrenheit" translatable="false">imperial</string>
     <string name="pref_key_unit_celsius" translatable="false">metric</string>
-    <string name="pref_key_unit_kelvin" translatable="false"></string>
+    <string name="pref_key_unit_kelvin" translatable="false">default</string>
 
     <string name="pref_value_unit_fahrenheit">Fahrenheit</string>
     <string name="pref_value_unit_celsius">Celsius</string>
@@ -37,5 +37,16 @@
 
     <string name="pref_title_refresh_rate">Refresh every…</string>
 
+    <string name="pref_key_refresh_rate" translatable="false">refresh_rate</string>
+
+    <string name="pref_key_refresh_rate_2_hours" translatable="false">2h</string>
+    <string name="pref_key_refresh_rate_6_hours" translatable="false">6h</string>
+    <string name="pref_key_refresh_rate_12_hours" translatable="false">12h</string>
+    <string name="pref_key_refresh_rate_24_hours" translatable="false">24h</string>
+
+    <string name="pref_value_refresh_rate_2_hours">2 hours</string>
+    <string name="pref_value_refresh_rate_6_hours">6 hours</string>
+    <string name="pref_value_refresh_rate_12_hours">12 hours</string>
+    <string name="pref_value_refresh_rate_24_hours">24 hours</string>
 
 </resources>
