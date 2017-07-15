@@ -1,12 +1,20 @@
 package com.kondenko.yamblzweather.dagger.modules;
 
+import android.content.Context;
+
+import com.kondenko.yamblzweather.App;
 import com.kondenko.yamblzweather.utils.interceptors.ApiKeyInterceptor;
+import com.kondenko.yamblzweather.utils.interceptors.CacheInterceptor;
 import com.kondenko.yamblzweather.utils.interceptors.LoggingInterceptor;
 
+import java.io.File;
+
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -25,10 +33,13 @@ public class NetModule {
 
     @Provides
     @Singleton
-    public OkHttpClient provideHttpClient() {
+    public OkHttpClient provideHttpClient(Context context) {
+        Cache cache = new Cache(new File(context.getCacheDir(), "http-cache"), 1024 * 1024);
         return new OkHttpClient.Builder()
+                .cache(cache)
                 .addInterceptor(new ApiKeyInterceptor(apiKey))
                 .addInterceptor(new LoggingInterceptor())
+                .addInterceptor(new CacheInterceptor())
                 .build();
     }
 

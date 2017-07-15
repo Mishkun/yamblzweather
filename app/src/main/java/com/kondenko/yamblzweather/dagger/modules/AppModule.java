@@ -1,5 +1,7 @@
 package com.kondenko.yamblzweather.dagger.modules;
 
+import android.content.Context;
+
 import com.kondenko.yamblzweather.App;
 import com.kondenko.yamblzweather.ui.weather.dagger.WeatherSubcomponent;
 import com.kondenko.yamblzweather.utils.SettingsManager;
@@ -21,6 +23,12 @@ public class AppModule {
     @Provides
     @Singleton
     public App provideApp() { return application; }
+
+    @Provides
+    @Singleton
+    public Context provideContext() {
+        return application.getBaseContext();
+    }
 
     @Provides
     @Singleton
