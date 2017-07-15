@@ -3,6 +3,7 @@ package com.kondenko.yamblzweather.dagger.modules;
 import android.content.Context;
 
 import com.kondenko.yamblzweather.App;
+import com.kondenko.yamblzweather.utils.SettingsManager;
 import com.kondenko.yamblzweather.utils.interceptors.ApiKeyInterceptor;
 import com.kondenko.yamblzweather.utils.interceptors.CacheInterceptor;
 import com.kondenko.yamblzweather.utils.interceptors.LoggingInterceptor;
@@ -35,11 +36,13 @@ public class NetModule {
     @Singleton
     public OkHttpClient provideHttpClient(Context context) {
         Cache cache = new Cache(new File(context.getCacheDir(), "http-cache"), 1024 * 1024);
+        SettingsManager settingsManager = new SettingsManager(context);
+        int refreshRate = settingsManager.getRefreshRate();
         return new OkHttpClient.Builder()
                 .cache(cache)
+                .addInterceptor(new CacheInterceptor(refreshRate))
                 .addInterceptor(new ApiKeyInterceptor(apiKey))
                 .addInterceptor(new LoggingInterceptor())
-                .addInterceptor(new CacheInterceptor())
                 .build();
     }
 

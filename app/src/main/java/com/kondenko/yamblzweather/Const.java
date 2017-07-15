@@ -8,13 +8,10 @@ public abstract class Const {
 
     public static String PARAM_API_KEY = "APPID";
 
-
-    public static String UNIT_TEMP_FAHRENHEIT = "fahrenheit";
-    public static String UNIT_TEMP_CELSIUS = "celsius";
-    public static String UNIT_TEMP_KELVIN = "kelvin";
-
     public static String KEY_UNIT_TEMP_DEFAULT = "default";
 
+    public static int PREF_REFRESH_RATE_DEFAULT_HOURS = 2;
 
+    public static String ID_MOSCOW = "524901"; // STOPSHIP Task #2 only
 
 }

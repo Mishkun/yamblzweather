@@ -1,5 +1,6 @@
 package com.kondenko.yamblzweather.ui.weather;
 
+import com.google.gson.JsonElement;
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.model.entity.WeatherData;
 import com.kondenko.yamblzweather.model.service.WeatherService;
@@ -22,9 +23,8 @@ public class WeatherInteractor extends BaseInteractor {
         this.service = weatherService;
     }
 
-    public Single<WeatherData> getWeather(java.lang.String id, java.lang.String units) {
-        // An empty string represents the default value (Kelvin)
-        Single<WeatherData> weatherSingle = units.equals(Const.KEY_UNIT_TEMP_DEFAULT) ? service.getWeather(id) : service.getWeather(id, units);
+    public Single<WeatherData> getWeather(String cityId, String units) {
+        Single<WeatherData> weatherSingle = units.equals(Const.KEY_UNIT_TEMP_DEFAULT) ? service.getWeather(cityId) : service.getWeather(cityId, units);
         return weatherSingle
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());

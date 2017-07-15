@@ -10,11 +10,17 @@ import okhttp3.Response;
 
 public class CacheInterceptor implements Interceptor {
 
+    private int hours;
+
+    public CacheInterceptor(int hours) {
+        this.hours = hours;
+    }
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());
         CacheControl cacheControl = new CacheControl.Builder()
-                .maxAge(10, TimeUnit.MINUTES)
+                .maxAge(hours, TimeUnit.HOURS)
                 .build();
         return response.newBuilder()
                 .header("Cache-Control", cacheControl.toString())

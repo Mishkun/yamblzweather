@@ -1,5 +1,6 @@
 package com.kondenko.yamblzweather.ui.weather;
 
+import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.ui.BasePresenter;
 import com.kondenko.yamblzweather.utils.SettingsManager;
 
@@ -18,10 +19,11 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
     @Override
     public void onAttach(WeatherView view) {
         super.onAttach(view);
-        onCityChanged("524901"); // Only show weather for Moscow (for Task 2)
+        onCityChanged(Const.ID_MOSCOW); // Only show weather for Moscow (for Task 2)
     }
 
     public void onCityChanged(String id) {
+        settingsManager.setSelectedCity(id);
         String units = settingsManager.getSelectedUnitKey();
         getWeather(id, units);
     }

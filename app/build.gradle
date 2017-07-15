@@ -2,12 +2,12 @@ apply plugin: "com.android.application"
 apply plugin: "me.tatarka.retrolambda"
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 25
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.kondenko.yamblzweather"
         minSdkVersion 17
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -37,6 +37,7 @@ ext {
     verRxLifecycle = "2.1.0"
     verWeatherIconView = "1.1.0"
     verButterKnife  = "8.7.0"
+    verAndroidJob = "1.1.11"
 }
 
 dependencies {
@@ -69,6 +70,8 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$verButterKnife"
 
     compile "com.github.pwittchen:weathericonview:$verWeatherIconView"
+
+    compile "com.evernote:android-job:$verAndroidJob"
 
     testCompile "junit:junit:4.12"
 }

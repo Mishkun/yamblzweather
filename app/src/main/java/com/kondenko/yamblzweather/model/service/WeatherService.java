@@ -1,5 +1,6 @@
 package com.kondenko.yamblzweather.model.service;
 
+import com.google.gson.JsonElement;
 import com.kondenko.yamblzweather.model.entity.WeatherData;
 
 import io.reactivex.Single;
@@ -11,11 +12,6 @@ public interface WeatherService {
     @POST("weather")
     public Single<WeatherData> getWeather(@Query("id") java.lang.String id);
 
-    /**
-     * Get weather data inRange given units.
-     *
-     * @see com.kondenko.yamblzweather.utils.Units
-     */
     @POST("weather")
     public Single<WeatherData> getWeather(@Query("id") java.lang.String id, @Query("units") java.lang.String units);
 

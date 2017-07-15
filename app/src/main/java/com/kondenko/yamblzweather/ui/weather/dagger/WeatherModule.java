@@ -14,7 +14,7 @@ import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
 
-@Module// (subcomponents = WeatherSubcomponent.class)
+@Module
 public class WeatherModule {
 
     @Provides
