@@ -1,17 +1,18 @@
 package com.kondenko.yamblzweather.ui.weather;
 
-import com.kondenko.yamblzweather.model.entity.Weather;
-import com.kondenko.yamblzweather.model.service.WeatherService;
 import com.kondenko.yamblzweather.ui.BasePresenter;
-import com.trello.rxlifecycle2.RxLifecycle;
+import com.kondenko.yamblzweather.utils.SettingsManager;
 
 import javax.inject.Inject;
 
 public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteractor> {
 
+    private SettingsManager settingsManager;
+
     @Inject
-    public WeatherPresenter(WeatherView view, WeatherInteractor interactor) {
+    public WeatherPresenter(WeatherView view, WeatherInteractor interactor, SettingsManager settingsManager) {
         super(view, interactor);
+        this.settingsManager = settingsManager;
     }
 
     @Override
@@ -21,10 +22,19 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
     }
 
     public void onCityChanged(String id) {
-        interactor.getWeather(id)
-                .compose(bindToLifecycle())
-                .subscribe(view::showWeather, view::showError);
+        String units = settingsManager.getSelectedUnitKey();
+        getWeather(id, units);
     }
 
+    private void getWeather(String id, String units) {
+        interactor.getWeather(id, units)
+                .compose(bindToLifecycle())
+                .subscribe(weather -> {
+                            view.showCity(weather.getName());
+                            view.showTemperature(weather.getMain().getTemp(), settingsManager.getSelectedUnitValue());
+                            view.showCondition(weather.getWeather());
+                        }, view::showError
+                );
+    }
 
 }

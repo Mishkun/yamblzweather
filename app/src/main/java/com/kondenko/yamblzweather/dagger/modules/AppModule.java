@@ -2,6 +2,7 @@ package com.kondenko.yamblzweather.dagger.modules;
 
 import com.kondenko.yamblzweather.App;
 import com.kondenko.yamblzweather.ui.weather.dagger.WeatherSubcomponent;
+import com.kondenko.yamblzweather.utils.SettingsManager;
 
 import javax.inject.Singleton;
 
@@ -11,7 +12,7 @@ import dagger.Provides;
 @Module(subcomponents = {WeatherSubcomponent.class})
 public class AppModule {
 
-    public App application;
+    private App application;
 
     public AppModule(App application) {
         this.application = application;
@@ -20,5 +21,11 @@ public class AppModule {
     @Provides
     @Singleton
     public App provideApp() { return application; }
+
+    @Provides
+    @Singleton
+    public SettingsManager provideSettingsManager() {
+        return new SettingsManager(application);
+    }
 
 }

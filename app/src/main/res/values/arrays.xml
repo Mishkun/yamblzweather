@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_temp_units_entry_values">
+        <item name="entry_value_unit_fahrenheit">@string/pref_value_unit_fahrenheit</item>
+        <item name="entry_value_unit_celsius">@string/pref_value_unit_celsius</item>
+        <item name="entry_value_unit_kelvin">@string/pref_value_unit_kelvin</item>
+    </string-array>
+
+    <string-array name="pref_temp_units_entries">
+        <item name="entry_unit_fahrenheit">@string/pref_key_unit_fahrenheit</item>
+        <item name="entry_unit_celsius">@string/pref_key_unit_celsius</item>
+        <item name="entry_unit_kelvin">@string/pref_key_unit_kelvin</item>
+    </string-array>
+
+</resources>

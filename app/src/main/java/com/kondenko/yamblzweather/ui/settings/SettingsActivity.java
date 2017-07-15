@@ -1,5 +1,6 @@
 package com.kondenko.yamblzweather.ui.settings;
 
+import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,5 +18,8 @@ public class SettingsActivity extends BaseActivity {
         setContentView(R.layout.layout_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setToolbar(toolbar, true);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.settings_container, new SettingsFragment())
+                .commit();
     }
 }

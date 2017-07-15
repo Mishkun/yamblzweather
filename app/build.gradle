@@ -1,5 +1,5 @@
-apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: "com.android.application"
+apply plugin: "me.tatarka.retrolambda"
 
 android {
     compileSdkVersion 26
@@ -15,7 +15,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
         debug {
             minifyEnabled false
@@ -28,20 +28,22 @@ android {
 }
 
 ext {
-    verSupportLib = '26.0.0-alpha1'
-    verConstraintLayout = '1.0.2'
-    verDagger = '2.11'
-    verRetrofit = '2.3.0'
-    verRxAndroid = '2.0.1'
-    verRxJava2 = '2.1.1'
-    verRxLifecycle = '2.1.0'
+    verSupportLib = "25.4.0"
+    verConstraintLayout = "1.0.2"
+    verDagger = "2.11"
+    verRetrofit = "2.3.0"
+    verRxAndroid = "2.0.1"
+    verRxJava2 = "2.1.1"
+    verRxLifecycle = "2.1.0"
+    verWeatherIconView = "1.1.0"
+    verButterKnife  = "8.7.0"
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.google.code.findbugs' // A workaround to get Retrolambda working
+    compile fileTree(dir: "libs", include: ["*.jar"])
+    androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2", {
+        exclude group: "com.android.support", module: "support-annotations"
+        exclude group: "com.google.code.findbugs" // A workaround to get Retrolambda working
     })
 
     compile "com.google.dagger:dagger:$verDagger"
@@ -53,19 +55,21 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:$verRetrofit"
     compile "com.squareup.retrofit2:adapter-rxjava2:$verRetrofit"
 
-
     compile "io.reactivex.rxjava2:rxjava:$verRxJava2"
     compile "io.reactivex.rxjava2:rxandroid:$verRxAndroid"
 
     compile "com.trello.rxlifecycle2:rxlifecycle:$verRxLifecycle"
-    compile "com.trello.rxlifecycle2:rxlifecycle-android:$verRxLifecycle"
-    compile "com.trello.rxlifecycle2:rxlifecycle-components:$verRxLifecycle"
 
+    compile "com.android.support:support-v4:$verSupportLib"
     compile "com.android.support:appcompat-v7:$verSupportLib"
     compile "com.android.support:design:$verSupportLib"
-    compile "com.android.support:support-v4:$verSupportLib"
     compile "com.android.support.constraint:constraint-layout:$verConstraintLayout"
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+    compile "com.jakewharton:butterknife:$verButterKnife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$verButterKnife"
+
+    compile "com.github.pwittchen:weathericonview:$verWeatherIconView"
+
+    testCompile "junit:junit:4.12"
 }
+

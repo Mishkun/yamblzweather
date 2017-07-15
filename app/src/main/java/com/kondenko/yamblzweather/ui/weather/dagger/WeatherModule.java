@@ -1,11 +1,14 @@
 package com.kondenko.yamblzweather.ui.weather.dagger;
 
+import android.content.Context;
+
 import com.kondenko.yamblzweather.model.entity.Weather;
 import com.kondenko.yamblzweather.model.service.WeatherService;
 import com.kondenko.yamblzweather.ui.weather.WeatherActivity;
 import com.kondenko.yamblzweather.ui.weather.WeatherInteractor;
 import com.kondenko.yamblzweather.ui.weather.WeatherPresenter;
 import com.kondenko.yamblzweather.ui.weather.WeatherView;
+import com.kondenko.yamblzweather.utils.SettingsManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -30,8 +33,8 @@ public class WeatherModule {
     }
 
     @Provides
-    public WeatherPresenter providePresenter(WeatherView view, WeatherInteractor interactor) {
-        return new WeatherPresenter(view, interactor);
+    public WeatherPresenter providePresenter(WeatherView view, WeatherInteractor interactor, SettingsManager settingsManager) {
+        return new WeatherPresenter(view, interactor, settingsManager);
     }
 
 }

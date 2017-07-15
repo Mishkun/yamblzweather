@@ -8,4 +8,11 @@ public abstract class Const {
 
     public static String PARAM_API_KEY = "APPID";
 
+
+    public static String UNIT_TEMP_FAHRENHEIT = "fahrenheit";
+    public static String UNIT_TEMP_CELSIUS = "celsius";
+    public static String UNIT_TEMP_KELVIN = "kelvin";
+
+
+
 }

@@ -1,7 +1,11 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="all_margin_large">16dp</dimen>
 
-    <dimen name="nav_header_height">180dp</dimen>
+    <dimen name="margin_all_large">16dp</dimen>
+
+    <dimen name="height_all_toolbar">?actionBarSize</dimen>
+
+    <dimen name="height_weather_button_city">32dp</dimen>
+    <dimen name="corners_weather_button_city">90dp</dimen>
+    <dimen name="textsize_weather_temperature">72sp</dimen>
 
 </resources>

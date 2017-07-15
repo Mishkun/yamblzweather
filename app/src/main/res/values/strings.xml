@@ -10,4 +10,32 @@
 
     <string name="about_text">Mobilization 2017 \n  Vladimir Kondenko</string>
 
+    <string name="weather_temperature" formatted="false">%s°%s</string>
+
+    <!--Errors-->
+
+    <string name="error_generic">Error</string>
+    <string name="error_loading_weather">Error updating weather</string>
+
+    <!--Settings-->
+
+    <!--Temperature-->
+
+    <string name="pref_title_temp_units">Temperature units</string>
+
+    <string name="pref_key_temp_unit" translatable="false">temp_unit</string>
+
+    <string name="pref_key_unit_fahrenheit" translatable="false">imperial</string>
+    <string name="pref_key_unit_celsius" translatable="false">metric</string>
+    <string name="pref_key_unit_kelvin" translatable="false"></string>
+
+    <string name="pref_value_unit_fahrenheit">Fahrenheit</string>
+    <string name="pref_value_unit_celsius">Celsius</string>
+    <string name="pref_value_unit_kelvin">Kelvin</string>
+
+    <!--Refresh rate-->
+
+    <string name="pref_title_refresh_rate">Refresh every…</string>
+
+
 </resources>
