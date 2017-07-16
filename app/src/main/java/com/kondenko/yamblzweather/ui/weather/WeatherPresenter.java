@@ -1,6 +1,7 @@
 package com.kondenko.yamblzweather.ui.weather;
 
 import com.kondenko.yamblzweather.Const;
+import com.kondenko.yamblzweather.job.UpdateWeatherJob;
 import com.kondenko.yamblzweather.ui.BasePresenter;
 import com.kondenko.yamblzweather.utils.SettingsManager;
 
@@ -19,6 +20,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
     @Override
     public void onAttach(WeatherView view) {
         super.onAttach(view);
+        UpdateWeatherJob.schedulePeriodicJob(10000000);
         onCityChanged(Const.ID_MOSCOW); // Only show weather for Moscow (for Task 2)
     }
 

@@ -2,48 +2,53 @@ package com.kondenko.yamblzweather.job;
 
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
-import com.kondenko.yamblzweather.model.entity.WeatherData;
-import com.kondenko.yamblzweather.ui.weather.WeatherInteractor;
-import com.kondenko.yamblzweather.utils.SettingsManager;
-
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 public class UpdateWeatherJob extends Job {
 
+    // Do not delete, needed for job creation
+    public static final String TAG = "UpdateWeatherJob";
+
+    /*
     private WeatherInteractor interactor;
+    private SettingsManager settingsManager;
     private String cityId;
     private String units;
-    private long refreshRateHr;
-
-    // Do not delete, needed for job creation
-    public static final String TAG = "UpdateWeaterJob";
+    private static long refreshRate;
 
     @Inject
     public UpdateWeatherJob(WeatherInteractor interactor, SettingsManager settingsManager) {
         this.interactor = interactor;
-        this.cityId = settingsManager.getSelectedCity();
-        this.units = settingsManager.getSelectedUnitValue();
-        this.refreshRateHr = settingsManager.getRefreshRate();
+        this.settingsManager = settingsManager;
+        cityId = settingsManager.getSelectedCity();
+        units = settingsManager.getSelectedUnitValue();
+        refreshRate = settingsManager.getRefreshRate();
+    }
+    */
+
+    public UpdateWeatherJob() {
     }
 
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        WeatherData data = interactor.getWeather(cityId, units).blockingGet();
-        return data != null ? Result.SUCCESS : Result.FAILURE;
+        Log.i(TAG, "Running job");
+        return Result.SUCCESS;
+//        WeatherData data = interactor.getWeather(cityId, units).blockingGet();
+//        long timeUpdated = System.currentTimeMillis();
+//        return data != null ? Result.SUCCESS : Result.FAILURE;
     }
 
 
-    public void buildJobRequest(String name) {
+    public static void schedulePeriodicJob(long refreshRateMs) {
         new JobRequest.Builder(UpdateWeatherJob.TAG)
-                .setPeriodic(TimeUnit.HOURS.toMillis(refreshRateHr))
+                .setPeriodic(refreshRateMs)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .setRequirementsEnforced(true)
+                .setUpdateCurrent(true)
                 .setPersisted(true)
                 .build()
                 .schedule();
