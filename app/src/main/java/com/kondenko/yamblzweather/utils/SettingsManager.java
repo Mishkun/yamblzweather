@@ -2,9 +2,11 @@ package com.kondenko.yamblzweather.utils;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.annotation.IntegerRes;
 
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.R;
@@ -42,8 +44,9 @@ public class SettingsManager {
 
     public int getRefreshRate() {
         String rateKey = context.getString(R.string.pref_key_refresh_rate);
-        int defaultRate = Const.PREF_REFRESH_RATE_DEFAULT_HOURS;
-        return preferences.getInt(rateKey, defaultRate);
+        String defaultRate = Const.PREF_REFRESH_RATE_DEFAULT_HOURS;
+        String refreshRate = preferences.getString(rateKey, defaultRate);
+        return Integer.valueOf(refreshRate);
     }
 
     public void setSelectedCity(String cityId) {

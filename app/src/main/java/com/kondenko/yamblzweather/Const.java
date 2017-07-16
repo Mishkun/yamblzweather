@@ -10,7 +10,7 @@ public abstract class Const {
 
     public static String KEY_UNIT_TEMP_DEFAULT = "default";
 
-    public static int PREF_REFRESH_RATE_DEFAULT_HOURS = 2;
+    public static String PREF_REFRESH_RATE_DEFAULT_HOURS = "2";
 
     public static String ID_MOSCOW = "524901"; // STOPSHIP Task #2 only
 
