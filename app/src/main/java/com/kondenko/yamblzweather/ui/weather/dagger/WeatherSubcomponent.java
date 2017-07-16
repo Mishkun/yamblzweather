@@ -1,5 +1,6 @@
 package com.kondenko.yamblzweather.ui.weather.dagger;
 
+import com.kondenko.yamblzweather.job.UpdateWeatherJob;
 import com.kondenko.yamblzweather.ui.weather.WeatherActivity;
 
 import dagger.Subcomponent;

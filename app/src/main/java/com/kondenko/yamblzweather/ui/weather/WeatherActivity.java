@@ -17,7 +17,7 @@ import com.kondenko.yamblzweather.model.entity.Weather;
 import com.kondenko.yamblzweather.ui.BaseActivity;
 import com.kondenko.yamblzweather.ui.about.AboutActivity;
 import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
-import com.kondenko.yamblzweather.utils.L;
+import com.kondenko.yamblzweather.utils.Logger;
 import com.kondenko.yamblzweather.utils.WeatherUtils;
 
 import java.util.List;
@@ -119,7 +119,7 @@ public class WeatherActivity extends BaseActivity
 
     @Override
     public void showError(Throwable error) {
-        L.w(TAG, error);
+        Logger.w(TAG, error);
         Toast.makeText(this, this.getString(R.string.error_loading_weather), Toast.LENGTH_LONG).show();
     }
 }

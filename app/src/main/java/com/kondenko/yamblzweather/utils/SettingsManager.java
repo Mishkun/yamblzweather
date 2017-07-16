@@ -15,7 +15,9 @@ import dagger.multibindings.StringKey;
 
 public class SettingsManager {
 
-    public static final String KEY_SELECTED_CITY = "selected_city";
+    private static final String KEY_SELECTED_CITY = "selected_city";
+
+    private static final String KEY_LATEST_UPDATE = "latestUpdate";
 
     private Context context;
     private SharedPreferences preferences;
@@ -42,7 +44,7 @@ public class SettingsManager {
         throw new IllegalArgumentException("Wrong temperature unit");
     }
 
-    public int getRefreshRate() {
+    public int getRefreshRateHr() {
         String rateKey = context.getString(R.string.pref_key_refresh_rate);
         String defaultRate = Const.PREF_REFRESH_RATE_DEFAULT_HOURS;
         String refreshRate = preferences.getString(rateKey, defaultRate);
@@ -55,6 +57,14 @@ public class SettingsManager {
 
     public String getSelectedCity() {
         return preferences.getString(KEY_SELECTED_CITY, null);
+    }
+
+    public void setLatestUpdate(long timeMs) {
+        preferences.edit().putLong(KEY_LATEST_UPDATE, timeMs).apply();
+    }
+
+    public long getLatestUpdateTime() {
+        return preferences.getLong(KEY_LATEST_UPDATE, 0);
     }
 
 }
