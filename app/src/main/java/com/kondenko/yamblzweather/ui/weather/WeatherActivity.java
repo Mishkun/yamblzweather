@@ -124,7 +124,7 @@ public class WeatherActivity extends BaseActivity
 
     @Override
     public void showLoading(boolean loading) {
-        refreshLayout.setEnabled(loading);
+        refreshLayout.setRefreshing(loading);
     }
 
     @Override

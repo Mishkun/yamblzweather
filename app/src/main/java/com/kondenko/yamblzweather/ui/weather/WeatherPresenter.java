@@ -41,11 +41,11 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
     }
 
     public void onRefresh() {
+        view.showLoading(true);
         getWeather(cityId, units);
     }
 
     private void getWeather(String id, String units) {
-        view.showLoading(true);
         interactor.getWeather(id, units)
                 .compose(bindToLifecycle())
                 .doFinally(() -> view.showLoading(false))
