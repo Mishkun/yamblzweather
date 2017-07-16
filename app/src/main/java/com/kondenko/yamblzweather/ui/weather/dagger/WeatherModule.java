@@ -43,13 +43,8 @@ public class WeatherModule {
     }
 
     @Provides
-    public UpdateWeatherJob provideUpdateWeatherJob(WeatherInteractor interactor, SettingsManager settingsManager) {
-        return new UpdateWeatherJob(interactor, settingsManager);
-    }
-
-    @Provides
-    public AppJobCreator provideAppJobCreator(UpdateWeatherJob updateWeatherJob) {
-        return new AppJobCreator(updateWeatherJob);
+    public AppJobCreator provideAppJobCreator(WeatherInteractor interactor, SettingsManager settingsManager) {
+        return new AppJobCreator(interactor, settingsManager);
     }
 
 }
