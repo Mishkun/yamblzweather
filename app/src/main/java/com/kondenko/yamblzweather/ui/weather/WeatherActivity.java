@@ -2,6 +2,7 @@ package com.kondenko.yamblzweather.ui.weather;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
@@ -39,14 +40,17 @@ public class WeatherActivity extends BaseActivity
     @BindView(R.id.weather_button_city)
     public Button buttonCity;
 
-    @BindView(R.id.text_temperature)
+    @BindView(R.id.weather_text_temperature)
     public TextView textTemperature;
 
-    @BindView(R.id.weather_icon)
+    @BindView(R.id.weather_icon_condition)
     public WeatherIconView weatherIcon;
 
-    @BindView(R.id.text_condition)
+    @BindView(R.id.weather_text_condition)
     public TextView textCondition;
+
+    @BindView(R.id.weather_refresh_layout)
+    public SwipeRefreshLayout refreshLayout;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,7 @@ public class WeatherActivity extends BaseActivity
         setToolbar(toolbar, false);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayShowTitleEnabled(false);
+        refreshLayout.setOnRefreshListener(presenter::onRefresh);
     }
 
     @Override
@@ -115,6 +120,11 @@ public class WeatherActivity extends BaseActivity
         String description = weatherCondition.getDescription();
         description = description.substring(0, 1).toUpperCase() + description.substring(1);
         textCondition.setText(description);
+    }
+
+    @Override
+    public void showLoading(boolean loading) {
+        refreshLayout.setEnabled(loading);
     }
 
     @Override

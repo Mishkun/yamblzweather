@@ -2,16 +2,11 @@ package com.kondenko.yamblzweather.utils;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.support.annotation.IntegerRes;
 
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.R;
-
-import dagger.multibindings.StringKey;
 
 public class SettingsManager {
 
@@ -27,14 +22,14 @@ public class SettingsManager {
         this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public String getSelectedUnitKey() {
+    public String setUnit() {
         String unitKey = context.getString(R.string.pref_key_temp_unit);
         String defaultUnit = context.getString(R.string.pref_key_unit_kelvin);
         return preferences.getString(unitKey, defaultUnit);
     }
 
-    public String getSelectedUnitValue() {
-        String selectedUnitKey = getSelectedUnitKey();
+    public String getUnit() {
+        String selectedUnitKey = setUnit();
         if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_fahrenheit)))
             return context.getString(R.string.pref_value_unit_fahrenheit);
         if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_celsius)))
@@ -51,11 +46,11 @@ public class SettingsManager {
         return Integer.valueOf(refreshRate);
     }
 
-    public void setSelectedCity(String cityId) {
+    public void setCity(String cityId) {
         preferences.edit().putString(KEY_SELECTED_CITY, cityId).apply();
     }
 
-    public String getSelectedCity() {
+    public String getCity() {
         return preferences.getString(KEY_SELECTED_CITY, null);
     }
 

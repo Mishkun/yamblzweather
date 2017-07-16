@@ -1,6 +1,5 @@
 package com.kondenko.yamblzweather.ui.weather;
 
-import com.evernote.android.job.JobCreator;
 import com.evernote.android.job.JobManager;
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.job.AppJobCreator;
@@ -16,12 +15,16 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
 
     private SettingsManager settingsManager;
     private AppJobCreator appJobCreator;
+    private String cityId;
+    private String units;
 
     @Inject
     public WeatherPresenter(WeatherView view, WeatherInteractor interactor, SettingsManager settingsManager, AppJobCreator appJobCreator) {
         super(view, interactor);
         this.settingsManager = settingsManager;
         this.appJobCreator = appJobCreator;
+        cityId = settingsManager.getCity();
+        units = settingsManager.getUnit();
     }
 
     @Override
@@ -32,17 +35,23 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
     }
 
     public void onCityChanged(String id) {
-        settingsManager.setSelectedCity(id);
-        String units = settingsManager.getSelectedUnitKey();
+        settingsManager.setCity(id);
+        String units = settingsManager.setUnit();
         getWeather(id, units);
     }
 
+    public void onRefresh() {
+        getWeather(cityId, units);
+    }
+
     private void getWeather(String id, String units) {
+        view.showLoading(true);
         interactor.getWeather(id, units)
                 .compose(bindToLifecycle())
+                .doFinally(() -> view.showLoading(false))
                 .subscribe(weather -> {
                             view.showCity(weather.getName());
-                            view.showTemperature(weather.getMain().getTemp(), settingsManager.getSelectedUnitValue());
+                            view.showTemperature(weather.getMain().getTemp(), settingsManager.getUnit());
                             view.showCondition(weather.getWeather());
                         }, view::showError
                 );
