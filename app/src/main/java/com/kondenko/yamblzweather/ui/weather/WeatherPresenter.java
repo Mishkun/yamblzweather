@@ -4,6 +4,7 @@ import com.evernote.android.job.JobManager;
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.job.AppJobCreator;
 import com.kondenko.yamblzweather.job.UpdateWeatherJob;
+import com.kondenko.yamblzweather.model.entity.WeatherData;
 import com.kondenko.yamblzweather.ui.BasePresenter;
 import com.kondenko.yamblzweather.utils.SettingsManager;
 
@@ -49,12 +50,13 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
         interactor.getWeather(id, units)
                 .compose(bindToLifecycle())
                 .doFinally(() -> view.showLoading(false))
-                .subscribe(weather -> {
-                            view.showCity(weather.getName());
-                            view.showTemperature(weather.getMain().getTemp(), settingsManager.getUnit());
-                            view.showCondition(weather.getWeather());
-                        }, view::showError
-                );
+                .subscribe(this::displayData, view::showError);
+    }
+
+    private void displayData(WeatherData weather) {
+        view.showCity(weather.getName());
+        view.showTemperature(weather.getMain().getTemp(), settingsManager.getUnit());
+        view.showCondition(weather.getWeather());
     }
 
     private void scheduleUpdateJob() {

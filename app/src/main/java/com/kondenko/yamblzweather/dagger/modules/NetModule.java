@@ -9,6 +9,7 @@ import com.kondenko.yamblzweather.utils.interceptors.LoggingInterceptor;
 
 import java.io.File;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -32,14 +33,27 @@ public class NetModule {
 
     @Provides
     @Singleton
-    public OkHttpClient provideHttpClient(Context context) {
-        Cache cache = new Cache(new File(context.getCacheDir(), "http-cache"), 1024 * 1024);
-        SettingsManager settingsManager = new SettingsManager(context);
-        int refreshRate = settingsManager.getRefreshRateHr();
+    public Cache provideCache(Context context) {
+        File cacheDir = new File(context.getCacheDir(), "http-cache");
+        int cacheSize = 5 * 1024 * 1024;
+        return new Cache(cacheDir, cacheSize);
+    }
+
+    @Provides
+    @Singleton
+    @Inject
+    public CacheInterceptor provideCacheInterceptor(Context context, SettingsManager settingsManager) {
+        Integer refreshRateSeconds = ((int) settingsManager.getRefreshRateSec());
+        return new CacheInterceptor(context, refreshRateSeconds);
+    }
+
+    @Provides
+    @Singleton
+    public OkHttpClient provideHttpClient(Cache cache, CacheInterceptor cacheInterceptor) {
         return new OkHttpClient.Builder()
                 .cache(cache)
-                .addInterceptor(new CacheInterceptor(refreshRate))
                 .addInterceptor(new ApiKeyInterceptor(apiKey))
+                .addInterceptor(cacheInterceptor)
                 .addInterceptor(new LoggingInterceptor())
                 .build();
     }

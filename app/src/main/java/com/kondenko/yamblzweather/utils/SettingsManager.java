@@ -8,6 +8,8 @@ import android.preference.PreferenceManager;
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.R;
 
+import java.util.concurrent.TimeUnit;
+
 public class SettingsManager {
 
     private static final String KEY_SELECTED_CITY = "selected_city";
@@ -44,6 +46,10 @@ public class SettingsManager {
         String defaultRate = Const.PREF_REFRESH_RATE_DEFAULT_HOURS;
         String refreshRate = preferences.getString(rateKey, defaultRate);
         return Integer.valueOf(refreshRate);
+    }
+
+    public long getRefreshRateSec() {
+        return TimeUnit.HOURS.toSeconds(getRefreshRateHr());
     }
 
     public void setCity(String cityId) {

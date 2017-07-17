@@ -6,12 +6,18 @@ import android.util.Log;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
+import com.kondenko.yamblzweather.model.entity.Weather;
 import com.kondenko.yamblzweather.model.entity.WeatherData;
 import com.kondenko.yamblzweather.ui.weather.WeatherInteractor;
 import com.kondenko.yamblzweather.utils.Logger;
 import com.kondenko.yamblzweather.utils.SettingsManager;
+import com.kondenko.yamblzweather.utils.StorageManager;
 
 import javax.inject.Inject;
+
+import retrofit2.Response;
+
+import static android.R.attr.data;
 
 public class UpdateWeatherJob extends Job {
 
@@ -34,19 +40,15 @@ public class UpdateWeatherJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        Logger.i(TAG, "Running job");
-        WeatherData data = interactor.getWeather(cityId, units).blockingGet();
-        long timeUpdated = System.currentTimeMillis();
-        settingsManager.setLatestUpdate(timeUpdated);
-        if (data != null) {
-            Log.i(TAG, "Updated successfully");
+        WeatherData weatherData = interactor.getWeather(cityId, units).blockingGet();
+        if (weatherData != null) {
+            long timeUpdated = System.currentTimeMillis();
+            settingsManager.setLatestUpdate(timeUpdated);
             return Result.SUCCESS;
         } else {
-            Log.i(TAG, "Updated with error");
             return Result.FAILURE;
         }
     }
-
 
     public void schedulePeriodicJob(long refreshRateMs) {
         new JobRequest.Builder(UpdateWeatherJob.TAG)
