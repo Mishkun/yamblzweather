@@ -9,6 +9,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import retrofit2.Response;
+
 public class Utils {
 
     public static boolean isOnline(Context context) {
@@ -21,6 +23,10 @@ public class Utils {
         Date date = new Date(milliseconds);
         DateFormat formatter = new SimpleDateFormat("HH:mm");
         return formatter.format(date);
+    }
+
+    public static boolean isFromCache(Response response) {
+        return response.raw().request().header("Cache-Control").contains("only-if-cached");
     }
 
 }

@@ -32,7 +32,7 @@ public class UpdateWeatherJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        WeatherData weatherData = interactor.getWeather(cityId, units).blockingGet();
+        WeatherData weatherData = interactor.getWeather(cityId, units).blockingGet().body();
         if (weatherData != null) {
             long timeUpdated = System.currentTimeMillis();
             settingsManager.setLatestUpdate(timeUpdated);

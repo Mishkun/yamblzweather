@@ -2,6 +2,7 @@ package com.kondenko.yamblzweather.utils.interceptors;
 
 import android.content.Context;
 
+import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.utils.Utils;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class CacheInterceptor implements Interceptor {
         Request request = chain.request();
         CacheControl.Builder cacheControl = new CacheControl.Builder();
         if (Utils.isOnline(context)) {
-            cacheControl.maxAge(10, TimeUnit.MINUTES);
+            cacheControl.maxAge(Const.DEFAULT_CACHING_TIME_SECONDS, TimeUnit.SECONDS);
         } else {
             cacheControl.onlyIfCached().maxStale(maxStaleSec, TimeUnit.SECONDS);
         }

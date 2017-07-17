@@ -13,6 +13,9 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import okhttp3.CacheControl;
+import retrofit2.Response;
+
 public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteractor> {
 
     private SettingsManager settingsManager;
@@ -50,9 +53,18 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
     private void getWeather(String id, String units) {
         interactor.getWeather(id, units)
                 .compose(bindToLifecycle())
-                .doOnSuccess(w -> showUpdateTime(System.currentTimeMillis()))
-                .doOnError(e -> showUpdateTime(settingsManager.getLatestUpdateTime()))
+                .doOnSuccess(response -> {
+                    // Update if response didn't come from cache
+                    if (!Utils.isFromCache(response)) {
+                        showUpdateTime(System.currentTimeMillis());
+                    }
+                })
+                .doOnError(e -> {
+                    long latestSavedUpdateTime = settingsManager.getLatestUpdateTime();
+                    if (latestSavedUpdateTime > 0) showUpdateTime(latestSavedUpdateTime);
+                })
                 .doFinally(() -> view.showLoading(false))
+                .map(Response::body)
                 .subscribe(this::displayData, view::showError);
     }
 
@@ -70,8 +82,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
     }
 
     private void showUpdateTime(long time) {
-        long currentTimeMs = System.currentTimeMillis();
-        String latestUpdateTime = Utils.millisTo24time(currentTimeMs);
+        String latestUpdateTime = Utils.millisTo24time(time);
         view.showLatestUpdate(latestUpdateTime);
     }
 

@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 public class WeatherInteractor extends BaseInteractor {
 
@@ -20,8 +21,8 @@ public class WeatherInteractor extends BaseInteractor {
         this.service = weatherService;
     }
 
-    public Single<WeatherData> getWeather(String cityId, String units) {
-        Single<WeatherData> weatherSingle = units.equals(Const.KEY_UNIT_TEMP_DEFAULT) ? service.getWeather(cityId) : service.getWeather(cityId, units);
+    public Single<Response<WeatherData>> getWeather(String cityId, String units) {
+        Single<Response<WeatherData>> weatherSingle = units.equals(Const.KEY_UNIT_TEMP_DEFAULT) ? service.getWeather(cityId) : service.getWeather(cityId, units);
         return weatherSingle
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
