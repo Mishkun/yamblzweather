@@ -7,6 +7,7 @@ import com.kondenko.yamblzweather.job.UpdateWeatherJob;
 import com.kondenko.yamblzweather.model.entity.WeatherData;
 import com.kondenko.yamblzweather.ui.BasePresenter;
 import com.kondenko.yamblzweather.utils.SettingsManager;
+import com.kondenko.yamblzweather.utils.Utils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -49,6 +50,8 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
     private void getWeather(String id, String units) {
         interactor.getWeather(id, units)
                 .compose(bindToLifecycle())
+                .doOnSuccess(w -> showUpdateTime(System.currentTimeMillis()))
+                .doOnError(e -> showUpdateTime(settingsManager.getLatestUpdateTime()))
                 .doFinally(() -> view.showLoading(false))
                 .subscribe(this::displayData, view::showError);
     }
@@ -64,6 +67,12 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
         int refreshRateHr = settingsManager.getRefreshRateHr();
         UpdateWeatherJob updateWeatherJob = new UpdateWeatherJob(interactor, settingsManager);
         updateWeatherJob.schedulePeriodicJob(TimeUnit.HOURS.toMillis(refreshRateHr));
+    }
+
+    private void showUpdateTime(long time) {
+        long currentTimeMs = System.currentTimeMillis();
+        String latestUpdateTime = Utils.millisTo24time(currentTimeMs);
+        view.showLatestUpdate(latestUpdateTime);
     }
 
 }

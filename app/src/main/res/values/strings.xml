@@ -12,6 +12,8 @@
 
     <string name="weather_temperature" formatted="false">%s°%s</string>
 
+    <string name="weather_latest_update_time" formatted="false">Updated %s</string>
+
     <!--Errors-->
 
     <string name="error_generic">Error</string>

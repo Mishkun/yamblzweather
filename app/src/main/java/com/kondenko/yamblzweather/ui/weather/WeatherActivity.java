@@ -52,6 +52,9 @@ public class WeatherActivity extends BaseActivity
     @BindView(R.id.weather_refresh_layout)
     public SwipeRefreshLayout refreshLayout;
 
+    @BindView(R.id.weather_text_latest_update)
+    public TextView textLatestUpdate;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidInjection.inject(this);
@@ -99,6 +102,12 @@ public class WeatherActivity extends BaseActivity
             }
         }
         return true;
+    }
+
+    @Override
+    public void showLatestUpdate(String latestUpdateTime) {
+        String latestUpdateTimeString = String.format(getString(R.string.weather_latest_update_time), latestUpdateTime);
+        textLatestUpdate.setText(latestUpdateTimeString);
     }
 
     @Override

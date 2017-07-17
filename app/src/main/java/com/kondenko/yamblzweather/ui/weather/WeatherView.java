@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface WeatherView extends BaseView {
 
+    public void showLatestUpdate(String latestUpdateTime);
+
     @Deprecated
     public void showCity(String weatherData);
 
@@ -15,3 +17,4 @@ public interface WeatherView extends BaseView {
     public void showCondition(List<Weather> condition);
 
 }
+;
