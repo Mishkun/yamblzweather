@@ -26,7 +26,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
         this.settingsManager = settingsManager;
         this.appJobCreator = appJobCreator;
         cityId = settingsManager.getCity();
-        units = settingsManager.getUnitValue();
+        units = settingsManager.getUnitKey();
     }
 
     @Override

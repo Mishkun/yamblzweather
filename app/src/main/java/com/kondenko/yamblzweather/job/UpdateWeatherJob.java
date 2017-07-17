@@ -26,7 +26,7 @@ public class UpdateWeatherJob extends Job {
         this.interactor = interactor;
         this.settingsManager = settingsManager;
         cityId = settingsManager.getCity();
-        units = settingsManager.getUnitValue();
+        units = settingsManager.getUnitKey();
     }
 
     @NonNull
