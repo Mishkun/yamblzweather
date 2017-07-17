@@ -24,14 +24,14 @@ public class SettingsManager {
         this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public String setUnit() {
+    public String getUnitKey() {
         String unitKey = context.getString(R.string.pref_key_temp_unit);
         String defaultUnit = context.getString(R.string.pref_key_unit_kelvin);
         return preferences.getString(unitKey, defaultUnit);
     }
 
-    public String getUnit() {
-        String selectedUnitKey = setUnit();
+    public String getUnitValue() {
+        String selectedUnitKey = getUnitKey();
         if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_fahrenheit)))
             return context.getString(R.string.pref_value_unit_fahrenheit);
         if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_celsius)))

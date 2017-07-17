@@ -2,22 +2,14 @@ package com.kondenko.yamblzweather.job;
 
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
-import com.kondenko.yamblzweather.model.entity.Weather;
 import com.kondenko.yamblzweather.model.entity.WeatherData;
 import com.kondenko.yamblzweather.ui.weather.WeatherInteractor;
-import com.kondenko.yamblzweather.utils.Logger;
 import com.kondenko.yamblzweather.utils.SettingsManager;
-import com.kondenko.yamblzweather.utils.StorageManager;
 
 import javax.inject.Inject;
-
-import retrofit2.Response;
-
-import static android.R.attr.data;
 
 public class UpdateWeatherJob extends Job {
 
@@ -34,7 +26,7 @@ public class UpdateWeatherJob extends Job {
         this.interactor = interactor;
         this.settingsManager = settingsManager;
         cityId = settingsManager.getCity();
-        units = settingsManager.getUnit();
+        units = settingsManager.getUnitValue();
     }
 
     @NonNull

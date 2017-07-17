@@ -26,7 +26,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
         this.settingsManager = settingsManager;
         this.appJobCreator = appJobCreator;
         cityId = settingsManager.getCity();
-        units = settingsManager.getUnit();
+        units = settingsManager.getUnitValue();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
 
     public void onCityChanged(String id) {
         settingsManager.setCity(id);
-        String units = settingsManager.setUnit();
+        String units = settingsManager.getUnitKey();
         getWeather(id, units);
     }
 
@@ -58,7 +58,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
 
     private void displayData(WeatherData weather) {
         view.showCity(weather.getName());
-        view.showTemperature(weather.getMain().getTemp(), settingsManager.getUnit());
+        view.showTemperature(weather.getMain().getTemp(), settingsManager.getUnitValue());
         view.showCondition(weather.getWeather());
     }
 
