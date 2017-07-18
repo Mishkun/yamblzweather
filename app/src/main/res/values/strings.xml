@@ -13,9 +13,9 @@
     <string name="weather_rain_level_header">Rain level</string>
     <string name="weather_wind_speed_header">Wind</string>
 
-    <string name="weather_temperature_value" formatted="false">%1$s°%2$s</string>
+    <string name="weather_temperature_value" formatted="false" translatable="false">%1$s°%2$s</string>
     <string name="weather_rain_level_value" formatted="false">%.0f mm</string>
-    <string name="weather_unknown_rain_level_value" formatted="false">--</string>
+    <string name="weather_unknown_rain_level_value" formatted="false" translatable="false">--</string>
     <string name="weather_wind_speed_value" formatted="false">%.0f m/s</string>
 
     <string name="weather_latest_update_time_value" formatted="false">Updated %s</string>
