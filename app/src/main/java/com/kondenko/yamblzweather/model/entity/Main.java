@@ -25,7 +25,7 @@ public class Main implements Parcelable
     @SerializedName("temp_max")
     @Expose
     private double tempMax;
-    public final static Parcelable.Creator<Main> CREATOR = new Creator<Main>() {
+    public final static Creator<Main> CREATOR = new Creator<Main>() {
 
 
         @SuppressWarnings({

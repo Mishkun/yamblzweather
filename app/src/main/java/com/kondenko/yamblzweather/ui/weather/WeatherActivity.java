@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,15 @@ public class WeatherActivity extends BaseActivity
 
     @BindView(R.id.weather_text_latest_update)
     public TextView textLatestUpdate;
+
+    @BindView(R.id.text_rain_level_header)
+    public TextView textRainLevelHeader;
+
+    @BindView(R.id.text_rain_level_value)
+    public TextView textRainLevel;
+
+    @BindView(R.id.text_wind_value)
+    public TextView textWindSpeed;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +116,7 @@ public class WeatherActivity extends BaseActivity
 
     @Override
     public void showLatestUpdate(String latestUpdateTime) {
-        String latestUpdateTimeString = String.format(getString(R.string.weather_latest_update_time), latestUpdateTime);
+        String latestUpdateTimeString = getString(R.string.weather_latest_update_time_value, latestUpdateTime);
         textLatestUpdate.setText(latestUpdateTimeString);
     }
 
@@ -129,6 +139,17 @@ public class WeatherActivity extends BaseActivity
         String description = weatherCondition.getDescription();
         description = description.substring(0, 1).toUpperCase() + description.substring(1);
         textCondition.setText(description);
+    }
+
+    @Override
+    public void showRainLevel(double value) {
+        textRainLevel.setText(value > 0 ? getString(R.string.weather_rain_level_value, value) : getString(R.string.weather_unknown_rain_level_value));
+    }
+
+    @Override
+    public void showWindSpeed(double value) {
+        String windSpeed = getString(R.string.weather_wind_speed_value, value);
+        textWindSpeed.setText(windSpeed);
     }
 
     @Override

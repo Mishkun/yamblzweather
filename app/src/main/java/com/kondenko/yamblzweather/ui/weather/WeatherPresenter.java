@@ -4,6 +4,7 @@ import com.evernote.android.job.JobManager;
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.job.AppJobCreator;
 import com.kondenko.yamblzweather.job.UpdateWeatherJob;
+import com.kondenko.yamblzweather.model.entity.Rain;
 import com.kondenko.yamblzweather.model.entity.WeatherData;
 import com.kondenko.yamblzweather.ui.BasePresenter;
 import com.kondenko.yamblzweather.utils.SettingsManager;
@@ -13,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import okhttp3.CacheControl;
 import retrofit2.Response;
 
 public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteractor> {
@@ -72,6 +72,9 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
         view.showCity(weather.getName());
         view.showTemperature(weather.getMain().getTemp(), settingsManager.getUnitValue());
         view.showCondition(weather.getWeather());
+        view.showWindSpeed(weather.getWind().getSpeed());
+        Rain rain = weather.getRain();
+        view.showRainLevel(rain != null ? rain.get3h() : 0);
     }
 
     private void scheduleUpdateJob() {

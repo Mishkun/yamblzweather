@@ -4,11 +4,11 @@ package com.kondenko.yamblzweather.model.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Weather implements Parcelable {
+public class Weather implements Parcelable
+{
 
     @SerializedName("id")
     @Expose
@@ -22,11 +22,11 @@ public class Weather implements Parcelable {
     @SerializedName("icon")
     @Expose
     private String icon;
-    public final static Parcelable.Creator<Weather> CREATOR = new Creator<Weather>() {
+    public final static Creator<Weather> CREATOR = new Creator<Weather>() {
 
 
         @SuppressWarnings({
-                "unchecked"
+            "unchecked"
         })
         public Weather createFromParcel(Parcel in) {
             Weather instance = new Weather();
@@ -42,7 +42,7 @@ public class Weather implements Parcelable {
         }
 
     }
-            ;
+    ;
 
     public int getId() {
         return id;

@@ -28,11 +28,11 @@ public class Sys implements Parcelable
     @SerializedName("sunset")
     @Expose
     private int sunset;
-    public final static Parcelable.Creator<Sys> CREATOR = new Creator<Sys>() {
+    public final static Creator<Sys> CREATOR = new Creator<Sys>() {
 
 
         @SuppressWarnings({
-                "unchecked"
+            "unchecked"
         })
         public Sys createFromParcel(Parcel in) {
             Sys instance = new Sys();
@@ -50,7 +50,7 @@ public class Sys implements Parcelable
         }
 
     }
-            ;
+    ;
 
     public int getType() {
         return type;

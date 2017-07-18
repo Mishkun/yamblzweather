@@ -13,7 +13,7 @@ public class Clouds implements Parcelable
     @SerializedName("all")
     @Expose
     private int all;
-    public final static Parcelable.Creator<Clouds> CREATOR = new Creator<Clouds>() {
+    public final static Creator<Clouds> CREATOR = new Creator<Clouds>() {
 
 
         @SuppressWarnings({

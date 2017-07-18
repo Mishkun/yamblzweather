@@ -4,11 +4,11 @@ package com.kondenko.yamblzweather.model.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Wind implements Parcelable {
+public class Wind implements Parcelable
+{
 
     @SerializedName("speed")
     @Expose
@@ -16,11 +16,11 @@ public class Wind implements Parcelable {
     @SerializedName("deg")
     @Expose
     private int deg;
-    public final static Parcelable.Creator<Wind> CREATOR = new Creator<Wind>() {
+    public final static Creator<Wind> CREATOR = new Creator<Wind>() {
 
 
         @SuppressWarnings({
-                "unchecked"
+            "unchecked"
         })
         public Wind createFromParcel(Parcel in) {
             Wind instance = new Wind();
@@ -33,7 +33,8 @@ public class Wind implements Parcelable {
             return (new Wind[size]);
         }
 
-    };
+    }
+    ;
 
     public double getSpeed() {
         return speed;
@@ -57,7 +58,7 @@ public class Wind implements Parcelable {
     }
 
     public int describeContents() {
-        return 0;
+        return  0;
     }
 
 }

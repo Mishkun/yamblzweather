@@ -16,5 +16,9 @@ public interface WeatherView extends BaseView {
 
     public void showCondition(List<Weather> condition);
 
+    public void showRainLevel(double value);
+
+    public void showWindSpeed(double value);
+
 }
 ;

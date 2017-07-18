@@ -4,7 +4,7 @@ package com.kondenko.yamblzweather.model.entity;
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -23,15 +23,15 @@ public class WeatherData implements Parcelable
     @SerializedName("main")
     @Expose
     private Main main;
-    @SerializedName("visibility")
-    @Expose
-    private int visibility;
     @SerializedName("wind")
     @Expose
     private Wind wind;
     @SerializedName("clouds")
     @Expose
     private Clouds clouds;
+    @SerializedName("rain")
+    @Expose
+    private Rain rain;
     @SerializedName("dt")
     @Expose
     private int dt;
@@ -47,21 +47,21 @@ public class WeatherData implements Parcelable
     @SerializedName("cod")
     @Expose
     private int cod;
-    public final static Parcelable.Creator<WeatherData> CREATOR = new Creator<WeatherData>() {
+    public final static Creator<WeatherData> CREATOR = new Creator<WeatherData>() {
 
 
         @SuppressWarnings({
-                "unchecked"
+            "unchecked"
         })
         public WeatherData createFromParcel(Parcel in) {
             WeatherData instance = new WeatherData();
             instance.coord = ((Coord) in.readValue((Coord.class.getClassLoader())));
-            in.readList(instance.weather, (com.kondenko.yamblzweather.model.entity.Weather.class.getClassLoader()));
+            in.readList(instance.weather, (Weather.class.getClassLoader()));
             instance.base = ((String) in.readValue((String.class.getClassLoader())));
             instance.main = ((Main) in.readValue((Main.class.getClassLoader())));
-            instance.visibility = ((int) in.readValue((int.class.getClassLoader())));
             instance.wind = ((Wind) in.readValue((Wind.class.getClassLoader())));
             instance.clouds = ((Clouds) in.readValue((Clouds.class.getClassLoader())));
+            instance.rain = ((Rain) in.readValue((Rain.class.getClassLoader())));
             instance.dt = ((int) in.readValue((int.class.getClassLoader())));
             instance.sys = ((Sys) in.readValue((Sys.class.getClassLoader())));
             instance.id = ((int) in.readValue((int.class.getClassLoader())));
@@ -75,7 +75,7 @@ public class WeatherData implements Parcelable
         }
 
     }
-            ;
+    ;
 
     public Coord getCoord() {
         return coord;
@@ -109,14 +109,6 @@ public class WeatherData implements Parcelable
         this.main = main;
     }
 
-    public int getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(int visibility) {
-        this.visibility = visibility;
-    }
-
     public Wind getWind() {
         return wind;
     }
@@ -131,6 +123,14 @@ public class WeatherData implements Parcelable
 
     public void setClouds(Clouds clouds) {
         this.clouds = clouds;
+    }
+
+    public Rain getRain() {
+        return rain;
+    }
+
+    public void setRain(Rain rain) {
+        this.rain = rain;
     }
 
     public int getDt() {
@@ -178,9 +178,9 @@ public class WeatherData implements Parcelable
         dest.writeList(weather);
         dest.writeValue(base);
         dest.writeValue(main);
-        dest.writeValue(visibility);
         dest.writeValue(wind);
         dest.writeValue(clouds);
+        dest.writeValue(rain);
         dest.writeValue(dt);
         dest.writeValue(sys);
         dest.writeValue(id);

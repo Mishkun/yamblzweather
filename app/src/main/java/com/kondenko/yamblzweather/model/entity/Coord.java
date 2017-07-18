@@ -16,7 +16,7 @@ public class Coord implements Parcelable
     @SerializedName("lat")
     @Expose
     private double lat;
-    public final static Parcelable.Creator<Coord> CREATOR = new Creator<Coord>() {
+    public final static Creator<Coord> CREATOR = new Creator<Coord>() {
 
 
         @SuppressWarnings({

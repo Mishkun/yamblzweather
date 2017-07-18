@@ -46,7 +46,7 @@ public class WeatherUtils {
 
     public static Spannable getTemperatureString(Context context, String temperature, String units) {
         char unitLetter = units.substring(0, 1).toUpperCase().charAt(0);
-        String temperatureString = String.format(context.getString(R.string.weather_temperature), temperature, unitLetter);
+        String temperatureString = context.getString(R.string.weather_temperature_value, temperature, unitLetter);
         Spannable temperatureSpannable = new SpannableString(temperatureString);
         return temperatureSpannable;
     }
