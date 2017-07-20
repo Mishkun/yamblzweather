@@ -1,7 +1,7 @@
 package com.kondenko.yamblzweather.dagger.components;
 
 import com.kondenko.yamblzweather.App;
-import com.kondenko.yamblzweather.dagger.BindersModule;
+import com.kondenko.yamblzweather.dagger.modules.BindersModule;
 import com.kondenko.yamblzweather.dagger.modules.AppModule;
 import com.kondenko.yamblzweather.dagger.modules.NetModule;
 

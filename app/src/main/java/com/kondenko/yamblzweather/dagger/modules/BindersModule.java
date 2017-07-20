@@ -1,4 +1,4 @@
-package com.kondenko.yamblzweather.dagger;
+package com.kondenko.yamblzweather.dagger.modules;
 
 import android.app.Activity;
 
