@@ -66,7 +66,8 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
                 .subscribe(
                         result -> {
                             if (isViewAttached()) {
-                                result.getMain().setTempUnitKey(units);
+                                String unitReadable = settingsManager.getUnitValue();
+                                result.getMain().setTempUnitKey(unitReadable);
                                 getView().setData(result);
                             }
                         },
