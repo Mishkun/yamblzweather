@@ -4,8 +4,6 @@ import com.evernote.android.job.JobManager;
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.job.AppJobCreator;
 import com.kondenko.yamblzweather.job.UpdateWeatherJob;
-import com.kondenko.yamblzweather.model.entity.Rain;
-import com.kondenko.yamblzweather.model.entity.WeatherData;
 import com.kondenko.yamblzweather.ui.BasePresenter;
 import com.kondenko.yamblzweather.utils.SettingsManager;
 import com.kondenko.yamblzweather.utils.Utils;
@@ -32,29 +30,27 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
         units = settingsManager.getUnitKey();
     }
 
-    @Override
-    public void onAttach(WeatherView view) {
-        super.onAttach(view);
+    public void loadData() {
         scheduleUpdateJob();
         onCityChanged(Const.ID_MOSCOW); // Only show weather for Moscow (for Task 2)
     }
 
-    public void onCityChanged(String id) {
-        settingsManager.setCity(id);
-        String units = settingsManager.getUnitKey();
-        getWeather(id, units);
+    public void onCityChanged(String cityId) {
+        this.cityId = cityId;
+        this.units = settingsManager.getUnitKey();
+        settingsManager.setCity(cityId);
+        if (isViewAttached()) getView().showLoading(true);
+        getWeather();
     }
 
     public void onRefresh() {
-        view.showLoading(true);
-        getWeather(cityId, units);
+        getWeather();
     }
 
-    private void getWeather(String id, String units) {
-        interactor.getWeather(id, units)
+    private void getWeather() {
+        getInteractor().getWeather(cityId, units)
                 .compose(bindToLifecycle())
                 .doOnSuccess(response -> {
-                    // Update if response didn't come from cache
                     if (!Utils.isFromCache(response)) {
                         showUpdateTime(System.currentTimeMillis());
                     }
@@ -63,30 +59,32 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
                     long latestSavedUpdateTime = settingsManager.getLatestUpdateTime();
                     if (latestSavedUpdateTime > 0) showUpdateTime(latestSavedUpdateTime);
                 })
-                .doFinally(() -> view.showLoading(false))
+                .doFinally(() -> {
+                    if (isViewAttached()) getView().showLoading(false);
+                })
                 .map(Response::body)
-                .subscribe(this::displayData, view::showError);
-    }
-
-    private void displayData(WeatherData weather) {
-        view.showCity(weather.getName());
-        view.showTemperature(weather.getMain().getTemp(), settingsManager.getUnitValue());
-        view.showCondition(weather.getWeather());
-        view.showWindSpeed(weather.getWind().getSpeed());
-        Rain rain = weather.getRain();
-        view.showRainLevel(rain != null ? rain.get3h() : 0);
+                .subscribe(
+                        result -> {
+                            if (isViewAttached()) {
+                                result.getMain().setTempUnitKey(units);
+                                getView().setData(result);
+                            }
+                        },
+                        error -> {
+                            if (isViewAttached()) getView().showError(error);
+                        });
     }
 
     private void scheduleUpdateJob() {
         JobManager.instance().addJobCreator(appJobCreator);
         int refreshRateHr = settingsManager.getRefreshRateHr();
-        UpdateWeatherJob updateWeatherJob = new UpdateWeatherJob(interactor, settingsManager);
+        UpdateWeatherJob updateWeatherJob = new UpdateWeatherJob(getInteractor(), settingsManager);
         updateWeatherJob.schedulePeriodicJob(TimeUnit.HOURS.toMillis(refreshRateHr));
     }
 
     private void showUpdateTime(long time) {
         String latestUpdateTime = Utils.millisTo24time(time);
-        view.showLatestUpdate(latestUpdateTime);
+        if (isViewAttached()) getView().showLatestUpdate(latestUpdateTime);
     }
 
 }

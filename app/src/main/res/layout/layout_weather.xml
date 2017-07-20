@@ -108,14 +108,14 @@
             style="@style/App.Weather.Text.Header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ellipsize="middle"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintBaseline_toBaselineOf="@+id/text_temperature_header"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/guideline"
             app:layout_constraintRight_toRightOf="parent"
             tools:text="Very very very very very very cloudy"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
             />
 
         <TextView
@@ -197,5 +197,6 @@
             />
 
     </android.support.constraint.ConstraintLayout>
+
 </android.support.v4.widget.SwipeRefreshLayout>
 

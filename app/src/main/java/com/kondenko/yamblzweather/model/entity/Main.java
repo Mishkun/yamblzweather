@@ -3,7 +3,7 @@ package com.kondenko.yamblzweather.model.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -25,6 +25,9 @@ public class Main implements Parcelable
     @SerializedName("temp_max")
     @Expose
     private double tempMax;
+
+    private String tempUnitKey;
+
     public final static Creator<Main> CREATOR = new Creator<Main>() {
 
 
@@ -47,6 +50,14 @@ public class Main implements Parcelable
 
     }
     ;
+
+    public String getTempUnitKey() {
+        return tempUnitKey;
+    }
+
+    public void setTempUnitKey(String tempUnitKey) {
+        this.tempUnitKey = tempUnitKey;
+    }
 
     public double getTemp() {
         return temp;

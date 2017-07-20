@@ -7,7 +7,6 @@ import com.evernote.android.job.JobManager;
 import com.kondenko.yamblzweather.dagger.components.DaggerAppComponent;
 import com.kondenko.yamblzweather.dagger.modules.AppModule;
 import com.kondenko.yamblzweather.dagger.modules.NetModule;
-import com.kondenko.yamblzweather.job.AppJobCreator;
 
 import javax.inject.Inject;
 

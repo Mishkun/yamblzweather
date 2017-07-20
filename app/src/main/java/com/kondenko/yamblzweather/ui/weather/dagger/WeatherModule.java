@@ -1,11 +1,6 @@
 package com.kondenko.yamblzweather.ui.weather.dagger;
 
-import android.content.Context;
-
-import com.evernote.android.job.Job;
 import com.kondenko.yamblzweather.job.AppJobCreator;
-import com.kondenko.yamblzweather.job.UpdateWeatherJob;
-import com.kondenko.yamblzweather.model.entity.Weather;
 import com.kondenko.yamblzweather.model.service.WeatherService;
 import com.kondenko.yamblzweather.ui.weather.WeatherActivity;
 import com.kondenko.yamblzweather.ui.weather.WeatherInteractor;
@@ -15,8 +10,6 @@ import com.kondenko.yamblzweather.utils.SettingsManager;
 
 import dagger.Module;
 import dagger.Provides;
-import dagger.multibindings.IntoMap;
-import dagger.multibindings.StringKey;
 import retrofit2.Retrofit;
 
 @Module

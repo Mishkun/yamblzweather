@@ -1,10 +1,6 @@
 package com.kondenko.yamblzweather.utils;
 
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
-
 public class InclusiveRange {
 
     private int min;

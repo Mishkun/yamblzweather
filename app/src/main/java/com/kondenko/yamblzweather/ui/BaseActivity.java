@@ -1,16 +1,15 @@
 package com.kondenko.yamblzweather.ui;
 
+import android.os.Bundle;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-public class BaseActivity extends AppCompatActivity {
+import butterknife.ButterKnife;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setToolbar(Toolbar toolbar, boolean showUpButton) {
         setSupportActionBar(toolbar);

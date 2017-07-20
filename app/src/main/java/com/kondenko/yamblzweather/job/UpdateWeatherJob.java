@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
-import com.kondenko.yamblzweather.model.entity.WeatherData;
+import com.kondenko.yamblzweather.model.entity.WeatherModel;
 import com.kondenko.yamblzweather.ui.weather.WeatherInteractor;
 import com.kondenko.yamblzweather.utils.SettingsManager;
 
@@ -32,8 +32,8 @@ public class UpdateWeatherJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        WeatherData weatherData = interactor.getWeather(cityId, units).blockingGet().body();
-        if (weatherData != null) {
+        WeatherModel weatherModel = interactor.getWeather(cityId, units).blockingGet().body();
+        if (weatherModel != null) {
             long timeUpdated = System.currentTimeMillis();
             settingsManager.setLatestUpdate(timeUpdated);
             return Result.SUCCESS;

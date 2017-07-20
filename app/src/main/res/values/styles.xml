@@ -34,6 +34,12 @@
         <item name="android:textColor">@color/colorTextSecondary</item>
         <item name="android:gravity">center</item>
     </style>
-    x
+
+    <style name="App.Weather.Text.Error" parent="AppTheme">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 
 </resources>

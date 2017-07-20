@@ -1,14 +1,15 @@
 
 package com.kondenko.yamblzweather.model.entity;
 
-import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class WeatherData implements Parcelable
+import java.util.List;
+
+public class WeatherModel implements Parcelable
 {
 
     @SerializedName("coord")
@@ -47,14 +48,15 @@ public class WeatherData implements Parcelable
     @SerializedName("cod")
     @Expose
     private int cod;
-    public final static Creator<WeatherData> CREATOR = new Creator<WeatherData>() {
+
+    public final static Creator<WeatherModel> CREATOR = new Creator<WeatherModel>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public WeatherData createFromParcel(Parcel in) {
-            WeatherData instance = new WeatherData();
+        public WeatherModel createFromParcel(Parcel in) {
+            WeatherModel instance = new WeatherModel();
             instance.coord = ((Coord) in.readValue((Coord.class.getClassLoader())));
             in.readList(instance.weather, (Weather.class.getClassLoader()));
             instance.base = ((String) in.readValue((String.class.getClassLoader())));
@@ -70,8 +72,8 @@ public class WeatherData implements Parcelable
             return instance;
         }
 
-        public WeatherData[] newArray(int size) {
-            return (new WeatherData[size]);
+        public WeatherModel[] newArray(int size) {
+            return (new WeatherModel[size]);
         }
 
     }

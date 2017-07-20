@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/text_temperature_header"
             style="@style/App.Weather.Text.Header"
-            android:layout_width="68dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="middle"
             app:layout_constraintBaseline_toBaselineOf="@+id/text_temperature_header"
-            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toLeftOf="@+id/guideline"
             app:layout_constraintRight_toRightOf="parent"
             tools:text="Very very very very very very cloudy"

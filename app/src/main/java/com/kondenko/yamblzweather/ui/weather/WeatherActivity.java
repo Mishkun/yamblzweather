@@ -8,15 +8,16 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
 import com.kondenko.yamblzweather.R;
+import com.kondenko.yamblzweather.model.entity.Rain;
 import com.kondenko.yamblzweather.model.entity.Weather;
-import com.kondenko.yamblzweather.ui.BaseActivity;
+import com.kondenko.yamblzweather.model.entity.WeatherModel;
+import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.ui.about.AboutActivity;
 import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
 import com.kondenko.yamblzweather.utils.Logger;
@@ -30,7 +31,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 
-public class WeatherActivity extends BaseActivity
+public class WeatherActivity
+        extends BaseMvpActivity<WeatherModel, WeatherView, WeatherPresenter>
         implements WeatherView {
 
     private static final java.lang.String TAG = "WeatherActivity";
@@ -67,26 +69,15 @@ public class WeatherActivity extends BaseActivity
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AndroidInjection.inject(this);
         setContentView(R.layout.layout_weather);
         ButterKnife.bind(this);
+        AndroidInjection.inject(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         setToolbar(toolbar, false);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayShowTitleEnabled(false);
-        refreshLayout.setOnRefreshListener(presenter::onRefresh);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        presenter.onAttach(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        presenter.onDetach();
+        refreshLayout.setOnRefreshListener(presenter::loadData);
+        if (savedInstanceState == null) presenter.loadData();
     }
 
     @Override
@@ -115,41 +106,14 @@ public class WeatherActivity extends BaseActivity
     }
 
     @Override
-    public void showLatestUpdate(String latestUpdateTime) {
-        String latestUpdateTimeString = getString(R.string.weather_latest_update_time_value, latestUpdateTime);
-        textLatestUpdate.setText(latestUpdateTimeString);
-    }
-
-    @Override
-    public void showCity(String city) {
-        buttonCity.setText(city);
-    }
-
-    @Override
-    public void showTemperature(double temp, String units) {
-        String temperature = String.valueOf(Math.round(temp));
-        Spannable temperatureSpannable = WeatherUtils.getTemperatureString(this, temperature, units);
-        textTemperature.setText(temperatureSpannable);
-    }
-
-    @Override
-    public void showCondition(List<Weather> condition) {
-        Weather weatherCondition = condition.get(0);
-        weatherIcon.setIconResource(getString(WeatherUtils.getIconStringResource(weatherCondition)));
-        String description = weatherCondition.getDescription();
-        description = description.substring(0, 1).toUpperCase() + description.substring(1);
-        textCondition.setText(description);
-    }
-
-    @Override
-    public void showRainLevel(double value) {
-        textRainLevel.setText(value > 0 ? getString(R.string.weather_rain_level_value, value) : getString(R.string.weather_unknown_rain_level_value));
-    }
-
-    @Override
-    public void showWindSpeed(double value) {
-        String windSpeed = getString(R.string.weather_wind_speed_value, value);
-        textWindSpeed.setText(windSpeed);
+    public void setData(WeatherModel weather) {
+        super.setData(weather);
+        showCity(weather.getName());
+        showTemperature(weather.getMain().getTemp(), weather.getMain().getTempUnitKey());
+        showCondition(weather.getWeather());
+        showWindSpeed(weather.getWind().getSpeed());
+        Rain rain = weather.getRain();
+        showRainLevel(rain != null ? rain.get3h() : 0);
     }
 
     @Override
@@ -162,4 +126,42 @@ public class WeatherActivity extends BaseActivity
         Logger.w(TAG, error);
         Toast.makeText(this, this.getString(R.string.error_loading_weather), Toast.LENGTH_LONG).show();
     }
+
+    // Precise data formatting
+
+    private void showTemperature(double temp, String units) {
+        String temperature = String.valueOf(Math.round(temp));
+        Spannable temperatureSpannable = WeatherUtils.getTemperatureString(this, temperature, units);
+        textTemperature.setText(temperatureSpannable);
+    }
+
+    private void showCondition(List<Weather> condition) {
+        Weather weatherCondition = condition.get(0);
+        weatherIcon.setIconResource(getString(WeatherUtils.getIconStringResource(weatherCondition)));
+        String description = weatherCondition.getDescription();
+        description = description.substring(0, 1).toUpperCase() + description.substring(1);
+        textCondition.setText(description);
+    }
+
+    private void showRainLevel(double value) {
+        textRainLevel.setText(value > 0 ? getString(R.string.weather_rain_level_value, value) : getString(R.string.weather_unknown_rain_level_value));
+    }
+
+    private void showWindSpeed(double value) {
+        String windSpeed = getString(R.string.weather_wind_speed_value, value);
+        textWindSpeed.setText(windSpeed);
+    }
+
+    // STOPSHIP
+    // Only for task #2
+    private void showCity(String city) {
+        buttonCity.setText(city);
+    }
+
+    @Override
+    public void showLatestUpdate(String latestUpdateTime) {
+        String latestUpdateTimeString = getString(R.string.weather_latest_update_time_value, latestUpdateTime);
+        textLatestUpdate.setText(latestUpdateTimeString);
+    }
+
 }
