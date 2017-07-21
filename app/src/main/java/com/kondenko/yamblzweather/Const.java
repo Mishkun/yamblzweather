@@ -9,6 +9,9 @@ public abstract class Const {
     public static final String PARAM_API_KEY = "APPID";
 
     public static final String KEY_UNIT_TEMP_DEFAULT = "default";
+    public static final String VALUE_UNIT_TEMP_IMPERIAL = "F";
+    public static final String VALUE_UNIT_TEMP_METRIC = "C";
+    public static final String VALUE_UNIT_TEMP_DEFAULT = "K";
 
     public static final String PREF_REFRESH_RATE_DEFAULT_HOURS = "2";
 

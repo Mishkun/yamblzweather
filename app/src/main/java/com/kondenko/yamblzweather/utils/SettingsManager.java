@@ -33,11 +33,11 @@ public class SettingsManager {
     public String getUnitValue() {
         String selectedUnitKey = getUnitKey();
         if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_fahrenheit)))
-            return context.getString(R.string.pref_value_unit_fahrenheit);
+            return Const.VALUE_UNIT_TEMP_IMPERIAL;
         if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_celsius)))
-            return context.getString(R.string.pref_value_unit_celsius);
+            return Const.VALUE_UNIT_TEMP_METRIC;
         if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_kelvin)))
-            return context.getString(R.string.pref_value_unit_kelvin);
+            return Const.VALUE_UNIT_TEMP_DEFAULT;
         throw new IllegalArgumentException("Wrong temperature unit");
     }
 
