@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/weather_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        >
+
+        <TextView
+            android:id="@+id/text_temperature_header"
+            style="@style/App.Weather.Text.Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/weather_temperature_header"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/weather_button_city"
+            />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_main_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <Button
+            android:id="@+id/weather_button_city"
+            style="@style/App.Weather.Button.City"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_weather_button_city"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_main_toolbar"
+            tools:text="Moscow"
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/weather_text_temperature"
+            style="@style/App.Weather.Text.DisplayValue.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/weather_icon_condition"
+            app:layout_constraintHorizontal_bias="0.577"
+            app:layout_constraintLeft_toLeftOf="@+id/text_temperature_header"
+            app:layout_constraintRight_toRightOf="@+id/text_temperature_header"
+            app:layout_constraintTop_toTopOf="@+id/weather_icon_condition"
+            app:layout_constraintVertical_bias="0.51"
+            tools:text="20°C"
+            />
+
+        <com.github.pwittchen.weathericonview.WeatherIconView
+            android:id="@+id/weather_icon_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.486"
+            app:layout_constraintLeft_toLeftOf="@+id/weather_text_condition"
+            app:layout_constraintRight_toRightOf="@+id/weather_text_condition"
+            app:layout_constraintTop_toBottomOf="@+id/weather_text_condition"
+            app:weatherIconColor="@color/colorAccentPrimary"
+            app:weatherIconSize="@integer/size_weather_condition_icon"
+            tools:background="@drawable/ic_weather_black_24dp"
+            tools:layout_height="100dp"
+            tools:layout_width="100dp"
+            />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"
+            tools:layout_editor_absoluteX="180dp"
+            tools:layout_editor_absoluteY="25dp"
+            />
+
+        <TextView
+            android:id="@+id/weather_text_condition"
+            style="@style/App.Weather.Text.Header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:ellipsize="middle"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_temperature_header"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="Very very very very very very cloudy"
+            />
+
+        <TextView
+            android:id="@+id/weather_text_latest_update"
+            style="@style/App.Weather.Text.LatestUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_wind_value"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="Updated 15:00"
+            />
+
+        <TextView
+            android:id="@+id/text_rain_level_header"
+            style="@style/App.Weather.Text.Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_rain_level_header"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_wind_header"
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintLeft_toLeftOf="@+id/weather_text_temperature"
+            app:layout_constraintRight_toRightOf="@+id/weather_text_temperature"
+            />
+
+        <TextView
+            android:id="@+id/text_rain_level_value"
+            style="@style/App.Weather.Text.DisplayValue.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_wind_value"
+            app:layout_constraintHorizontal_bias="0.529"
+            app:layout_constraintLeft_toLeftOf="@+id/text_rain_level_header"
+            app:layout_constraintRight_toRightOf="@+id/text_rain_level_header"
+            tools:text="50%"
+            />
+
+        <TextView
+            android:id="@+id/text_wind_header"
+            style="@style/App.Weather.Text.Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/weather_wind_speed_header"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintLeft_toLeftOf="@+id/weather_icon_condition"
+            app:layout_constraintRight_toRightOf="@+id/weather_icon_condition"
+            app:layout_constraintTop_toBottomOf="@+id/weather_icon_condition"
+            />
+
+        <TextView
+            android:id="@+id/text_wind_value"
+            style="@style/App.Weather.Text.DisplayValue.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="@+id/text_wind_header"
+            app:layout_constraintRight_toRightOf="@+id/text_wind_header"
+            app:layout_constraintTop_toBottomOf="@+id/text_wind_header"
+            tools:text="10 m/s"
+            />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="96dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="121dp"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>
+

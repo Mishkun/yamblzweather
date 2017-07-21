@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="@string/pref_key_unit_kelvin"
+        android:entries="@array/pref_temp_units_entries"
+        android:entryValues="@array/pref_temp_units_entry_values"
+        android:key="@string/pref_key_temp_unit"
+        android:title="@string/pref_title_temp_units"
+        />
+
+    <ListPreference
+        android:defaultValue="@string/pref_key_refresh_rate_2_hours"
+        android:entries="@array/pref_refresh_rate_entries"
+        android:entryValues="@array/pref_refresh_rate_entry_values"
+        android:key="@string/pref_key_refresh_rate"
+        android:title="@string/pref_title_refresh_rate"
+        />
+
+</PreferenceScreen>

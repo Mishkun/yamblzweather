@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="pref_temp_units_entry_values">
+        <item name="entry_unit_fahrenheit">@string/pref_key_unit_fahrenheit</item>
+        <item name="entry_unit_celsius">@string/pref_key_unit_celsius</item>
+        <item name="entry_unit_kelvin">@string/pref_key_unit_kelvin</item>
+    </string-array>
+
+    <string-array name="pref_temp_units_entries">
+        <item name="entry_value_unit_fahrenheit">@string/pref_value_unit_fahrenheit</item>
+        <item name="entry_value_unit_celsius">@string/pref_value_unit_celsius</item>
+        <item name="entry_value_unit_kelvin">@string/pref_value_unit_kelvin</item>
+    </string-array>
+
+
+    <string-array name="pref_refresh_rate_entry_values">
+        <item name="entry_rate_2h">@string/pref_key_refresh_rate_2_hours</item>
+        <item name="entry_rate_6h">@string/pref_key_refresh_rate_6_hours</item>
+        <item name="entry_rate_12h">@string/pref_key_refresh_rate_12_hours</item>
+        <item name="entry_rate_24h">@string/pref_key_refresh_rate_24_hours</item>
+    </string-array>
+
+    <string-array name="pref_refresh_rate_entries">
+        <item name="entry_value_rate_2h">@string/pref_value_refresh_rate_2_hours</item>
+        <item name="entry_value_rate_6h">@string/pref_value_refresh_rate_6_hours</item>
+        <item name="entry_value_rate_12h">@string/pref_value_refresh_rate_12_hours</item>
+        <item name="entry_value_rate_24h">@string/pref_value_refresh_rate_24_hours</item>
+    </string-array>
+
+
+</resources>
