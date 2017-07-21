@@ -28,7 +28,7 @@ android {
 }
 
 ext {
-    verSupportLib = "25.4.0"
+    verSupportLib = "25.4.0" // Not using 26.0.0-beta2 because of the weird bugs it has
     verConstraintLayout = "1.0.2"
     verDagger = "2.11"
     verRetrofit = "2.3.0"

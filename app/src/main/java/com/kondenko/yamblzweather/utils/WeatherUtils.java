@@ -9,6 +9,7 @@ import com.kondenko.yamblzweather.model.entity.Weather;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class WeatherUtils {
@@ -45,7 +46,7 @@ public class WeatherUtils {
     }
 
     public static Spannable getTemperatureString(Context context, String temperature, String units) {
-        char unitLetter = units.substring(0, 1).toUpperCase().charAt(0);
+        char unitLetter = units.substring(0, 1).toUpperCase(Locale.getDefault()).charAt(0);
         String temperatureString = context.getString(R.string.weather_temperature_value, temperature, unitLetter);
         Spannable temperatureSpannable = new SpannableString(temperatureString);
         return temperatureSpannable;

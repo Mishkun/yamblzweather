@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Response;
 
@@ -21,7 +22,7 @@ public class Utils {
 
     public static String millisTo24time(long milliseconds) {
         Date date = new Date(milliseconds);
-        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        DateFormat formatter = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
         return formatter.format(date);
     }
 

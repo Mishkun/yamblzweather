@@ -24,6 +24,7 @@ import com.kondenko.yamblzweather.utils.Logger;
 import com.kondenko.yamblzweather.utils.WeatherUtils;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -139,7 +140,7 @@ public class WeatherActivity
         Weather weatherCondition = condition.get(0);
         weatherIcon.setIconResource(getString(WeatherUtils.getIconStringResource(weatherCondition)));
         String description = weatherCondition.getDescription();
-        description = description.substring(0, 1).toUpperCase() + description.substring(1);
+        description = description.substring(0, 1).toUpperCase(Locale.getDefault()) + description.substring(1);
         textCondition.setText(description);
     }
 
