@@ -39,6 +39,7 @@ ext {
     verButterKnife  = "8.7.0"
     verAndroidJob = "1.1.11"
     verMosby = "3.0.4"
+    verLeakCanary = "1.5.1"
 }
 
 dependencies {
@@ -73,6 +74,10 @@ dependencies {
     compile "com.github.pwittchen:weathericonview:$verWeatherIconView"
 
     compile "com.evernote:android-job:$verAndroidJob"
+
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$verLeakCanary"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$verLeakCanary"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$verLeakCanary"
 
     testCompile "junit:junit:4.12"
 }

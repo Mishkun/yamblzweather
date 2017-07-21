@@ -7,6 +7,7 @@ import com.evernote.android.job.JobManager;
 import com.kondenko.yamblzweather.dagger.components.DaggerAppComponent;
 import com.kondenko.yamblzweather.dagger.modules.AppModule;
 import com.kondenko.yamblzweather.dagger.modules.NetModule;
+import com.squareup.leakcanary.LeakCanary;
 
 import javax.inject.Inject;
 
@@ -23,6 +24,8 @@ public class App extends Application implements HasActivityInjector {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) return;
+        LeakCanary.install(this);
         JobManager.create(this);
         DaggerAppComponent.builder()
                 .application(this)
@@ -36,4 +39,5 @@ public class App extends Application implements HasActivityInjector {
     public AndroidInjector<Activity> activityInjector() {
         return dispatchingActivityInjector;
     }
+
 }
