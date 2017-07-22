@@ -3,7 +3,6 @@ package com.kondenko.yamblzweather.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.R;
@@ -21,7 +20,7 @@ public class SettingsManager {
 
     public SettingsManager(Context context) {
         this.context = context;
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.preferences = context.getSharedPreferences(context.getPackageName() + "_preferences", Context.MODE_PRIVATE);
     }
 
     public String getUnitKey() {
@@ -44,20 +43,19 @@ public class SettingsManager {
     public int getRefreshRateHr() {
         String rateKey = context.getString(R.string.pref_key_refresh_rate);
         String defaultRate = Const.PREF_REFRESH_RATE_DEFAULT_HOURS;
-        String refreshRate = preferences.getString(rateKey, defaultRate);
-        return Integer.valueOf(refreshRate);
+        return Integer.parseInt(preferences.getString(rateKey, defaultRate));
     }
 
     public long getRefreshRateSec() {
         return TimeUnit.HOURS.toSeconds(getRefreshRateHr());
     }
 
-    public void setCity(String cityId) {
-        preferences.edit().putString(KEY_SELECTED_CITY, cityId).apply();
-    }
-
     public String getCity() {
         return preferences.getString(KEY_SELECTED_CITY, null);
+    }
+
+    public void setCity(String cityId) {
+        preferences.edit().putString(KEY_SELECTED_CITY, cityId).apply();
     }
 
     public void setLatestUpdate(long timeMs) {

@@ -3,8 +3,8 @@ package com.kondenko.yamblzweather.utils;
 
 public class InclusiveRange {
 
-    private int min;
-    private int max;
+    private final int min;
+    private final int max;
 
     public InclusiveRange(int num) {
         this.min = num;
@@ -12,8 +12,13 @@ public class InclusiveRange {
     }
 
     public InclusiveRange(int min, int max) {
-        this.min = min;
-        this.max = max;
+        if (max < min) {
+            this.min = max;
+            this.max = min;
+        } else {
+            this.min = min;
+            this.max = max;
+        }
     }
 
     public boolean inRange(int num) {
@@ -24,16 +29,8 @@ public class InclusiveRange {
         return min;
     }
 
-    public void setMin(int min) {
-        this.min = min;
-    }
-
     public int getMax() {
         return max;
-    }
-
-    public void setMax(int max) {
-        this.max = max;
     }
 
     @Override
@@ -42,7 +39,6 @@ public class InclusiveRange {
         if (o == null || getClass() != o.getClass()) return false;
         InclusiveRange that = (InclusiveRange) o;
         return min == that.min && max == that.max;
-
     }
 
     @Override

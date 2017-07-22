@@ -10,7 +10,7 @@
         />
 
     <ListPreference
-        android:defaultValue="@string/pref_key_refresh_rate_2_hours"
+        android:defaultValue="@string/pref_default_value_refresh_rate_2_hours"
         android:entries="@array/pref_refresh_rate_entries"
         android:entryValues="@array/pref_refresh_rate_entry_values"
         android:key="@string/pref_key_refresh_rate"
