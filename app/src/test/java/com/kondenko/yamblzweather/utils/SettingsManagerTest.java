@@ -105,7 +105,7 @@ public class SettingsManagerTest {
     @Test
     public void getCity() throws Exception {
         String testCity = "test";
-        when(sharedPreferences.getString("selected_city", null)).thenReturn(testCity);
+        when(sharedPreferences.getString("selected_city", Const.ID_MOSCOW)).thenReturn(testCity);
 
         SettingsManager settingsManager = new SettingsManager(context);
         assertEquals(settingsManager.getCity(), testCity);

@@ -10,8 +10,6 @@ import com.kondenko.yamblzweather.ui.weather.WeatherPresenter;
 import com.kondenko.yamblzweather.ui.weather.WeatherView;
 import com.kondenko.yamblzweather.utils.SettingsManager;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
@@ -27,11 +25,6 @@ public class WeatherModule {
     @Provides
     public WeatherService provideWeatherService(Retrofit retrofit) {
         return retrofit.create(WeatherService.class);
-    }
-
-    @Provides
-    public WeatherInteractor provideInteractor(WeatherService service) {
-        return new WeatherInteractor(service);
     }
 
     @Provides
