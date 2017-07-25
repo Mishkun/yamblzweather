@@ -51,7 +51,7 @@ public class SettingsManager {
     }
 
     public String getCity() {
-        return preferences.getString(KEY_SELECTED_CITY, null);
+        return preferences.getString(KEY_SELECTED_CITY, Const.ID_MOSCOW);
     }
 
     public void setCity(String cityId) {
