@@ -2,6 +2,7 @@ package com.kondenko.yamblzweather.dagger.modules;
 
 import android.content.Context;
 
+import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.utils.SettingsManager;
 import com.kondenko.yamblzweather.utils.interceptors.ApiKeyInterceptor;
 import com.kondenko.yamblzweather.utils.interceptors.CacheInterceptor;
@@ -52,7 +53,7 @@ public class NetModule {
     public OkHttpClient provideHttpClient(Cache cache, CacheInterceptor cacheInterceptor) {
         return new OkHttpClient.Builder()
                 .cache(cache)
-                .addInterceptor(new ApiKeyInterceptor(apiKey))
+                .addInterceptor(new ApiKeyInterceptor(Const.PARAM_API_KEY, apiKey))
                 .addInterceptor(cacheInterceptor)
                 .addInterceptor(new LoggingInterceptor())
                 .build();

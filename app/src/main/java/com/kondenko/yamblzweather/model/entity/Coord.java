@@ -1,4 +1,3 @@
-
 package com.kondenko.yamblzweather.model.entity;
 
 import android.os.Parcel;
@@ -7,20 +6,13 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Coord implements Parcelable
-{
+public class Coord implements Parcelable {
 
-    @SerializedName("lon")
-    @Expose
-    private double lon;
-    @SerializedName("lat")
-    @Expose
-    private double lat;
     public final static Creator<Coord> CREATOR = new Creator<Coord>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public Coord createFromParcel(Parcel in) {
             Coord instance = new Coord();
@@ -33,8 +25,21 @@ public class Coord implements Parcelable
             return (new Coord[size]);
         }
 
+    };
+    @SerializedName("lon")
+    @Expose
+    private double lon;
+    @SerializedName("lat")
+    @Expose
+    private double lat;
+
+    public Coord(double lat, double lon) {
+        this.lon = lon;
+        this.lat = lat;
     }
-    ;
+
+    public Coord() {
+    }
 
     public double getLon() {
         return lon;
@@ -58,7 +63,7 @@ public class Coord implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

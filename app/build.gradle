@@ -36,7 +36,7 @@ ext {
     verRxJava2 = "2.1.1"
     verRxLifecycle = "2.1.0"
     verWeatherIconView = "1.1.0"
-    verButterKnife  = "8.7.0"
+    verButterKnife = "8.7.0"
     verAndroidJob = "1.1.11"
     verMosby = "3.0.4"
     verLeakCanary = "1.5.1"
@@ -79,7 +79,8 @@ dependencies {
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$verLeakCanary"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$verLeakCanary"
 
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:2.0.33-beta"
+    compile 'com.android.support:support-v4:25.3.1'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.0.33-beta'
 }
 

@@ -17,17 +17,19 @@ import okhttp3.Response;
  */
 public class ApiKeyInterceptor implements Interceptor {
 
+    private String parameterName;
     private String apiKey;
 
     @Inject
-    public ApiKeyInterceptor(String apiKey) {
+    public ApiKeyInterceptor(String parameterName, String apiKey) {
+        this.parameterName = parameterName;
         this.apiKey = apiKey;
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        HttpUrl url = request.url().newBuilder().addQueryParameter(Const.PARAM_API_KEY, apiKey).build();
+        HttpUrl url = request.url().newBuilder().addQueryParameter(parameterName, apiKey).build();
         request = request.newBuilder().url(url).build();
         return chain.proceed(request);
     }

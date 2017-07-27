@@ -41,7 +41,4 @@ public class WeatherModule {
     public WeatherPresenter providePresenter(WeatherView view, WeatherInteractor interactor, SettingsManager settingsManager, JobsRepository weatherJobScheduler, AppJobCreator jobCreator) {
         return new WeatherPresenter(view, interactor, weatherJobScheduler, settingsManager);
     }
-
-
-
 }

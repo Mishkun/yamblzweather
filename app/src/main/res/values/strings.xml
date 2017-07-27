@@ -52,5 +52,12 @@
     <string name="pref_value_refresh_rate_12_hours">12 hours</string>
     <string name="pref_value_refresh_rate_24_hours">24 hours</string>
     <string name="pref_default_value_refresh_rate_2_hours">2</string>
+    <string name="pref_key_latitude">KEY_LATITUDE</string>
+    <string name="pref_key_longitude">PREF_LONGITUDE</string>
+    <string name="default_city">Москва</string>
+    <string name="pref_key_city">PREF_CITY</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
