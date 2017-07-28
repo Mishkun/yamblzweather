@@ -64,10 +64,10 @@ public class WeatherPresenterTest {
 
     @Test
     public void shouldLoadData() throws Exception {
-        when(weatherInteractor.getWeather(Const.ID_MOSCOW, DEFAULT)).thenReturn(Single.just(weatherModel));
-        WeatherPresenter presenter = new WeatherPresenter(weatherView, weatherInteractor, weatherJobScheduler, settingsManager);
+        when(weatherInteractor.getWeather(DEFAULT)).thenReturn(Single.just(weatherModel));
+        WeatherPresenter presenter = new WeatherPresenter(weatherInteractor, weatherJobScheduler, settingsManager);
         InOrder loadingInOrder = inOrder(weatherView, weatherInteractor);
-
+        presenter.attachView(weatherView);
         presenter.loadData();
         verify(settingsManager).getRefreshRateHr();
         verify(weatherJobScheduler).scheduleUpdateJob(REFRESH_RATE);
@@ -75,13 +75,12 @@ public class WeatherPresenterTest {
 
         loadingInOrder.verify(weatherView).showLoading(true);
 
-        loadingInOrder.verify(weatherInteractor).getWeather(Const.ID_MOSCOW, DEFAULT);
+        loadingInOrder.verify(weatherInteractor).getWeather(DEFAULT);
         verifyNoMoreInteractions(weatherInteractor);
 
         loadingInOrder.verify(weatherView).showLoading(false);
 
         verify(settingsManager).getUnitKey();
-        verify(settingsManager).getCity();
 
         verify(weatherView).setData(weatherModel);
         verify(weatherView).showLatestUpdate(Utils.millisTo24time(TIMESTAMP));
@@ -95,10 +94,11 @@ public class WeatherPresenterTest {
     @Test
     public void shouldShowError() {
         HttpException nothing = new HttpException(Response.error(404, ResponseBody.create(null, "NOTHING")));
-        when(weatherInteractor.getWeather(Const.ID_MOSCOW, DEFAULT)).thenReturn(Single.error(nothing));
-        WeatherPresenter weatherPresenter = new WeatherPresenter(weatherView, weatherInteractor, weatherJobScheduler, settingsManager);
+        when(weatherInteractor.getWeather(DEFAULT)).thenReturn(Single.error(nothing));
+        WeatherPresenter weatherPresenter = new WeatherPresenter(weatherInteractor, weatherJobScheduler, settingsManager);
         InOrder loadingInOrder = inOrder(weatherView, weatherInteractor);
 
+        weatherPresenter.attachView(weatherView);
         weatherPresenter.loadData();
         verify(settingsManager).getRefreshRateHr();
         verify(weatherJobScheduler).scheduleUpdateJob(REFRESH_RATE);
@@ -106,52 +106,24 @@ public class WeatherPresenterTest {
 
         loadingInOrder.verify(weatherView).showLoading(true);
 
-        loadingInOrder.verify(weatherInteractor).getWeather(Const.ID_MOSCOW, DEFAULT);
+        loadingInOrder.verify(weatherInteractor).getWeather(DEFAULT);
         verifyNoMoreInteractions(weatherInteractor);
 
         loadingInOrder.verify(weatherView).showLoading(false);
 
         verify(settingsManager).getUnitKey();
-        verify(settingsManager).getCity();
         verifyNoMoreInteractions(settingsManager);
 
         verify(weatherView).showError(nothing);
         verifyNoMoreInteractions(weatherView);
     }
 
-    @Test
-    public void shouldChangeCityAndRetrieveData() throws Exception {
-        String newCity = "newCity";
-        when(weatherInteractor.getWeather(newCity, DEFAULT)).thenReturn(Single.just(weatherModel));
-        WeatherPresenter presenter = new WeatherPresenter(weatherView, weatherInteractor, weatherJobScheduler, settingsManager);
-        InOrder loadingInOrder = inOrder(weatherView, weatherInteractor);
-
-        presenter.onCityChanged(newCity);
-
-        loadingInOrder.verify(weatherView).showLoading(true);
-
-        loadingInOrder.verify(weatherInteractor).getWeather(newCity, DEFAULT);
-        verifyNoMoreInteractions(weatherInteractor);
-
-        loadingInOrder.verify(weatherView).showLoading(false);
-
-        verify(settingsManager).getUnitKey();
-        verify(settingsManager).getCity();
-
-        verify(weatherView).setData(weatherModel);
-        verify(weatherView).showLatestUpdate(Utils.millisTo24time(TIMESTAMP));
-        verify(settingsManager).getUnitValue();
-        verify(main).setTempUnitKey(F);
-
-        verifyNoMoreInteractions(settingsManager);
-        verifyNoMoreInteractions(weatherView);
-    }
 
     @Test
     public void shouldDetachViewAndNotShowData() {
-        when(weatherInteractor.getWeather(Const.ID_MOSCOW, DEFAULT)).thenReturn(Single.just(weatherModel));
-        WeatherPresenter succcessPresenter = new WeatherPresenter(weatherView, weatherInteractor, weatherJobScheduler, settingsManager);
-
+        when(weatherInteractor.getWeather(DEFAULT)).thenReturn(Single.just(weatherModel));
+        WeatherPresenter succcessPresenter = new WeatherPresenter(weatherInteractor, weatherJobScheduler, settingsManager);
+        succcessPresenter.attachView(weatherView);
         succcessPresenter.detachView();
         succcessPresenter.loadData();
 
@@ -161,9 +133,9 @@ public class WeatherPresenterTest {
     @Test
     public void shouldDetachViewAndNotShowError() {
         HttpException nothing = new HttpException(Response.error(404, ResponseBody.create(null, "NOTHING")));
-        when(weatherInteractor.getWeather(Const.ID_MOSCOW, DEFAULT)).thenReturn(Single.error(nothing));
-        WeatherPresenter errorPresenter = new WeatherPresenter(weatherView, weatherInteractor, weatherJobScheduler, settingsManager);
-
+        when(weatherInteractor.getWeather(DEFAULT)).thenReturn(Single.error(nothing));
+        WeatherPresenter errorPresenter = new WeatherPresenter(weatherInteractor, weatherJobScheduler, settingsManager);
+        errorPresenter.attachView(weatherView);
         errorPresenter.detachView();
         errorPresenter.loadData();
 
