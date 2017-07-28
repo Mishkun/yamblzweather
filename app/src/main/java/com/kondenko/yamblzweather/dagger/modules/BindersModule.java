@@ -2,6 +2,8 @@ package com.kondenko.yamblzweather.dagger.modules;
 
 import android.app.Activity;
 
+import com.kondenko.yamblzweather.ui.citysuggest.SuggestsActivity;
+import com.kondenko.yamblzweather.ui.citysuggest.dagger.SuggestsSubcomponent;
 import com.kondenko.yamblzweather.ui.weather.WeatherActivity;
 import com.kondenko.yamblzweather.ui.weather.dagger.WeatherSubcomponent;
 
@@ -19,5 +21,11 @@ public abstract class BindersModule {
     @ActivityKey(WeatherActivity.class)
     public abstract AndroidInjector.Factory<? extends Activity>
     bindMainActivityInjectorFactory(WeatherSubcomponent.Builder builder);
+
+    @Binds
+    @IntoMap
+    @ActivityKey(SuggestsActivity.class)
+    public abstract AndroidInjector.Factory<? extends Activity>
+    bindSuggestActivityInjectorFactory(SuggestsSubcomponent.Builder builder);
 
 }

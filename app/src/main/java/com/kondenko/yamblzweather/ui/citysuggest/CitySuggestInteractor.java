@@ -7,6 +7,7 @@ import com.kondenko.yamblzweather.ui.BaseInteractor;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.reactivex.Scheduler;
@@ -24,15 +25,15 @@ public class CitySuggestInteractor extends BaseInteractor {
     private final Scheduler uiScheduler;
     private final CitiesSuggestService citiesSuggestService;
 
+    @Inject
     public CitySuggestInteractor(@Named(JOB) Scheduler jobScheduler, @Named(UI) Scheduler uiScheduler, CitiesSuggestService citiesSuggestService) {
         this.jobScheduler = jobScheduler;
         this.uiScheduler = uiScheduler;
         this.citiesSuggestService = citiesSuggestService;
     }
 
-    public Single<List<Prediction>> getCitySuggests(String query) {
+    public Single<CitySuggest> getCitySuggests(String query) {
         return citiesSuggestService.getSuggests(query, "(cities)")
-                                   .map(CitySuggest::getPredictions)
                                    .subscribeOn(jobScheduler)
                                    .observeOn(uiScheduler);
     }

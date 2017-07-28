@@ -30,7 +30,7 @@ public class App extends Application implements HasActivityInjector {
         DaggerAppComponent.builder()
                 .application(this)
                 .appModule(new AppModule(this))
-                .netModule(new NetModule(Const.BASE_URL, Const.API_KEY))
+                .netModule(new NetModule())
                 .build()
                 .inject(this);
     }

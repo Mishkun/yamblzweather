@@ -26,7 +26,7 @@ public class Coord implements Parcelable {
         }
 
     };
-    @SerializedName("lon")
+    @SerializedName("lng")
     @Expose
     private double lon;
     @SerializedName("lat")

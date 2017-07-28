@@ -2,6 +2,7 @@ package com.kondenko.yamblzweather.ui.citysuggest;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.model.entity.City;
@@ -9,13 +10,13 @@ import com.kondenko.yamblzweather.model.entity.Coord;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.functions.BiFunction;
 
 /**
  * Created by Mishkun on 27.07.2017.
  */
 
 public class SharedPrefsLoactionStore implements LocationStore {
+    private static final String TAG = SharedPrefsLoactionStore.class.getSimpleName();
     private final SharedPreferences sharedPreferences;
     private final String LONGITUDE_KEY;
     private final String LATITUDE_KEY;
@@ -37,16 +38,18 @@ public class SharedPrefsLoactionStore implements LocationStore {
     public Single<City> getCurrentCity() {
         return Single.zip(Single.fromCallable(() -> sharedPreferences.getFloat(LATITUDE_KEY, DEFAULT_LATITUDE)),
                           Single.fromCallable(() -> sharedPreferences.getFloat(LONGITUDE_KEY, DEFAULT_LONGITUDE)),
-                          (BiFunction<Float, Float, Coord>) Coord::new)
+                          Coord::new)
                      .zipWith(Single.fromCallable(() -> sharedPreferences.getString(CITY_NAME_KEY, DEFAULT_CITY_NAME)),
                               City::new);
     }
 
     @Override
     public Completable setCurrentCity(City city) {
+        Log.d(TAG, "setCurrentCity: " + city.getCity() + " " + city.getCoordinates().getLat() + " " + city.getCoordinates().getLon());
         return Completable.fromAction(() -> sharedPreferences.edit()
                                                              .putFloat(LATITUDE_KEY, (float) city.getCoordinates().getLat())
                                                              .putFloat(LONGITUDE_KEY, (float) city.getCoordinates().getLon())
-                                                             .putString(CITY_NAME_KEY, city.getCity()));
+                                                             .putString(CITY_NAME_KEY, city.getCity())
+                                                             .commit());
     }
 }

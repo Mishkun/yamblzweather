@@ -9,7 +9,13 @@ public class City {
     private final Coord coordinates;
 
     public City(Coord coords, String city) {
-        this.city = city;
+        int indexOf = city.indexOf(",");
+        if (indexOf > 0){
+            this.city = city.substring(0, indexOf);
+        }else {
+            this.city = city;
+        }
+
         this.coordinates = coords;
     }
 

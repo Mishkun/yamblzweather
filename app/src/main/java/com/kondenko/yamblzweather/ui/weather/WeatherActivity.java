@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.kondenko.yamblzweather.model.entity.Weather;
 import com.kondenko.yamblzweather.model.entity.WeatherModel;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.ui.about.AboutActivity;
+import com.kondenko.yamblzweather.ui.citysuggest.SuggestsActivity;
 import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
 import com.kondenko.yamblzweather.utils.Logger;
 import com.kondenko.yamblzweather.utils.WeatherUtils;
@@ -33,13 +35,15 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 
 public class WeatherActivity
-        extends BaseMvpActivity<WeatherModel, WeatherView, WeatherPresenter>
+        extends BaseMvpActivity<WeatherModel, WeatherPresenter>
         implements WeatherView {
 
     private static final java.lang.String TAG = "WeatherActivity";
 
     @Inject
-    public WeatherPresenter presenter;
+    public void Inject(WeatherPresenter presenter){
+        this.presenter = presenter;
+    }
 
     @BindView(R.id.weather_button_city)
     public Button buttonCity;
@@ -68,6 +72,12 @@ public class WeatherActivity
     @BindView(R.id.text_wind_value)
     public TextView textWindSpeed;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.loadData();
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_weather);
@@ -78,8 +88,10 @@ public class WeatherActivity
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayShowTitleEnabled(false);
         refreshLayout.setOnRefreshListener(presenter::loadData);
-        if (savedInstanceState == null) presenter.loadData();
+        buttonCity.setOnClickListener((v) -> startActivity(new Intent(this, SuggestsActivity.class)));
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -156,6 +168,7 @@ public class WeatherActivity
     // STOPSHIP
     // Only for task #2
     private void showCity(String city) {
+        Log.d(TAG, city);
         buttonCity.setText(city);
     }
 

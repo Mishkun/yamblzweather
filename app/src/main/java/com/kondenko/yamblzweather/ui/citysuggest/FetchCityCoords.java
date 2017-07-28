@@ -5,6 +5,7 @@ import com.kondenko.yamblzweather.model.entity.Prediction;
 import com.kondenko.yamblzweather.model.service.CitiesSuggestService;
 import com.kondenko.yamblzweather.ui.BaseInteractor;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.reactivex.Completable;
@@ -23,6 +24,7 @@ public class FetchCityCoords extends BaseInteractor {
     private final CitiesSuggestService citiesSuggestService;
     private final LocationStore locationStore;
 
+    @Inject
     public FetchCityCoords(@Named(JOB) Scheduler jobScheduler, @Named(UI) Scheduler uiScheduler, CitiesSuggestService citiesSuggestService,
                            LocationStore locationStore) {
         this.jobScheduler = jobScheduler;

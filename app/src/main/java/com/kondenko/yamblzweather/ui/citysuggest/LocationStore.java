@@ -9,7 +9,7 @@ import io.reactivex.Single;
  * Created by Mishkun on 27.07.2017.
  */
 
-interface LocationStore {
+public interface LocationStore {
     Single<City> getCurrentCity();
     Completable setCurrentCity(City city);
 }

@@ -6,21 +6,18 @@ import com.kondenko.yamblzweather.utils.Utils;
 
 import javax.inject.Inject;
 
-import io.reactivex.Single;
+public class WeatherPresenter extends BasePresenter<WeatherView> {
 
-public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteractor> {
-
+    private final WeatherInteractor interactor;
     private final JobsRepository weatherJobsRepository;
     private final SettingsManager settingsManager;
-    private String cityId;
     private String units;
 
     @Inject
-    public WeatherPresenter(WeatherView view, WeatherInteractor interactor, JobsRepository weatherJobsRepository, SettingsManager settingsManager) {
-        super(view, interactor);
+    public WeatherPresenter(WeatherInteractor interactor, JobsRepository weatherJobsRepository, SettingsManager settingsManager) {
+        this.interactor = interactor;
         this.weatherJobsRepository = weatherJobsRepository;
         this.settingsManager = settingsManager;
-        cityId = settingsManager.getCity();
         units = settingsManager.getUnitKey();
     }
 
@@ -29,30 +26,25 @@ public class WeatherPresenter extends BasePresenter<WeatherView, WeatherInteract
         getWeather();
     }
 
-    public void onCityChanged(String cityId) {
-        this.cityId = cityId;
-        getWeather();
-    }
-
     private void getWeather() {
         if (isViewAttached()) getView().showLoading(true);
-        getInteractor().getWeather(cityId, units)
-                       .compose(bindToLifecycle())
-                       .doFinally(() -> {
-                           if (isViewAttached()) getView().showLoading(false);
-                       })
-                       .subscribe(
-                               result -> {
-                                   if (isViewAttached()) {
-                                       String unitReadable = settingsManager.getUnitValue();
-                                       result.getMain().setTempUnitKey(unitReadable);
-                                       getView().setData(result);
-                                       showUpdateTime(result.getTimestamp());
-                                   }
-                               },
-                               error -> {
-                                   if (isViewAttached()) getView().showError(error);
-                               });
+        interactor.getWeather(units)
+                  .compose(bindToLifecycle())
+                  .doFinally(() -> {
+                      if (isViewAttached()) getView().showLoading(false);
+                  })
+                  .subscribe(
+                          result -> {
+                              if (isViewAttached()) {
+                                  String unitReadable = settingsManager.getUnitValue();
+                                  result.getMain().setTempUnitKey(unitReadable);
+                                  getView().setData(result);
+                                  showUpdateTime(result.getTimestamp());
+                              }
+                          },
+                          error -> {
+                              if (isViewAttached()) getView().showError(error);
+                          });
     }
 
     private void showUpdateTime(long time) {

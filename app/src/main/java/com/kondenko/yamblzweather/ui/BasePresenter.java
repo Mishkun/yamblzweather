@@ -1,5 +1,7 @@
 package com.kondenko.yamblzweather.ui;
 
+import android.os.Parcelable;
+
 import com.kondenko.yamblzweather.utils.lifecycle.PresenterEvent;
 import com.kondenko.yamblzweather.utils.lifecycle.RxLifecyclePresenter;
 import com.trello.rxlifecycle2.LifecycleProvider;
@@ -13,21 +15,15 @@ import javax.annotation.Nonnull;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
-public abstract class BasePresenter<V extends BaseView, I extends BaseInteractor>
+public abstract class BasePresenter<V extends BaseView>
         implements LifecycleProvider<Integer> {
 
     protected final BehaviorSubject<Integer> lifecycleSubject = BehaviorSubject.create();
 
     private WeakReference<V> viewReference;
-    private I interactor;
-
-    public BasePresenter(V view, I interactor) {
-        attachView(view);
-        this.interactor = interactor;
-    }
 
     public void attachView(V view) {
-        viewReference = new WeakReference<V>(view);
+        viewReference = new WeakReference<>(view);
         lifecycleSubject.onNext(PresenterEvent.ATTACH);
     }
 
@@ -38,9 +34,8 @@ public abstract class BasePresenter<V extends BaseView, I extends BaseInteractor
 
     protected V getView() { return viewReference.get(); }
 
-    protected boolean isViewAttached() { return viewReference.get() != null; }
+    protected boolean isViewAttached() { return viewReference != null && viewReference.get() != null; }
 
-    protected I getInteractor() { return interactor; }
 
     /* RxLifecycle */
 

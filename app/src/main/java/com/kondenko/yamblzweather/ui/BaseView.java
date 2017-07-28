@@ -1,6 +1,8 @@
 package com.kondenko.yamblzweather.ui;
 
-public interface BaseView<M> {
+import android.os.Parcelable;
+
+public interface BaseView<M extends Parcelable> {
 
     public void setData(M data);
 

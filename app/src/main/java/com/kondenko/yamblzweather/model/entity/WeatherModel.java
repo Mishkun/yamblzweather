@@ -18,7 +18,6 @@ public class WeatherModel implements Parcelable {
         })
         public WeatherModel createFromParcel(Parcel in) {
             WeatherModel instance = new WeatherModel();
-            instance.coord = ((Coord) in.readValue((Coord.class.getClassLoader())));
             in.readList(instance.weather, (Weather.class.getClassLoader()));
             instance.base = ((String) in.readValue((String.class.getClassLoader())));
             instance.main = ((Main) in.readValue((Main.class.getClassLoader())));
@@ -38,9 +37,6 @@ public class WeatherModel implements Parcelable {
         }
 
     };
-    @SerializedName("coord")
-    @Expose
-    private Coord coord;
     @SerializedName("weather")
     @Expose
     private List<Weather> weather = null;
@@ -76,13 +72,6 @@ public class WeatherModel implements Parcelable {
     private int cod;
     private long timestamp;
 
-    public Coord getCoord() {
-        return coord;
-    }
-
-    public void setCoord(Coord coord) {
-        this.coord = coord;
-    }
 
     public List<Weather> getWeather() {
         return weather;
@@ -173,7 +162,6 @@ public class WeatherModel implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(coord);
         dest.writeList(weather);
         dest.writeValue(base);
         dest.writeValue(main);
