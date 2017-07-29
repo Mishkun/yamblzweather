@@ -15,10 +15,10 @@ public class Main implements Parcelable
     private double temp;
     @SerializedName("pressure")
     @Expose
-    private int pressure;
+    private double pressure;
     @SerializedName("humidity")
     @Expose
-    private int humidity;
+    private double humidity;
     @SerializedName("temp_min")
     @Expose
     private double tempMin;
@@ -67,19 +67,19 @@ public class Main implements Parcelable
         this.temp = temp;
     }
 
-    public int getPressure() {
+    public double getPressure() {
         return pressure;
     }
 
-    public void setPressure(int pressure) {
+    public void setPressure(double pressure) {
         this.pressure = pressure;
     }
 
-    public int getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(int humidity) {
+    public void setHumidity(double humidity) {
         this.humidity = humidity;
     }
 

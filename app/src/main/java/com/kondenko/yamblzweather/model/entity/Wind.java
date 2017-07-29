@@ -15,7 +15,7 @@ public class Wind implements Parcelable
     private double speed;
     @SerializedName("deg")
     @Expose
-    private int deg;
+    private double deg;
     public final static Creator<Wind> CREATOR = new Creator<Wind>() {
 
 
@@ -44,11 +44,11 @@ public class Wind implements Parcelable
         this.speed = speed;
     }
 
-    public int getDeg() {
+    public double getDeg() {
         return deg;
     }
 
-    public void setDeg(int deg) {
+    public void setDeg(double deg) {
         this.deg = deg;
     }
 

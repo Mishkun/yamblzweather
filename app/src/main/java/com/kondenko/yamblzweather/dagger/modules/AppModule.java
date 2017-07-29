@@ -3,6 +3,9 @@ package com.kondenko.yamblzweather.dagger.modules;
 import android.content.Context;
 
 import com.kondenko.yamblzweather.App;
+import com.kondenko.yamblzweather.ui.citysuggest.LocationStore;
+import com.kondenko.yamblzweather.ui.citysuggest.SharedPrefsLoactionStore;
+import com.kondenko.yamblzweather.ui.citysuggest.dagger.SuggestsSubcomponent;
 import com.kondenko.yamblzweather.ui.weather.dagger.WeatherSubcomponent;
 import com.kondenko.yamblzweather.utils.SettingsManager;
 
@@ -18,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 import static com.kondenko.yamblzweather.Const.JOB;
 import static com.kondenko.yamblzweather.Const.UI;
 
-@Module(subcomponents = {WeatherSubcomponent.class})
+@Module(subcomponents = {WeatherSubcomponent.class, SuggestsSubcomponent.class})
 public class AppModule {
 
     private App application;
@@ -41,6 +44,12 @@ public class AppModule {
     @Singleton
     public SettingsManager provideSettingsManager() {
         return new SettingsManager(application);
+    }
+
+
+    @Provides
+    LocationStore provideLocationStore(Context context) {
+        return new SharedPrefsLoactionStore(context);
     }
 
     @Provides

@@ -20,6 +20,7 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -31,6 +32,11 @@
             android:name=".ui.about.AboutActivity"
             android:parentActivityName=".ui.weather.WeatherActivity"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.citysuggest.SuggestsActivity"
+            android:parentActivityName=".ui.weather.WeatherActivity"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

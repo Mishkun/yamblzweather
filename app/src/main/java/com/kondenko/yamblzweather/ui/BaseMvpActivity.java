@@ -4,12 +4,24 @@ package com.kondenko.yamblzweather.ui;
 import android.os.Bundle;
 import android.os.Parcelable;
 
-public abstract class BaseMvpActivity<M extends Parcelable, V extends BaseView, P extends BasePresenter>
+public abstract class BaseMvpActivity<M extends Parcelable, P extends BasePresenter>
         extends BaseActivity implements BaseView<M> {
 
     private static final String KEY_MODEL = "model";
-
     protected M data;
+    protected P presenter;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.detachView();
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

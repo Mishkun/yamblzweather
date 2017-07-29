@@ -9,7 +9,7 @@ import dagger.android.AndroidInjector;
 public interface WeatherSubcomponent extends AndroidInjector<WeatherActivity> {
 
     @Subcomponent.Builder
-    public abstract class Builder extends AndroidInjector.Builder<WeatherActivity> {
+    abstract class Builder extends AndroidInjector.Builder<WeatherActivity> {
     }
 
 }

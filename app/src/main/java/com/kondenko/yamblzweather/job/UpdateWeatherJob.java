@@ -18,21 +18,19 @@ public class UpdateWeatherJob extends Job {
 
     private WeatherInteractor interactor;
     private SettingsManager settingsManager;
-    private String cityId;
     private String units;
 
     @Inject
     public UpdateWeatherJob(WeatherInteractor interactor, SettingsManager settingsManager) {
         this.interactor = interactor;
         this.settingsManager = settingsManager;
-        cityId = settingsManager.getCity();
         units = settingsManager.getUnitKey();
     }
 
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        WeatherModel weatherModel = interactor.getWeather(cityId, units).blockingGet();
+        WeatherModel weatherModel = interactor.getWeather(units).blockingGet();
         if (weatherModel != null) {
             long timeUpdated = System.currentTimeMillis();
             settingsManager.setLatestUpdate(timeUpdated);
@@ -47,7 +45,7 @@ public class UpdateWeatherJob extends Job {
                 .setPeriodic(refreshRateMs)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .setRequirementsEnforced(true)
-                .setUpdateCurrent(false)
+                .setUpdateCurrent(true)
                 .setPersisted(true)
                 .build()
                 .schedule();

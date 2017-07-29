@@ -10,9 +10,13 @@ import com.kondenko.yamblzweather.ui.weather.WeatherPresenter;
 import com.kondenko.yamblzweather.ui.weather.WeatherView;
 import com.kondenko.yamblzweather.utils.SettingsManager;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
+
+import static com.kondenko.yamblzweather.dagger.modules.NetModule.OPEN_WEATHER_MAP_API;
 
 @Module
 public class WeatherModule {
@@ -23,7 +27,7 @@ public class WeatherModule {
     }
 
     @Provides
-    public WeatherService provideWeatherService(Retrofit retrofit) {
+    public WeatherService provideWeatherService(@Named(OPEN_WEATHER_MAP_API) Retrofit retrofit) {
         return retrofit.create(WeatherService.class);
     }
 
@@ -36,12 +40,4 @@ public class WeatherModule {
     public JobsRepository provideJobsRepository(AppJobCreator appJobCreator) {
         return new WeatherJobsRepository(appJobCreator);
     }
-
-    @Provides
-    public WeatherPresenter providePresenter(WeatherView view, WeatherInteractor interactor, SettingsManager settingsManager, JobsRepository weatherJobScheduler, AppJobCreator jobCreator) {
-        return new WeatherPresenter(view, interactor, weatherJobScheduler, settingsManager);
-    }
-
-
-
 }
