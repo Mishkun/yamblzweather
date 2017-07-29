@@ -35,7 +35,7 @@ public class InclusiveRangeTest {
     @Test
     public void mustBeEqual() throws Exception {
         InclusiveRange inclusiveRange = new InclusiveRange(-1, 1);
-        InclusiveRange inclusiveRange1 = new InclusiveRange(1, -1);
+        InclusiveRange inclusiveRange1 = new InclusiveRange(-1, 1);
         assertTrue(inclusiveRange.equals(inclusiveRange1));
         assertTrue(inclusiveRange1.equals(inclusiveRange));
 
@@ -49,7 +49,7 @@ public class InclusiveRangeTest {
     @Test
     public void mustBeNotEqual() throws Exception{
         InclusiveRange inclusiveRange = new InclusiveRange(-1, 1);
-        InclusiveRange inclusiveRange1 = new InclusiveRange(1, -2);
+        InclusiveRange inclusiveRange1 = new InclusiveRange(-1, 2);
         assertFalse(inclusiveRange.equals(inclusiveRange1));
         assertFalse(inclusiveRange1.equals(inclusiveRange));
 
@@ -63,7 +63,7 @@ public class InclusiveRangeTest {
     @Test
     public void testHashCode() throws Exception {
         InclusiveRange inclusiveRange = new InclusiveRange(-1, 1);
-        InclusiveRange inclusiveRange1 = new InclusiveRange(1, -1);
+        InclusiveRange inclusiveRange1 = new InclusiveRange(-1, 1);
         assertEquals(inclusiveRange.hashCode(), inclusiveRange1.hashCode());
     }
 

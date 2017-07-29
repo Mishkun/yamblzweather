@@ -13,8 +13,7 @@ public class InclusiveRange {
 
     public InclusiveRange(int min, int max) {
         if (max < min) {
-            this.min = max;
-            this.max = min;
+            throw new IllegalArgumentException("MIN value is greater than MAX value");
         } else {
             this.min = min;
             this.max = max;
