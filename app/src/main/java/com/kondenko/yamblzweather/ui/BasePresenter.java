@@ -31,7 +31,7 @@ public abstract class BasePresenter<V extends BaseView, I extends BaseInteractor
         lifecycleSubject.onNext(PresenterEvent.ATTACH);
     }
 
-    public void detachView(boolean retainInstance) {
+    public void detachView() {
         viewReference.clear();
         lifecycleSubject.onNext(PresenterEvent.DETACH);
     }

@@ -32,7 +32,7 @@ public class UpdateWeatherJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        WeatherModel weatherModel = interactor.getWeather(cityId, units).blockingGet().body();
+        WeatherModel weatherModel = interactor.getWeather(cityId, units).blockingGet();
         if (weatherModel != null) {
             long timeUpdated = System.currentTimeMillis();
             settingsManager.setLatestUpdate(timeUpdated);
@@ -42,7 +42,7 @@ public class UpdateWeatherJob extends Job {
         }
     }
 
-    public void schedulePeriodicJob(long refreshRateMs) {
+    public static void schedulePeriodicJob(long refreshRateMs) {
         new JobRequest.Builder(UpdateWeatherJob.TAG)
                 .setPeriodic(refreshRateMs)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)

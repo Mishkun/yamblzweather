@@ -1,4 +1,3 @@
-
 package com.kondenko.yamblzweather.model.entity;
 
 import android.os.Parcel;
@@ -9,9 +8,36 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class WeatherModel implements Parcelable
-{
+public class WeatherModel implements Parcelable {
 
+    public final static Creator<WeatherModel> CREATOR = new Creator<WeatherModel>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public WeatherModel createFromParcel(Parcel in) {
+            WeatherModel instance = new WeatherModel();
+            instance.coord = ((Coord) in.readValue((Coord.class.getClassLoader())));
+            in.readList(instance.weather, (Weather.class.getClassLoader()));
+            instance.base = ((String) in.readValue((String.class.getClassLoader())));
+            instance.main = ((Main) in.readValue((Main.class.getClassLoader())));
+            instance.wind = ((Wind) in.readValue((Wind.class.getClassLoader())));
+            instance.clouds = ((Clouds) in.readValue((Clouds.class.getClassLoader())));
+            instance.rain = ((Rain) in.readValue((Rain.class.getClassLoader())));
+            instance.dt = ((int) in.readValue((int.class.getClassLoader())));
+            instance.sys = ((Sys) in.readValue((Sys.class.getClassLoader())));
+            instance.id = ((int) in.readValue((int.class.getClassLoader())));
+            instance.name = ((String) in.readValue((String.class.getClassLoader())));
+            instance.cod = ((int) in.readValue((int.class.getClassLoader())));
+            return instance;
+        }
+
+        public WeatherModel[] newArray(int size) {
+            return (new WeatherModel[size]);
+        }
+
+    };
     @SerializedName("coord")
     @Expose
     private Coord coord;
@@ -48,36 +74,7 @@ public class WeatherModel implements Parcelable
     @SerializedName("cod")
     @Expose
     private int cod;
-
-    public final static Creator<WeatherModel> CREATOR = new Creator<WeatherModel>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public WeatherModel createFromParcel(Parcel in) {
-            WeatherModel instance = new WeatherModel();
-            instance.coord = ((Coord) in.readValue((Coord.class.getClassLoader())));
-            in.readList(instance.weather, (Weather.class.getClassLoader()));
-            instance.base = ((String) in.readValue((String.class.getClassLoader())));
-            instance.main = ((Main) in.readValue((Main.class.getClassLoader())));
-            instance.wind = ((Wind) in.readValue((Wind.class.getClassLoader())));
-            instance.clouds = ((Clouds) in.readValue((Clouds.class.getClassLoader())));
-            instance.rain = ((Rain) in.readValue((Rain.class.getClassLoader())));
-            instance.dt = ((int) in.readValue((int.class.getClassLoader())));
-            instance.sys = ((Sys) in.readValue((Sys.class.getClassLoader())));
-            instance.id = ((int) in.readValue((int.class.getClassLoader())));
-            instance.name = ((String) in.readValue((String.class.getClassLoader())));
-            instance.cod = ((int) in.readValue((int.class.getClassLoader())));
-            return instance;
-        }
-
-        public WeatherModel[] newArray(int size) {
-            return (new WeatherModel[size]);
-        }
-
-    }
-    ;
+    private long timestamp;
 
     public Coord getCoord() {
         return coord;
@@ -191,7 +188,14 @@ public class WeatherModel implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 }

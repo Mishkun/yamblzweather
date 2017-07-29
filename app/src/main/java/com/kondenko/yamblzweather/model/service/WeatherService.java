@@ -10,9 +10,9 @@ import retrofit2.http.Query;
 public interface WeatherService {
 
     @GET("weather")
-    public Single<Response<WeatherModel>> getWeather(@Query("id") String id);
+    Single<WeatherModel> getWeather(@Query("id") String id);
 
     @GET("weather")
-    public Single<Response<WeatherModel>> getWeather(@Query("id") String id, @Query("units") String units);
+    Single<WeatherModel> getWeather(@Query("id") String id, @Query("units") String units);
 
 }

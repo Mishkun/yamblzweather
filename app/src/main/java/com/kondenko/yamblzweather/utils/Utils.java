@@ -25,9 +25,4 @@ public class Utils {
         DateFormat formatter = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
         return formatter.format(date);
     }
-
-    public static boolean isFromCache(Response response) {
-        return response.raw().request().header("Cache-Control").contains("only-if-cached");
-    }
-
 }
