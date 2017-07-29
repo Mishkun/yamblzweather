@@ -15,6 +15,15 @@ public class Prediction implements Parcelable{
     @SerializedName("place_id")
     String id;
 
+    public Prediction(){
+
+    }
+
+
+    public  Prediction(String description, String placeId){
+        place = description;
+        id = placeId;
+    }
     protected Prediction(Parcel in) {
         place = in.readString();
         id = in.readString();

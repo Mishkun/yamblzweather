@@ -21,6 +21,7 @@ import static com.kondenko.yamblzweather.Const.UI;
  */
 
 public class CitySuggestInteractor extends BaseInteractor {
+    public static final String TYPES = "(cities)";
     private final Scheduler jobScheduler;
     private final Scheduler uiScheduler;
     private final CitiesSuggestService citiesSuggestService;
@@ -33,7 +34,7 @@ public class CitySuggestInteractor extends BaseInteractor {
     }
 
     public Single<CitySuggest> getCitySuggests(String query) {
-        return citiesSuggestService.getSuggests(query, "(cities)")
+        return citiesSuggestService.getSuggests(query, TYPES)
                                    .subscribeOn(jobScheduler)
                                    .observeOn(uiScheduler);
     }

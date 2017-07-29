@@ -26,4 +26,21 @@ public class City {
     public Coord getCoordinates() {
         return coordinates;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        City city1 = (City) o;
+
+        if (city != null ? !city.equals(city1.city) : city1.city != null) return false;
+        return coordinates != null ? coordinates.equals(city1.coordinates) : city1.coordinates == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return coordinates != null ? coordinates.hashCode() : 0;
+    }
 }
