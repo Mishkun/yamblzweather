@@ -1,5 +1,7 @@
 package com.kondenko.yamblzweather.ui.citysuggest;
 
+import com.kondenko.yamblzweather.domain.usecase.GetCitySuggestsInteractor;
+import com.kondenko.yamblzweather.domain.usecase.FetchCityCoords;
 import com.kondenko.yamblzweather.ui.BasePresenter;
 
 import javax.inject.Inject;
@@ -9,13 +11,13 @@ import javax.inject.Inject;
  */
 
 public class SuggestsPresenter extends BasePresenter<SuggestsView> {
-    private final CitySuggestInteractor citySuggestInteractor;
+    private final GetCitySuggestsInteractor getCitySuggestsInteractor;
     private final FetchCityCoords fetchCityCoords;
 
     @Inject
-    public SuggestsPresenter(CitySuggestInteractor interactor, FetchCityCoords fetchCityCoords) {
+    public SuggestsPresenter(GetCitySuggestsInteractor interactor, FetchCityCoords fetchCityCoords) {
         this.fetchCityCoords = fetchCityCoords;
-        this.citySuggestInteractor = interactor;
+        this.getCitySuggestsInteractor = interactor;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
             .doOnNext((ignore) -> {
                 if (isViewAttached()) getView().showLoading(true);
             })
-            .flatMapSingle(citySuggestInteractor::getCitySuggests)
+            .flatMapSingle(getCitySuggestsInteractor::run)
             .doOnEach((ignore) -> {
                 if (isViewAttached()) getView().showLoading(false);
             })

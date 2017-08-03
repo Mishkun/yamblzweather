@@ -6,14 +6,13 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.kondenko.yamblzweather.R;
-import com.kondenko.yamblzweather.model.entity.CitySuggest;
-import com.kondenko.yamblzweather.model.entity.Prediction;
+import com.kondenko.yamblzweather.data.suggest.CitySuggest;
+import com.kondenko.yamblzweather.data.suggest.PredictionResponse;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.utils.Logger;
 
@@ -62,7 +61,7 @@ public class SuggestsActivity extends BaseMvpActivity<CitySuggest, SuggestsPrese
     @Override
     public void setData(CitySuggest data) {
         super.setData(data);
-        suggestsAdapter.setData(data.getPredictions());
+        suggestsAdapter.setData(data.getPredictionResponses());
     }
 
     @Override
@@ -86,7 +85,7 @@ public class SuggestsActivity extends BaseMvpActivity<CitySuggest, SuggestsPrese
     }
 
     @Override
-    public Observable<Prediction> getClicks() {
+    public Observable<PredictionResponse> getClicks() {
         return suggestsAdapter.getItemClicks();
     }
 

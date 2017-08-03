@@ -1,10 +1,8 @@
 package com.kondenko.yamblzweather.ui.citysuggest;
 
-import com.kondenko.yamblzweather.model.entity.CitySuggest;
-import com.kondenko.yamblzweather.model.entity.Prediction;
+import com.kondenko.yamblzweather.data.suggest.CitySuggest;
+import com.kondenko.yamblzweather.data.suggest.PredictionResponse;
 import com.kondenko.yamblzweather.ui.BaseView;
-
-import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -14,7 +12,7 @@ import io.reactivex.Observable;
 
 public interface SuggestsView extends BaseView<CitySuggest> {
     Observable<String> getCityNamesStream();
-    Observable<Prediction> getClicks();
+    Observable<PredictionResponse> getClicks();
 
     void finishScreen();
 }

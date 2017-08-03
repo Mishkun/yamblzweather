@@ -1,14 +1,13 @@
 package com.kondenko.yamblzweather.ui.weather.dagger;
 
-import com.kondenko.yamblzweather.job.AppJobCreator;
-import com.kondenko.yamblzweather.model.service.WeatherService;
-import com.kondenko.yamblzweather.ui.weather.JobsRepository;
+import com.kondenko.yamblzweather.domain.guards.JobsScheduler;
+import com.kondenko.yamblzweather.domain.usecase.GetCurrentWeatherInteractor;
+import com.kondenko.yamblzweather.infrastructure.AppJobCreator;
+import com.kondenko.yamblzweather.data.weather.WeatherService;
 import com.kondenko.yamblzweather.ui.weather.WeatherActivity;
-import com.kondenko.yamblzweather.ui.weather.WeatherInteractor;
-import com.kondenko.yamblzweather.ui.weather.WeatherJobsRepository;
-import com.kondenko.yamblzweather.ui.weather.WeatherPresenter;
+import com.kondenko.yamblzweather.infrastructure.WeatherJobsScheduler;
 import com.kondenko.yamblzweather.ui.weather.WeatherView;
-import com.kondenko.yamblzweather.utils.SettingsManager;
+import com.kondenko.yamblzweather.infrastructure.SettingsManager;
 
 import javax.inject.Named;
 
@@ -16,7 +15,7 @@ import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
 
-import static com.kondenko.yamblzweather.dagger.modules.NetModule.OPEN_WEATHER_MAP_API;
+import static com.kondenko.yamblzweather.di.modules.NetModule.OPEN_WEATHER_MAP_API;
 
 @Module
 public class WeatherModule {
@@ -32,12 +31,12 @@ public class WeatherModule {
     }
 
     @Provides
-    public AppJobCreator provideAppJobCreator(WeatherInteractor interactor, SettingsManager settingsManager) {
+    public AppJobCreator provideAppJobCreator(GetCurrentWeatherInteractor interactor, SettingsManager settingsManager) {
         return new AppJobCreator(interactor, settingsManager);
     }
 
     @Provides
-    public JobsRepository provideJobsRepository(AppJobCreator appJobCreator) {
-        return new WeatherJobsRepository(appJobCreator);
+    public JobsScheduler provideJobsRepository(AppJobCreator appJobCreator) {
+        return new WeatherJobsScheduler(appJobCreator);
     }
 }

@@ -1,10 +1,12 @@
 package com.kondenko.yamblzweather.ui.citysuggest;
 
-import com.kondenko.yamblzweather.model.entity.City;
-import com.kondenko.yamblzweather.model.entity.CitySearchResult;
-import com.kondenko.yamblzweather.model.entity.Coord;
-import com.kondenko.yamblzweather.model.entity.Prediction;
-import com.kondenko.yamblzweather.model.service.CitiesSuggestService;
+import com.kondenko.yamblzweather.data.suggest.CityResponse;
+import com.kondenko.yamblzweather.data.suggest.CitySearchResult;
+import com.kondenko.yamblzweather.data.suggest.Coord;
+import com.kondenko.yamblzweather.data.suggest.PredictionResponse;
+import com.kondenko.yamblzweather.data.suggest.CitiesSuggestService;
+import com.kondenko.yamblzweather.domain.guards.LocationProvider;
+import com.kondenko.yamblzweather.domain.usecase.FetchCityCoords;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,19 +41,19 @@ public class FetchCityCoordsTest {
     private static final double LATITUDE = 0.0;
     private static final double LONGITUDE = 1.0;
     @Mock
-    private LocationStore locationStore;
+    private LocationProvider locationProvider;
     @Mock
     private CitiesSuggestService citiesSuggestService;
 
 
     private TestScheduler testScheduler = new TestScheduler();
-    private Prediction prediction;
+    private PredictionResponse predictionResponse;
     private CitySearchResult citySearchResult;
     private Coord coordinates;
 
     @Before
     public void setUp() throws Exception {
-        prediction = new Prediction(DESCRIPTION, PLACE_ID);
+        predictionResponse = new PredictionResponse(DESCRIPTION, PLACE_ID);
         citySearchResult = mock(CitySearchResult.class, RETURNS_DEEP_STUBS);
         coordinates = new Coord();
         coordinates.setLat(LATITUDE);
@@ -61,22 +63,18 @@ public class FetchCityCoordsTest {
 
     @Test
     public void shouldGetCityCoordinatesAndWrite() throws Exception {
-        City testCity = new City(coordinates, DESCRIPTION);
+        CityResponse testCity = new CityResponse(coordinates, DESCRIPTION);
         when(citiesSuggestService.getCityCoordinatesById(PLACE_ID)).thenReturn(Single.just(citySearchResult));
-        when(locationStore.setCurrentCity(any())).thenReturn(Completable.complete());
-        ArgumentCaptor<City> cityArgumentCaptor = ArgumentCaptor.forClass(City.class);
+        when(locationProvider.setCurrentCity(any())).thenReturn(Completable.complete());
+        ArgumentCaptor<CityResponse> cityArgumentCaptor = ArgumentCaptor.forClass(CityResponse.class);
 
-        FetchCityCoords fetchCityCoords = new FetchCityCoords(testScheduler, testScheduler, citiesSuggestService, locationStore);
-        TestObserver<Void> test = fetchCityCoords.getCityCoordinatesAndWrite(prediction).test();
         testScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
-        test.assertResult();
 
         verify(citiesSuggestService).getCityCoordinatesById(PLACE_ID);
         verifyNoMoreInteractions(citiesSuggestService);
-        verify(locationStore).setCurrentCity(cityArgumentCaptor.capture());
-        verifyNoMoreInteractions(locationStore);
+        verifyNoMoreInteractions(locationProvider);
 
-        City cityResult = cityArgumentCaptor.getValue();
+        CityResponse cityResult = cityArgumentCaptor.getValue();
         assertTrue(cityResult.equals(testCity));
     }
 

@@ -5,7 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 
 import com.kondenko.yamblzweather.R;
-import com.kondenko.yamblzweather.model.entity.Weather;
+import com.kondenko.yamblzweather.data.weather.WeatherModel;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,11 +34,11 @@ public class WeatherUtils {
     /**
      * Returns an appropriate string resource which is needed to display an icon inRange {@link com.github.pwittchen.weathericonview.WeatherIconView}
      *
-     * @param weather weather condition
+     * @param weatherCondition weatherCondition condition
      * @return resource id of the icon
      */
-    public static int getIconStringResource(Weather weather) {
-        int id = weather.getId();
+    public static int getIconStringResource(WeatherModel.WeatherCondition weatherCondition) {
+        int id = weatherCondition.getId();
         for (InclusiveRange codes : conditionsMap.keySet()) {
             if (codes.inRange(id)) return conditionsMap.get(codes);
         }

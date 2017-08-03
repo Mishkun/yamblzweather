@@ -15,9 +15,7 @@ import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
 import com.kondenko.yamblzweather.R;
-import com.kondenko.yamblzweather.model.entity.Rain;
-import com.kondenko.yamblzweather.model.entity.Weather;
-import com.kondenko.yamblzweather.model.entity.WeatherModel;
+import com.kondenko.yamblzweather.data.weather.WeatherModel;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.ui.about.AboutActivity;
 import com.kondenko.yamblzweather.ui.citysuggest.SuggestsActivity;
@@ -123,9 +121,9 @@ public class WeatherActivity
         super.setData(weather);
         showCity(weather.getName());
         showTemperature(weather.getMain().getTemp(), weather.getMain().getTempUnitKey());
-        showCondition(weather.getWeather());
+        showCondition(weather.getWeatherCondition());
         showWindSpeed(weather.getWind().getSpeed());
-        Rain rain = weather.getRain();
+        WeatherModel.Rain rain = weather.getRain();
         showRainLevel(rain != null ? rain.get3h() : 0);
     }
 
@@ -148,8 +146,8 @@ public class WeatherActivity
         textTemperature.setText(temperatureSpannable);
     }
 
-    private void showCondition(List<Weather> condition) {
-        Weather weatherCondition = condition.get(0);
+    private void showCondition(List<WeatherModel.WeatherCondition> condition) {
+        WeatherModel.WeatherCondition weatherCondition = condition.get(0);
         weatherIcon.setIconResource(getString(WeatherUtils.getIconStringResource(weatherCondition)));
         String description = weatherCondition.getDescription();
         description = description.substring(0, 1).toUpperCase(Locale.getDefault()) + description.substring(1);
