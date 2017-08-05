@@ -11,8 +11,7 @@ import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.kondenko.yamblzweather.R;
-import com.kondenko.yamblzweather.data.suggest.CitySuggest;
-import com.kondenko.yamblzweather.data.suggest.PredictionResponse;
+import com.kondenko.yamblzweather.domain.entity.Prediction;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.utils.Logger;
 
@@ -25,7 +24,7 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 
-public class SuggestsActivity extends BaseMvpActivity<CitySuggest, SuggestsPresenter> implements SuggestsView {
+public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, SuggestsPresenter> implements SuggestsView {
     private static final String TAG = SuggestsActivity.class.getSimpleName();
     @BindView(R.id.search_field)
     EditText searchField;
@@ -59,9 +58,9 @@ public class SuggestsActivity extends BaseMvpActivity<CitySuggest, SuggestsPrese
     }
 
     @Override
-    public void setData(CitySuggest data) {
+    public void setData(SuggestsViewModel data) {
         super.setData(data);
-        suggestsAdapter.setData(data.getPredictionResponses());
+        suggestsAdapter.setData(data.predictions());
     }
 
     @Override
@@ -85,7 +84,7 @@ public class SuggestsActivity extends BaseMvpActivity<CitySuggest, SuggestsPrese
     }
 
     @Override
-    public Observable<PredictionResponse> getClicks() {
+    public Observable<Prediction> getClicks() {
         return suggestsAdapter.getItemClicks();
     }
 

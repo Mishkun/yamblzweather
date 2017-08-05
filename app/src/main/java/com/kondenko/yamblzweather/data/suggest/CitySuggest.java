@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public class CitySuggest implements Parcelable{
-    @SerializedName("predictionResponses")
+    @SerializedName("predictions")
     private List<PredictionResponse> predictionResponses;
 
     protected CitySuggest(Parcel in) {

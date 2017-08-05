@@ -7,9 +7,9 @@ import retrofit2.http.Query;
 public interface WeatherService {
 
     @GET("weather")
-    Single<WeatherModel> getWeather(@Query("lat") float lat, @Query("lon") float lon);
+    Single<WeatherModel> getWeather(@Query("lat") double lat, @Query("lon") double lon);
 
-    @GET("weather")
-    Single<WeatherModel> getWeather(@Query("lat") float lat, @Query("lon") float lon, @Query("units") String units);
+    @GET("forecast")
+    Single<ForecastResponse> getForecast(@Query("lat") double lat, @Query("lon") double lon);
 
 }

@@ -6,7 +6,6 @@ import com.kondenko.yamblzweather.data.suggest.Coord;
 import com.kondenko.yamblzweather.data.suggest.PredictionResponse;
 import com.kondenko.yamblzweather.data.suggest.CitiesSuggestService;
 import com.kondenko.yamblzweather.domain.guards.LocationProvider;
-import com.kondenko.yamblzweather.domain.usecase.FetchCityCoords;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
 
 import static org.junit.Assert.assertTrue;
@@ -34,7 +32,7 @@ import static org.mockito.Mockito.when;
  * Created by Mishkun on 29.07.2017.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class FetchCityCoordsTest {
+public class FetchCityCoordsInteractorTest {
 
     private static final String DESCRIPTION = "DESCRIPTION";
     private static final String PLACE_ID = "PLACE_ID";

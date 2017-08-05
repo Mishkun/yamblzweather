@@ -5,7 +5,9 @@ import android.content.Context;
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.data.weather.WeatherModel;
 import com.kondenko.yamblzweather.domain.guards.JobsScheduler;
+import com.kondenko.yamblzweather.domain.usecase.GetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentWeatherInteractor;
+import com.kondenko.yamblzweather.domain.usecase.UpdateWeatherInteractor;
 import com.kondenko.yamblzweather.infrastructure.SettingsManager;
 import com.kondenko.yamblzweather.utils.Utils;
 
@@ -45,6 +47,10 @@ public class WeatherPresenterTest {
     @Mock
     SettingsManager settingsManager;
     @Mock
+    UpdateWeatherInteractor updateWeatherInteractor;
+    @Mock
+    GetCurrentCityInteractor getCurrentCityInteractor;
+    @Mock
     JobsScheduler weatherJobScheduler;
     @Mock
     Context context;
@@ -65,7 +71,7 @@ public class WeatherPresenterTest {
 
     @Test
     public void shouldLoadData() throws Exception {
-        WeatherPresenter presenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor);
+        WeatherPresenter presenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor, getCurrentCityInteractor);
         InOrder loadingInOrder = inOrder(weatherView, getCurrentWeatherInteractor);
         presenter.attachView(weatherView);
         presenter.updateData();
@@ -92,7 +98,7 @@ public class WeatherPresenterTest {
     public void shouldShowError() {
         HttpException nothing = new HttpException(Response.error(404, ResponseBody.create(null, "NOTHING")));
         when(getCurrentWeatherInteractor.run()).thenReturn(Observable.error(nothing));
-        WeatherPresenter weatherPresenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor);
+        WeatherPresenter weatherPresenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor, getCurrentCityInteractor);
         InOrder loadingInOrder = inOrder(weatherView, getCurrentWeatherInteractor);
 
         weatherPresenter.attachView(weatherView);
@@ -117,7 +123,7 @@ public class WeatherPresenterTest {
 
     @Test
     public void shouldDetachViewAndNotShowData() {
-        WeatherPresenter succcessPresenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor);
+        WeatherPresenter succcessPresenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor, getCurrentCityInteractor);
         succcessPresenter.attachView(weatherView);
         succcessPresenter.detachView();
         succcessPresenter.updateData();
@@ -127,7 +133,7 @@ public class WeatherPresenterTest {
 
     @Test
     public void shouldDetachViewAndNotShowError() {
-        WeatherPresenter errorPresenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor);
+        WeatherPresenter errorPresenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor, getCurrentCityInteractor);
         errorPresenter.attachView(weatherView);
         errorPresenter.detachView();
         errorPresenter.updateData();

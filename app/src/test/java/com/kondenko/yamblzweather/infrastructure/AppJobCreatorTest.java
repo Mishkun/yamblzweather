@@ -1,7 +1,7 @@
 package com.kondenko.yamblzweather.infrastructure;
 
 import com.evernote.android.job.Job;
-import com.kondenko.yamblzweather.domain.usecase.GetCityInteractor;
+import com.kondenko.yamblzweather.domain.usecase.GetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.UpdateWeatherInteractor;
 
 import org.junit.Test;
@@ -24,11 +24,11 @@ public class AppJobCreatorTest {
     UpdateWeatherInteractor updateWeatherInteractor;
 
     @Mock
-    GetCityInteractor getCityInteractor;
+    GetCurrentCityInteractor getCurrentCityInteractor;
 
     @Test
     public void shouldCreateWeatherJob() throws Exception {
-        AppJobCreator appJobCreator = new AppJobCreator(updateWeatherInteractor, getCityInteractor, settingsManager);
+        AppJobCreator appJobCreator = new AppJobCreator(updateWeatherInteractor, getCurrentCityInteractor, settingsManager);
         Job updateJob = appJobCreator.create(UpdateWeatherJob.TAG);
         assertTrue(updateJob instanceof UpdateWeatherJob);
     }

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kondenko.yamblzweather.R;
-import com.kondenko.yamblzweather.data.suggest.PredictionResponse;
+import com.kondenko.yamblzweather.domain.entity.Prediction;
 
 import java.util.List;
 
@@ -22,24 +22,24 @@ import io.reactivex.subjects.PublishSubject;
 
 class SuggestsAdapter extends RecyclerView.Adapter<SuggestsAdapter.ViewHolder> {
 
-    private final SortedList<PredictionResponse> predictionList;
-    private PublishSubject<PredictionResponse> onClickSubject;
+    private final SortedList<Prediction> predictionList;
+    private PublishSubject<Prediction> onClickSubject;
 
-    public SuggestsAdapter(List<PredictionResponse> items) {
-        predictionList = new SortedList<>(PredictionResponse.class, new SortedListAdapterCallback<PredictionResponse>(this) {
+    public SuggestsAdapter(List<Prediction> items) {
+        predictionList = new SortedList<>(Prediction.class, new SortedListAdapterCallback<Prediction>(this) {
             @Override
-            public int compare(PredictionResponse o1, PredictionResponse o2) {
-                return o1.getPlace().compareTo(o2.getPlace());
+            public int compare(Prediction o1, Prediction o2) {
+                return o1.id().compareTo(o2.id());
             }
 
             @Override
-            public boolean areContentsTheSame(PredictionResponse oldItem, PredictionResponse newItem) {
-                return oldItem.getPlace().equals(newItem.getPlace());
+            public boolean areContentsTheSame(Prediction oldItem, Prediction newItem) {
+                return oldItem.id().equals(newItem.id());
             }
 
             @Override
-            public boolean areItemsTheSame(PredictionResponse item1, PredictionResponse item2) {
-                return item1.getId().equals(item2.getId());
+            public boolean areItemsTheSame(Prediction item1, Prediction item2) {
+                return item1.id().equals(item2.id());
             }
         });
         predictionList.addAll(items);
@@ -47,14 +47,14 @@ class SuggestsAdapter extends RecyclerView.Adapter<SuggestsAdapter.ViewHolder> {
     }
 
 
-    public void setData(List<PredictionResponse> data) {
+    public void setData(List<Prediction> data) {
         predictionList.beginBatchedUpdates();
         predictionList.clear();
         predictionList.addAll(data);
         predictionList.endBatchedUpdates();
     }
 
-    Observable<PredictionResponse> getItemClicks() {
+    Observable<Prediction> getItemClicks() {
         return onClickSubject.hide();
     }
 
@@ -67,9 +67,9 @@ class SuggestsAdapter extends RecyclerView.Adapter<SuggestsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.predictionResponse = predictionList.get(position);
-        holder.textView.setText(predictionList.get(position).getPlace());
-        final PredictionResponse element = predictionList.get(position);
+        holder.Prediction = predictionList.get(position);
+        holder.textView.setText(predictionList.get(position).name());
+        final Prediction element = predictionList.get(position);
         holder.itemView.setOnClickListener(v -> onClickSubject.onNext(element));
     }
 
@@ -81,7 +81,7 @@ class SuggestsAdapter extends RecyclerView.Adapter<SuggestsAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
         final View view;
         final TextView textView;
-        PredictionResponse predictionResponse;
+        Prediction Prediction;
 
         ViewHolder(View view) {
             super(view);

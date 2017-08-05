@@ -1,10 +1,9 @@
 package com.kondenko.yamblzweather.domain.usecase;
 
 import com.kondenko.yamblzweather.domain.BaseInteractor;
+import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Prediction;
 import com.kondenko.yamblzweather.domain.guards.CitySuggestProvider;
-
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,21 +18,20 @@ import static com.kondenko.yamblzweather.Const.UI;
  * Created by Mishkun on 27.07.2017.
  */
 
-public class GetCitySuggestsInteractor extends BaseInteractor {
-    public static final String TYPES = "(cities)";
+public class FetchCityCoordsInteractor extends BaseInteractor {
     private final Scheduler jobScheduler;
     private final Scheduler uiScheduler;
     private final CitySuggestProvider citySuggestProvider;
 
     @Inject
-    GetCitySuggestsInteractor(@Named(JOB) Scheduler jobScheduler, @Named(UI) Scheduler uiScheduler, CitySuggestProvider citySuggestProvider) {
+    FetchCityCoordsInteractor(@Named(JOB) Scheduler jobScheduler, @Named(UI) Scheduler uiScheduler, CitySuggestProvider citiesSuggestProvider) {
         this.jobScheduler = jobScheduler;
         this.uiScheduler = uiScheduler;
-        this.citySuggestProvider = citySuggestProvider;
+        this.citySuggestProvider = citiesSuggestProvider;
     }
 
-    public Single<List<Prediction>> run(String query) {
-        return citySuggestProvider.getCitySuggests(query)
+    public Single<City> run(Prediction prediction) {
+        return citySuggestProvider.getCityFromPrediction(prediction)
                                   .subscribeOn(jobScheduler)
                                   .observeOn(uiScheduler);
     }

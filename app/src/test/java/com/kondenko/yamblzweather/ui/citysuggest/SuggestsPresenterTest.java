@@ -2,8 +2,8 @@ package com.kondenko.yamblzweather.ui.citysuggest;
 
 import com.kondenko.yamblzweather.data.suggest.CitySuggest;
 import com.kondenko.yamblzweather.data.suggest.PredictionResponse;
+import com.kondenko.yamblzweather.domain.usecase.FetchCityCoordsInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCitySuggestsInteractor;
-import com.kondenko.yamblzweather.domain.usecase.FetchCityCoords;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +12,6 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.subjects.PublishSubject;
 
@@ -35,7 +34,7 @@ public class SuggestsPresenterTest {
     private GetCitySuggestsInteractor getCitySuggestsInteractor;
 
     @Mock
-    private FetchCityCoords fetchCityCoords;
+    private FetchCityCoordsInteractor fetchCityCoordsInteractor;
 
     @Mock
     private SuggestsView view;
@@ -76,7 +75,7 @@ public class SuggestsPresenterTest {
 
         verify(view, never()).showError(any());
         verifyZeroInteractions(citySuggest);
-        verifyZeroInteractions(fetchCityCoords);
+        verifyZeroInteractions(fetchCityCoordsInteractor);
     }
 
     @Test
@@ -90,7 +89,7 @@ public class SuggestsPresenterTest {
         verify(view, never()).setData(any());
 
         verifyZeroInteractions(citySuggest);
-        verifyZeroInteractions(fetchCityCoords);
+        verifyZeroInteractions(fetchCityCoordsInteractor);
     }
 
     @Test

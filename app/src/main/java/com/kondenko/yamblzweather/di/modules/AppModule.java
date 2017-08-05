@@ -53,6 +53,7 @@ public class AppModule {
 
 
     @Provides
+    @Singleton
     LocationProvider provideLocationStore(Context context) {
         return new SharedPrefsLoactionProvider(context);
     }
