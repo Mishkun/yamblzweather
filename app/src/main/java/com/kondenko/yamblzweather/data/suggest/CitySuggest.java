@@ -15,7 +15,7 @@ public class CitySuggest implements Parcelable{
     @SerializedName("predictions")
     private List<PredictionResponse> predictionResponses;
 
-    protected CitySuggest(Parcel in) {
+    private CitySuggest(Parcel in) {
         predictionResponses = in.createTypedArrayList(PredictionResponse.CREATOR);
     }
 

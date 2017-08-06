@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 
 public class WeatherActivity
-        extends BaseMvpActivity<Weather, WeatherPresenter>
+        extends BaseMvpActivity<WeatherViewModel, WeatherPresenter>
         implements WeatherView {
 
     private static final java.lang.String TAG = "WeatherActivity";
@@ -115,12 +115,12 @@ public class WeatherActivity
     }
 
     @Override
-    public void setData(Weather weather) {
+    public void setData(WeatherViewModel weather) {
         super.setData(weather);
         showCity(weather.city().name());
-        showTemperature(weather.temperature().celsiusDegrees(), "C°");
-        showCondition(weather.weatherConditions());
-        showWindSpeed(weather.windSpeed());
+        showTemperature(weather.weather().temperature().celsiusDegrees(), "C°");
+        showCondition(weather.weather().weatherConditions());
+        showWindSpeed(weather.weather().windSpeed());
     }
 
     @Override

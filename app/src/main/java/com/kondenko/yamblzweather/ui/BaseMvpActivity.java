@@ -8,7 +8,7 @@ public abstract class BaseMvpActivity<M extends Parcelable, P extends BasePresen
         extends BaseActivity implements BaseView<M> {
 
     private static final String KEY_MODEL = "model";
-    protected M data;
+    private M data;
     protected P presenter;
 
     @Override

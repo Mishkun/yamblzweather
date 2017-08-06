@@ -15,7 +15,6 @@ public abstract class Weather implements Parcelable {
 
     public abstract long timestamp();
 
-    public abstract City city();
 
     public abstract WeatherConditions weatherConditions();
 
@@ -29,7 +28,6 @@ public abstract class Weather implements Parcelable {
 
     @AutoValue.Builder
     public static abstract class Builder {
-        public abstract Builder city(City city);
 
         public abstract Builder timestamp(long timestamp);
 

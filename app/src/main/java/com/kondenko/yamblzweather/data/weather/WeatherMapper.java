@@ -9,13 +9,25 @@ import com.kondenko.yamblzweather.domain.entity.WeatherConditions;
  */
 
 class WeatherMapper {
-    static Weather.Builder responseToDomain(WeatherModel weatherModel) {
-        return Weather.builder()
-                      .humidity(weatherModel.getMain().getHumidity())
-                      .pressure(hPaToMmHg(weatherModel.getMain().getPressure()))
-                      .temperature(Temperature.valueOfKelvin(weatherModel.getMain().getTemp()))
-                      .windSpeed(weatherModel.getWind().getSpeed())
-                      .weatherConditions(codeToCondition(weatherModel.getWeatherCondition().get(0).getId()));
+    static WeatherEntity responseToWeatherdb(WeatherModel weatherModel) {
+        WeatherEntity weatherEntity = new WeatherEntity();
+        weatherEntity.setHumidity(weatherModel.getMain().getHumidity());
+        weatherEntity.setPressure(weatherModel.getMain().getPressure());
+        weatherEntity.setTemperature(weatherModel.getMain().getTemp());
+        weatherEntity.setWindSpeed(weatherModel.getWind().getSpeed());
+        weatherEntity.setWeatherConditionCode(weatherModel.getWeatherCondition().get(0).getId());
+        return weatherEntity;
+    }
+
+    static WeatherForecastEntity responseToWeatherForecastdb(WeatherModel weatherModel) {
+        WeatherForecastEntity weatherEntity = new WeatherForecastEntity();
+        weatherEntity.setHumidity(weatherModel.getMain().getHumidity());
+        weatherEntity.setPressure(weatherModel.getMain().getPressure());
+        weatherEntity.setTemperature(weatherModel.getMain().getTemp());
+        weatherEntity.setWindSpeed(weatherModel.getWind().getSpeed());
+        weatherEntity.setTimestamp(weatherModel.getDt());
+        weatherEntity.setWeatherConditionCode(weatherModel.getWeatherCondition().get(0).getId());
+        return weatherEntity;
     }
 
     // function to convert hectopascal to millimeter mercury. Formula from here: http://www.convertunits.com/from/mm+Hg/to/hPa
@@ -41,5 +53,28 @@ class WeatherMapper {
         } else {
             return WeatherConditions.CLEAR;
         }
+    }
+
+
+    static Weather dbToDomain(WeatherForecastEntity weatherForecastEntity) {
+        return Weather.builder()
+                      .timestamp(weatherForecastEntity.getTimestamp())
+                      .temperature(Temperature.valueOfKelvin(weatherForecastEntity.getTemperature()))
+                      .weatherConditions(codeToCondition(weatherForecastEntity.getWeatherConditionCode()))
+                      .pressure(weatherForecastEntity.getPressure())
+                      .humidity(weatherForecastEntity.getHumidity())
+                      .windSpeed(weatherForecastEntity.getWindSpeed())
+                      .build();
+    }
+
+    static Weather dbToDomain(WeatherEntity weatherEntity) {
+        return Weather.builder()
+                      .timestamp(weatherEntity.getTimestamp())
+                      .temperature(Temperature.valueOfKelvin(weatherEntity.getTemperature()))
+                      .weatherConditions(codeToCondition(weatherEntity.getWeatherConditionCode()))
+                      .pressure(weatherEntity.getPressure())
+                      .humidity(weatherEntity.getHumidity())
+                      .windSpeed(weatherEntity.getWindSpeed())
+                      .build();
     }
 }

@@ -16,4 +16,5 @@ class CityMapper {
                                     .build();
         return City.create(location, citySearchResult.getResult().getName(), citySearchResult.getResult().getId());
     }
+
 }

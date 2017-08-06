@@ -2,7 +2,6 @@ package com.kondenko.yamblzweather.ui.citysuggest;
 
 import com.kondenko.yamblzweather.domain.usecase.FetchCityCoordsInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCitySuggestsInteractor;
-import com.kondenko.yamblzweather.domain.usecase.SetCurrentCityInteractor;
 import com.kondenko.yamblzweather.ui.BasePresenter;
 
 import javax.inject.Inject;
@@ -16,14 +15,12 @@ import io.reactivex.BackpressureStrategy;
 public class SuggestsPresenter extends BasePresenter<SuggestsView> {
     private static final String TAG = SuggestsPresenter.class.getSimpleName();
     private final GetCitySuggestsInteractor getCitySuggestsInteractor;
-    private final SetCurrentCityInteractor setCurrentCityInteractor;
     private final FetchCityCoordsInteractor fetchCityCoordsInteractor;
 
     @Inject
-    SuggestsPresenter(GetCitySuggestsInteractor interactor, FetchCityCoordsInteractor fetchCityCoordsInteractor, SetCurrentCityInteractor setCurrentCityInteractor) {
+    SuggestsPresenter(GetCitySuggestsInteractor interactor, FetchCityCoordsInteractor fetchCityCoordsInteractor) {
         this.fetchCityCoordsInteractor = fetchCityCoordsInteractor;
         this.getCitySuggestsInteractor = interactor;
-        this.setCurrentCityInteractor = setCurrentCityInteractor;
     }
 
     @Override
@@ -51,17 +48,17 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
             );
         view.getClicks()
             .compose(bindToLifecycle())
-            .flatMapSingle(fetchCityCoordsInteractor::run)
-            .flatMapCompletable(city -> setCurrentCityInteractor.run(city).doOnComplete(() -> {
-                if (isViewAttached()) {
-                    getView().finishScreen();
-                }
-            }))
+            .flatMapCompletable(prediction -> fetchCityCoordsInteractor.run(prediction)
+                                                                  .doOnComplete(() -> {
+                                                                      if (isViewAttached()) {
+                                                                          getView().finishScreen();
+                                                                      }
+                                                                  }))
             .doOnError(error -> {
                 if (isViewAttached()) getView().showError(
                         error);
             })
-            .retryWhen((error) -> view.getClicks().toFlowable(BackpressureStrategy.DROP))
+            .retryWhen((error) -> view.getClicks().toFlowable(BackpressureStrategy.BUFFER))
             .subscribe();
     }
 

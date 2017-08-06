@@ -1,32 +1,19 @@
 package com.kondenko.yamblzweather.ui.weather;
 
-import com.kondenko.yamblzweather.Const;
-import com.kondenko.yamblzweather.data.suggest.CityResponse;
-import com.kondenko.yamblzweather.data.suggest.Coord;
 import com.kondenko.yamblzweather.data.weather.WeatherModel;
 import com.kondenko.yamblzweather.data.weather.WeatherService;
 import com.kondenko.yamblzweather.domain.guards.LocationProvider;
-import com.kondenko.yamblzweather.domain.usecase.GetCurrentWeatherInteractor;
 import com.kondenko.yamblzweather.infrastructure.SettingsManager;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Single;
-import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
 
-import static org.mockito.Matchers.anyFloat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by Mishkun on 24.07.2017.

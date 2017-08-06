@@ -18,7 +18,7 @@ import io.reactivex.subjects.BehaviorSubject;
 public abstract class BasePresenter<V extends BaseView>
         implements LifecycleProvider<Integer> {
 
-    protected final BehaviorSubject<Integer> lifecycleSubject = BehaviorSubject.create();
+    private final BehaviorSubject<Integer> lifecycleSubject = BehaviorSubject.create();
 
     private WeakReference<V> viewReference;
 

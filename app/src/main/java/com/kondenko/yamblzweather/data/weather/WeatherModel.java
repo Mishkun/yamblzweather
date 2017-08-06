@@ -88,6 +88,14 @@ public class WeatherModel {
 
     }
 
+    public long getDt() {
+        return dt;
+    }
+
+    @SerializedName("dt")
+    private long dt;
+
+
     public static class Sys {
 
         @SerializedName("type")

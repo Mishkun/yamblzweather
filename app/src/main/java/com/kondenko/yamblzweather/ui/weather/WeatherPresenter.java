@@ -30,12 +30,12 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     public void attachView(WeatherView view) {
         super.attachView(view);
         currentWeatherInteractor.run()
+                                .flatMapSingle(weather ->  getCurrentCityInteractor.run().map(city -> WeatherViewModel.create(weather,city)))
                                 .compose(bindToLifecycle())
-                                .doOnNext((weather -> Log.d(TAG, "OnNext:" + weather.toString())))
                                 .subscribe(result -> {
                                     if (isViewAttached()) {
                                         getView().setData(result);
-                                        showUpdateTime(result.timestamp());
+                                        showUpdateTime(result.weather().timestamp());
                                     }
                                 });
     }
@@ -45,12 +45,13 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
         getCurrentCityInteractor.run()
                                 .flatMapCompletable(updateWeatherInteractor::run)
                                 .doFinally(() -> {
-                             if (isViewAttached()) getView().showLoading(false);
-                         })
-                                .compose(bindToLifecycle())
+                                    if (isViewAttached()) getView().showLoading(false);
+                                })
                                 .doOnError(error -> {
-                             if (isViewAttached()) getView().showError(error);
-                         })
+                                    if (isViewAttached()) getView().showError(error);
+                                })
+                                .onErrorComplete()
+                                .compose(bindToLifecycle())
                                 .subscribe();
     }
 

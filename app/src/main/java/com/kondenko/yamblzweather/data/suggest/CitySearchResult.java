@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class CitySearchResult {
 
     @SerializedName("result")
+    private
     Result result;
 
     public Result getResult() {
