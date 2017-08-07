@@ -1,6 +1,7 @@
 package com.kondenko.yamblzweather.domain.entity;
 
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.auto.value.AutoValue;
 
@@ -9,7 +10,8 @@ import com.google.auto.value.AutoValue;
  */
 @AutoValue
 abstract public class City implements Parcelable{
-    public static City create(Location location, String name, String id) {
+    @NonNull
+    public static City create(@NonNull Location location,@NonNull String name,@NonNull String id) {
         return new AutoValue_City(location, name, id);
     }
 

@@ -1,6 +1,7 @@
 package com.kondenko.yamblzweather.domain.entity;
 
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.auto.value.AutoValue;
 
@@ -9,6 +10,7 @@ import com.google.auto.value.AutoValue;
  */
 @AutoValue
 public abstract class Weather implements Parcelable {
+    @NonNull
     public static Builder builder() {
         return new AutoValue_Weather.Builder();
     }
@@ -31,13 +33,13 @@ public abstract class Weather implements Parcelable {
 
         public abstract Builder timestamp(long timestamp);
 
-        public abstract Builder temperature(Temperature temperature);
+        public abstract Builder temperature(@NonNull Temperature temperature);
 
         public abstract Builder humidity(double humidity);
 
         public abstract Builder windSpeed(double windSpeed);
 
-        public abstract Builder weatherConditions(WeatherConditions weatherConditions);
+        public abstract Builder weatherConditions(@NonNull WeatherConditions weatherConditions);
 
         public abstract Builder pressure(double pressure);
 

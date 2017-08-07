@@ -1,7 +1,5 @@
 package com.kondenko.yamblzweather.ui.weather;
 
-import android.util.Log;
-
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentWeatherInteractor;
 import com.kondenko.yamblzweather.domain.usecase.UpdateWeatherInteractor;
@@ -30,7 +28,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     public void attachView(WeatherView view) {
         super.attachView(view);
         currentWeatherInteractor.run()
-                                .flatMapSingle(weather ->  getCurrentCityInteractor.run().map(city -> WeatherViewModel.create(weather,city)))
+                                .flatMapMaybe(weather -> getCurrentCityInteractor.run().map(city -> WeatherViewModel.create(weather, city)))
                                 .compose(bindToLifecycle())
                                 .subscribe(result -> {
                                     if (isViewAttached()) {
@@ -39,6 +37,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
                                     }
                                 });
     }
+
 
     void updateData() {
         if (isViewAttached()) getView().showLoading(true);

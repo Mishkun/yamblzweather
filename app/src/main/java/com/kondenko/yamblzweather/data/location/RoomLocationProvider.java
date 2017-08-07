@@ -8,6 +8,7 @@ import com.kondenko.yamblzweather.domain.guards.LocationProvider;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -24,7 +25,7 @@ public class RoomLocationProvider implements LocationProvider {
     }
 
     @Override
-    public Single<City> getCurrentCity() {
+    public Maybe<City> getCurrentCity() {
         return cityDao.getSelectedCity()
                       .map(CityMapper::dbToDomain);
     }

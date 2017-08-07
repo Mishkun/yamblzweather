@@ -6,6 +6,7 @@ import com.kondenko.yamblzweather.domain.guards.LocationProvider;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
@@ -29,7 +30,7 @@ public class GetCurrentCityInteractor {
         this.uiScheduler = uiScheduler;
     }
 
-    public Single<City> run() {
+    public Maybe<City> run() {
         return locationProvider.getCurrentCity()
                                .subscribeOn(jobScheduler)
                                .observeOn(uiScheduler);

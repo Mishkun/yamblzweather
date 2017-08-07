@@ -30,7 +30,7 @@ public class GetFavoredCitiesInteractor {
         this.uiScheduler = uiScheduler;
     }
 
-    private Single<List<City>> run() {
+    public Single<List<City>> run() {
         return locationProvider.getFavoriteCities()
                                .subscribeOn(jobScheduler)
                                .observeOn(uiScheduler);

@@ -6,11 +6,13 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.kondenko.yamblzweather.R;
+import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Prediction;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.utils.Logger;
@@ -35,7 +37,11 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
     @BindView(R.id.suggests_view)
     RecyclerView suggestsView;
 
+    @BindView(R.id.cities_view)
+    RecyclerView citiesView;
+
     private SuggestsAdapter suggestsAdapter;
+    private CitiesAdapter citiesAdapter;
 
     @Inject
     public void Inject(SuggestsPresenter presenter) {
@@ -50,6 +56,13 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
         AndroidInjection.inject(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setToolbar(toolbar, true);
+
+        citiesAdapter = new CitiesAdapter(this, new ArrayList<>());
+        citiesView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        citiesView.setAdapter(citiesAdapter);
+        citiesView.setHasFixedSize(true);
+        citiesView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
         suggestsAdapter = new SuggestsAdapter(new ArrayList<>());
         suggestsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         suggestsView.setAdapter(suggestsAdapter);
@@ -60,7 +73,15 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
     @Override
     public void setData(SuggestsViewModel data) {
         super.setData(data);
-        suggestsAdapter.setData(data.predictions());
+        if (data.cities().isEmpty()) {
+            citiesView.setVisibility(View.GONE);
+            suggestsView.setVisibility(View.VISIBLE);
+            suggestsAdapter.setPredictions(data.predictions());
+        } else {
+            suggestsView.setVisibility(View.GONE);
+            citiesView.setVisibility(View.VISIBLE);
+            citiesAdapter.setCities(data.cities(), data.selectedCity());
+        }
     }
 
     @Override
@@ -80,12 +101,22 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
 
     @Override
     public Observable<String> getCityNamesStream() {
-        return RxTextView.textChanges(searchField).skipInitialValue().map(CharSequence::toString);
+        return RxTextView.textChanges(searchField).map(CharSequence::toString).map(String::trim);
     }
 
     @Override
-    public Observable<Prediction> getClicks() {
+    public Observable<Prediction> getSuggestsClicks() {
         return suggestsAdapter.getItemClicks();
+    }
+
+    @Override
+    public Observable<City> getCitiesClicks() {
+        return citiesAdapter.getItemClicks();
+    }
+
+    @Override
+    public Observable<City> getCitiesDeletionsClicks() {
+        return citiesAdapter.getDeletionClicks();
     }
 
     @Override

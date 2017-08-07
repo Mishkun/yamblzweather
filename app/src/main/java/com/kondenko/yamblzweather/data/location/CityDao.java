@@ -8,6 +8,7 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
@@ -30,7 +31,7 @@ public interface CityDao {
     void setSelectedCity(String place_id);
 
     @Query("SELECT * FROM city WHERE selected = 1 LIMIT 1")
-    Single<CityEntity> getSelectedCity();
+    Maybe<CityEntity> getSelectedCity();
 
     @Query("SELECT * FROM city")
     Single<List<CityEntity>> getCities();
