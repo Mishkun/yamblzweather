@@ -20,4 +20,9 @@ abstract public class City implements Parcelable{
     public abstract String name();
 
     public abstract String id();
+
+    @Override
+    public String toString(){
+        return name();
+    }
 }

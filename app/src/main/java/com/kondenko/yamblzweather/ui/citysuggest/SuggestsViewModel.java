@@ -2,6 +2,7 @@ package com.kondenko.yamblzweather.ui.citysuggest;
 
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 import com.kondenko.yamblzweather.domain.entity.City;
@@ -18,15 +19,12 @@ import java.util.List;
 abstract class SuggestsViewModel implements Parcelable {
     abstract List<Prediction> predictions();
     abstract List<City> cities();
+    @Nullable
     abstract City selectedCity();
 
     @NonNull
     static SuggestsViewModel createWithPredictions(@NonNull List<Prediction> predictions) {
-        return new AutoValue_SuggestsViewModel(predictions, new ArrayList<>(), defaultCity());
-    }
-
-    private static City defaultCity() {
-        return City.create(Location.builder().longitude(0).latitude(0).build(), "ID", "name");
+        return new AutoValue_SuggestsViewModel(predictions, new ArrayList<>(), null);
     }
 
     @NonNull

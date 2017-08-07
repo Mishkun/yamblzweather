@@ -9,32 +9,38 @@ import android.text.Spannable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
+import com.jakewharton.rxbinding2.widget.RxAdapter;
+import com.jakewharton.rxbinding2.widget.RxAdapterView;
 import com.kondenko.yamblzweather.R;
-import com.kondenko.yamblzweather.domain.entity.Weather;
+import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.WeatherConditions;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.ui.about.AboutActivity;
-import com.kondenko.yamblzweather.ui.citysuggest.SuggestsActivity;
 import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
 import com.kondenko.yamblzweather.utils.Logger;
 import com.kondenko.yamblzweather.utils.WeatherUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
+import io.reactivex.Observable;
 
 public class WeatherActivity
         extends BaseMvpActivity<WeatherViewModel, WeatherPresenter>
         implements WeatherView {
 
     private static final java.lang.String TAG = "WeatherActivity";
+    private ArrayAdapter<City> spinnerAdapter;
 
     @Inject
     public void Inject(WeatherPresenter presenter){
@@ -42,7 +48,7 @@ public class WeatherActivity
     }
 
     @BindView(R.id.weather_button_city)
-    public Button buttonCity;
+    public Spinner spinnerCity;
 
     @BindView(R.id.weather_text_temperature)
     public TextView textTemperature;
@@ -84,7 +90,10 @@ public class WeatherActivity
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayShowTitleEnabled(false);
         refreshLayout.setOnRefreshListener(presenter::updateData);
-        buttonCity.setOnClickListener((v) -> startActivity(new Intent(this, SuggestsActivity.class)));
+        //spinnerCity.setOnClickListener((v) -> startActivity(new Intent(this, SuggestsActivity.class)));
+
+        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        spinnerCity.setAdapter(spinnerAdapter);
     }
 
 
@@ -117,10 +126,17 @@ public class WeatherActivity
     @Override
     public void setData(WeatherViewModel weather) {
         super.setData(weather);
-        showCity(weather.city().name());
+        showCityList(weather.cities().cities(), weather.city());
         showTemperature(weather.weather().temperature().celsiusDegrees(), "C°");
         showCondition(weather.weather().weatherConditions());
         showWindSpeed(weather.weather().windSpeed());
+    }
+
+    private void showCityList(List<City> cities, City city) {
+        spinnerAdapter.clear();
+        spinnerAdapter.addAll(cities);
+        spinnerAdapter.notifyDataSetChanged();
+        spinnerCity.setSelection(cities.indexOf(city));
     }
 
     @Override
@@ -155,17 +171,15 @@ public class WeatherActivity
         textWindSpeed.setText(windSpeed);
     }
 
-    // STOPSHIP
-    // Only for task #2
-    private void showCity(String city) {
-        Log.d(TAG, city);
-        buttonCity.setText(city);
-    }
-
     @Override
     public void showLatestUpdate(String latestUpdateTime) {
         String latestUpdateTimeString = getString(R.string.weather_latest_update_time_value, latestUpdateTime);
         textLatestUpdate.setText(latestUpdateTimeString);
+    }
+
+    @Override
+    public Observable<City> getCitySelections() {
+        return RxAdapterView.itemSelections(spinnerCity).skipInitialValue().map(spinnerAdapter::getItem).distinctUntilChanged();
     }
 
 }

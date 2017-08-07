@@ -10,6 +10,7 @@
         <item name="android:background">@drawable/backgound_weather_button_city</item>
     </style>
 
+
     <style name="App.Weather.Text.DisplayValue.Primary" parent="AppTheme">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display4</item>
         <item name="android:textStyle">bold</item>
