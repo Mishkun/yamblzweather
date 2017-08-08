@@ -61,6 +61,7 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setTitle(R.string.title_suggests);
             actionBar.setDisplayShowHomeEnabled(false);
         }
 

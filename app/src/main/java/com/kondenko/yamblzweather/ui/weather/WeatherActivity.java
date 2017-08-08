@@ -81,9 +81,8 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayShowTitleEnabled(false);
         refreshLayout.setOnRefreshListener(presenter::updateData);
-        //spinnerCity.setOnClickListener((v) -> startActivity(new Intent(this, SuggestsActivity.class)));
 
-        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
         spinnerAdapter.add(getCityEditorObject());
         spinnerCity.setAdapter(spinnerAdapter);
     }
