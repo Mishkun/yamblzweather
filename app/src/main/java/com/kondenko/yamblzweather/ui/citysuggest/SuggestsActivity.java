@@ -2,10 +2,12 @@ package com.kondenko.yamblzweather.ui.citysuggest;
 
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -55,7 +57,12 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
         ButterKnife.bind(this);
         AndroidInjection.inject(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setToolbar(toolbar, true);
+        setToolbar(toolbar, false);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false);
+        }
 
         citiesAdapter = new CitiesAdapter(this, new ArrayList<>());
         citiesView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -73,14 +80,25 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
     @Override
     public void setData(SuggestsViewModel data) {
         super.setData(data);
-        if (data.cities().isEmpty()) {
-            citiesView.setVisibility(View.GONE);
-            suggestsView.setVisibility(View.VISIBLE);
-            suggestsAdapter.setPredictions(data.predictions());
-        } else {
+        if (data.predictions().isEmpty() && !data.cities().isEmpty()) {
             suggestsView.setVisibility(View.GONE);
             citiesView.setVisibility(View.VISIBLE);
             citiesAdapter.setCities(data.cities(), data.selectedCity());
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayShowHomeEnabled(true);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        } else if (!data.predictions().isEmpty()) {
+            citiesView.setVisibility(View.GONE);
+            suggestsView.setVisibility(View.VISIBLE);
+            suggestsAdapter.setPredictions(data.predictions());
+        }else {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(false);
+                actionBar.setDisplayShowHomeEnabled(false);
+            }
         }
     }
 
@@ -112,6 +130,12 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
     @Override
     public Observable<City> getCitiesClicks() {
         return citiesAdapter.getItemClicks();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d(TAG, "onStop");
+        super.onStop();
     }
 
     @Override

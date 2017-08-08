@@ -32,9 +32,12 @@ public class DeleteCityInteractor extends BaseInteractor {
 
     public Completable run(City city) {
         return locationProvider.getCurrentCity()
-                               .flatMapCompletable(currentCity -> !currentCity.equals(city)
-                                       ? locationProvider.deleteFavoriteCity(city)
-                                       : Completable.complete())
+                               .flatMapCompletable(currentCity -> !currentCity.equals(city) ? locationProvider.deleteFavoriteCity(
+                                       city) : locationProvider.deleteFavoriteCity(city)
+                                                               .andThen(locationProvider.getFavoriteCities()
+                                                                                        .flatMapCompletable(
+                                                                                                cities -> locationProvider.setCurrentCity(cities.get(
+                                                                                                        0)))))
                                .subscribeOn(jobScheduler)
                                .observeOn(uiScheduler);
     }

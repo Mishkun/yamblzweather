@@ -74,8 +74,7 @@ class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> {
 
     @Override
     public CitiesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                                  .inflate(R.layout.item_city_favorite, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_city_favorite, parent, false);
         return new CitiesAdapter.ViewHolder(view);
     }
 
@@ -85,10 +84,13 @@ class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> {
         holder.textView.setText(citiesList.get(position).name());
         if (position == selectedCity) {
             holder.textView.setTextColor(selectedColor);
+        } else {
+            holder.textView.setTextColor(plainColor);
+        }
+        if (citiesList.size() <= 1) {
             holder.button.setVisibility(View.GONE);
         } else {
             holder.button.setVisibility(View.VISIBLE);
-            holder.textView.setTextColor(plainColor);
         }
         final City element = citiesList.get(position);
         holder.itemView.setOnClickListener(v -> onClickSubject.onNext(element));
