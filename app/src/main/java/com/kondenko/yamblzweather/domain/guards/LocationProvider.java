@@ -2,7 +2,12 @@ package com.kondenko.yamblzweather.domain.guards;
 
 import com.kondenko.yamblzweather.domain.entity.City;
 
+import java.util.List;
+
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 /**
@@ -10,7 +15,14 @@ import io.reactivex.Single;
  */
 
 public interface LocationProvider {
-    Single<City> getCurrentCity();
+    Maybe<City> getCurrentCity();
 
     Completable setCurrentCity(City city);
+
+    Completable addFavoredCity(City city);
+
+    Single<List<City>> getFavoriteCities();
+
+    Completable deleteFavoriteCity(City city);
+
 }

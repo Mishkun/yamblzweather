@@ -1,6 +1,7 @@
 package com.kondenko.yamblzweather.domain.entity;
 
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.auto.value.AutoValue;
 
@@ -9,6 +10,7 @@ import com.google.auto.value.AutoValue;
  */
 @AutoValue
 public abstract class Temperature implements Parcelable{
+    @NonNull
     public static Temperature valueOfKelvin(double kelvin) {
         return new AutoValue_Temperature(kelvin);
     }

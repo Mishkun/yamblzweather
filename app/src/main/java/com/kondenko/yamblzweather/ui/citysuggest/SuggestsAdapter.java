@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kondenko.yamblzweather.R;
+import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Prediction;
 
 import java.util.List;
@@ -25,7 +26,7 @@ class SuggestsAdapter extends RecyclerView.Adapter<SuggestsAdapter.ViewHolder> {
     private final SortedList<Prediction> predictionList;
     private PublishSubject<Prediction> onClickSubject;
 
-    public SuggestsAdapter(List<Prediction> items) {
+    SuggestsAdapter(List<Prediction> items) {
         predictionList = new SortedList<>(Prediction.class, new SortedListAdapterCallback<Prediction>(this) {
             @Override
             public int compare(Prediction o1, Prediction o2) {
@@ -47,12 +48,13 @@ class SuggestsAdapter extends RecyclerView.Adapter<SuggestsAdapter.ViewHolder> {
     }
 
 
-    public void setData(List<Prediction> data) {
+    void setPredictions(List<Prediction> data) {
         predictionList.beginBatchedUpdates();
         predictionList.clear();
         predictionList.addAll(data);
         predictionList.endBatchedUpdates();
     }
+
 
     Observable<Prediction> getItemClicks() {
         return onClickSubject.hide();

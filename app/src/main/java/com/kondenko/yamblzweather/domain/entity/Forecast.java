@@ -1,5 +1,7 @@
 package com.kondenko.yamblzweather.domain.entity;
 
+import android.support.annotation.NonNull;
+
 import com.google.auto.value.AutoValue;
 
 import java.util.List;
@@ -11,7 +13,8 @@ import java.util.List;
 public abstract class Forecast {
     public abstract List<Weather> weatherList();
 
-    public static Forecast create(List<Weather> forecast){
+    @NonNull
+    public static Forecast create(@NonNull List<Weather> forecast){
         return new AutoValue_Forecast(forecast);
     }
 }

@@ -1,12 +1,21 @@
 package com.kondenko.yamblzweather.ui.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.ui.BaseActivity;
+import com.kondenko.yamblzweather.ui.citysuggest.SuggestsActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SettingsActivity extends BaseActivity {
+
+    @BindView(R.id.settings_select_city)
+    TextView selectCityTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,6 +23,10 @@ public class SettingsActivity extends BaseActivity {
         setContentView(R.layout.layout_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setToolbar(toolbar, true);
+
+        ButterKnife.bind(this);
+        selectCityTextView.setOnClickListener(v -> startActivity(new Intent(this, SuggestsActivity.class)));
+
         getFragmentManager().beginTransaction()
                 .replace(R.id.settings_container, new SettingsFragment())
                 .commit();

@@ -42,7 +42,7 @@ class UpdateWeatherJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        getCurrentCityInteractor.run().flatMapCompletable(updateWeatherInteractor::run);
+        getCurrentCityInteractor.run().flatMapCompletable(updateWeatherInteractor::run).onErrorComplete().subscribe();
         return Result.SUCCESS;
 
     }

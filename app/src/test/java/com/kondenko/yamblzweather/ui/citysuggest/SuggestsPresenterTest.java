@@ -96,7 +96,7 @@ public class SuggestsPresenterTest {
     public void shouldCheckCityAndFinishFragment() throws Exception {
 
 
-        verify(view, atLeastOnce()).getClicks();
+        verify(view, atLeastOnce()).getSuggestsClicks();
 
         clicksSubject.onNext(predictionResponse);
 

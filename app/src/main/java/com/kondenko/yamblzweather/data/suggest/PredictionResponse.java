@@ -11,8 +11,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class PredictionResponse implements Parcelable{
     @SerializedName("description")
+    private
     String place;
     @SerializedName("place_id")
+    private
     String id;
 
     public PredictionResponse(){
@@ -24,7 +26,7 @@ public class PredictionResponse implements Parcelable{
         place = description;
         id = placeId;
     }
-    protected PredictionResponse(Parcel in) {
+    private PredictionResponse(Parcel in) {
         place = in.readString();
         id = in.readString();
     }

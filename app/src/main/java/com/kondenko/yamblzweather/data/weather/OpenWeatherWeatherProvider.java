@@ -2,13 +2,9 @@ package com.kondenko.yamblzweather.data.weather;
 
 import android.util.Log;
 
-import com.jakewharton.rxrelay2.BehaviorRelay;
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Forecast;
-import com.kondenko.yamblzweather.domain.entity.Location;
-import com.kondenko.yamblzweather.domain.entity.Temperature;
 import com.kondenko.yamblzweather.domain.entity.Weather;
-import com.kondenko.yamblzweather.domain.entity.WeatherConditions;
 import com.kondenko.yamblzweather.domain.guards.WeatherProvider;
 
 import java.util.Date;
@@ -17,7 +13,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * Created by Mishkun on 04.08.2017.
@@ -26,67 +21,73 @@ import io.reactivex.subjects.BehaviorSubject;
 public class OpenWeatherWeatherProvider implements WeatherProvider {
     private static final String TAG = OpenWeatherWeatherProvider.class.getSimpleName();
     private final WeatherService weatherService;
-    private final BehaviorSubject<Weather> weatherBehaviorSubject;
-    private final BehaviorSubject<Forecast> forecastBehaviorSubject;
+
+    private final WeatherDao weatherDao;
+    private final ForecastDao forecastDao;
 
     @Inject
-    OpenWeatherWeatherProvider(WeatherService weatherService) {
+    OpenWeatherWeatherProvider(WeatherService weatherService, WeatherDao weatherDao, ForecastDao forecastDao) {
         this.weatherService = weatherService;
-        weatherBehaviorSubject = BehaviorSubject.create();
-        forecastBehaviorSubject = BehaviorSubject.create();
-        weatherBehaviorSubject.onNext(getDefaultWeather());
+        this.weatherDao = weatherDao;
+        this.forecastDao = forecastDao;
     }
 
-    private Weather getDefaultWeather(){
-        return Weather.builder()
-                      .timestamp(new Date().getTime())
-                      .city(City.create(Location.builder().latitude(0).longitude(0).build(), "ABC", "ID"))
-                      .weatherConditions(WeatherConditions.CLEAR)
-                      .humidity(0)
-                      .pressure(0)
-                      .temperature(Temperature.valueOfKelvin(0))
-                      .windSpeed(0)
-                      .build();
-    }
 
     @Override
     public Observable<Weather> getWeatherSubscription() {
-        return weatherBehaviorSubject.doOnNext(weather -> Log.d(TAG, "gotWeatherSubscription"));
+        return weatherDao.getWeather()
+                         .map(WeatherMapper::dbToDomain)
+                         .doOnNext(weather -> Log.d(TAG, weather.toString()))
+                         .toObservable();
     }
 
     @Override
     public Observable<Forecast> getForecastSubscription() {
-        return forecastBehaviorSubject;
+        return forecastDao.getForecastEntity()
+                          .flatMapSingle(forecastEntity -> forecastDao.getWeatherForecasts(forecastEntity.getTimestamp())
+                                                                      .flatMap(weatherForecastEntities ->
+                                                                                       Observable.fromIterable(weatherForecastEntities)
+                                                                                                 .map(WeatherMapper::dbToDomain)
+                                                                                                 .toList()))
+                          .map(Forecast::create)
+                          .toObservable();
     }
 
     @Override
     public Completable update(City city) {
-        return Completable.mergeArray(updateWeather(city), updateForecast(city))
-                ;
+        return Completable.mergeArray(updateWeather(city), updateForecast(city));
     }
 
     private Completable updateForecast(City city) {
         return weatherService.getForecast(city.location().latitude(), city.location().longitude())
                              .map(ForecastResponse::getList)
-                             .flatMapObservable(Observable::fromIterable)
-                             .map(WeatherMapper::responseToDomain)
-                             .map(builder -> builder.city(city)
-                                                    .timestamp(new Date().getTime())
-                                                    .build())
-                             .toList()
-                             .map(Forecast::create)
-                             .doOnSuccess(forecastBehaviorSubject::onNext)
+                             .doOnSuccess(ignore -> {
+                                 ForecastEntity forecastEntity = new ForecastEntity();
+                                 forecastEntity.setPlace_id(city.id());
+                                 forecastEntity.setTimestamp(new Date().getTime());
+                                 forecastDao.insertAllForecasts(forecastEntity);
+                             })
+                             .flatMap(weatherModels -> Observable.fromIterable(weatherModels)
+                                                                 .map(WeatherMapper::responseToWeatherForecastdb)
+                                                                 .map(weatherForecastEntity -> {
+                                                                     weatherForecastEntity.setForecast(city.id());
+                                                                     return weatherForecastEntity;
+                                                                 })
+                                                                 .toList())
+                             .doOnSuccess(forecastDao::insertAllWeatherForecasts)
                              .toCompletable();
     }
 
+
     private Completable updateWeather(City city) {
         return weatherService.getWeather(city.location().latitude(), city.location().longitude())
-                             .map(WeatherMapper::responseToDomain)
-                             .map(builder -> builder.city(city)
-                                                    .timestamp(new Date().getTime())
-                                                    .build())
-                             .doOnSuccess(weather -> weatherBehaviorSubject.onNext(weather))
-                             .doOnSuccess(weather -> Log.d(TAG, "updateWeather" + weather))
+                             .map(WeatherMapper::responseToWeatherdb)
+                             .map(weatherEntity -> {
+                                 weatherEntity.setPlace_id(city.id());
+                                 weatherEntity.setTimestamp(new Date().getTime());
+                                 return weatherEntity;
+                             })
+                             .doOnSuccess(weatherDao::insertAllWeather)
                              .toCompletable();
     }
 }

@@ -1,6 +1,7 @@
 package com.kondenko.yamblzweather.domain.entity;
 
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.auto.value.AutoValue;
 
@@ -13,6 +14,7 @@ public abstract class Location implements Parcelable{
 
     public abstract double longitude();
 
+    @NonNull
     public static Builder builder() {
         return new AutoValue_Location.Builder();
     }

@@ -1,5 +1,5 @@
 package com.kondenko.yamblzweather.utils;
 
-public interface Function {
+interface Function {
     public void run();
 }

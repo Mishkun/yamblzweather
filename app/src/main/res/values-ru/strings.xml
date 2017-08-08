@@ -4,7 +4,7 @@
     <string name="title_about">О приложении</string>
     <string name="title_settings">Настройки</string>
     <string name="title_weather">Погода</string>
-    <string name="about_text">Мобилизация 2017 \n Владимир Конденко</string>
+    <string name="about_text">Мобилизация 2017 \n Владимир Конденко,\n Михаил Левченко</string>
     <string name="error_generic">Ошибка</string>
     <string name="error_loading_weather">Не удалось загрузить погоду</string>
     <string name="pref_title_refresh_rate">Обновлять каждые…</string>
@@ -22,4 +22,8 @@
     <string name="weather_temperature_header">Температура</string>
     <string name="weather_wind_speed_header">Ветер</string>
     <string name="weather_wind_speed_value">%.0f м/с</string>
+    <string name="delete_button">Удалить</string>
+    <string name="edit_city_list_button_text">Изменить город…</string>
+    <string name="error_loading_cities">Не удалось загрузить список городов…</string>
+    <string name="title_suggests">Выбор города</string>
 </resources>

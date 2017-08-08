@@ -44,6 +44,7 @@ ext {
     verAutoValue = "1.2"
     verRxRelay = "2.0.0"
     verAutoParcel = '0.2.5'
+    verRoom = "1.0.0-alpha5"
 }
 
 dependencies {
@@ -90,6 +91,12 @@ dependencies {
     compile "com.google.auto.value:auto-value:$verAutoValue"
     annotationProcessor "com.google.auto.value:auto-value:$verAutoValue"
     annotationProcessor "com.ryanharter.auto.value:auto-value-parcel:$verAutoParcel"
+
+    compile "android.arch.persistence.room:runtime:$verRoom"
+    annotationProcessor "android.arch.persistence.room:compiler:$verRoom"
+    compile "android.arch.persistence.room:rxjava2:$verRoom"
+
+    compile 'com.facebook.stetho:stetho:1.5.0'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.0.33-beta'

@@ -42,9 +42,8 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-        <Button
+        <Spinner
             android:id="@+id/weather_button_city"
-            style="@style/App.Weather.Button.City"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_weather_button_city"
             android:layout_gravity="center"
@@ -53,7 +52,6 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:padding="8dp"
             android:gravity="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

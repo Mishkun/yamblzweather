@@ -1,6 +1,5 @@
 package com.kondenko.yamblzweather.ui.citysuggest;
 
-import com.kondenko.yamblzweather.data.suggest.CityResponse;
 import com.kondenko.yamblzweather.data.suggest.CitySearchResult;
 import com.kondenko.yamblzweather.data.suggest.Coord;
 import com.kondenko.yamblzweather.data.suggest.PredictionResponse;
@@ -61,19 +60,7 @@ public class FetchCityCoordsInteractorTest {
 
     @Test
     public void shouldGetCityCoordinatesAndWrite() throws Exception {
-        CityResponse testCity = new CityResponse(coordinates, DESCRIPTION);
-        when(citiesSuggestService.getCityCoordinatesById(PLACE_ID)).thenReturn(Single.just(citySearchResult));
-        when(locationProvider.setCurrentCity(any())).thenReturn(Completable.complete());
-        ArgumentCaptor<CityResponse> cityArgumentCaptor = ArgumentCaptor.forClass(CityResponse.class);
 
-        testScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
-
-        verify(citiesSuggestService).getCityCoordinatesById(PLACE_ID);
-        verifyNoMoreInteractions(citiesSuggestService);
-        verifyNoMoreInteractions(locationProvider);
-
-        CityResponse cityResult = cityArgumentCaptor.getValue();
-        assertTrue(cityResult.equals(testCity));
     }
 
 }
