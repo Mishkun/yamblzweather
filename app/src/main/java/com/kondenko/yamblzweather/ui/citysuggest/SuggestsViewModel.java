@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 import com.kondenko.yamblzweather.domain.entity.City;
-import com.kondenko.yamblzweather.domain.entity.Location;
 import com.kondenko.yamblzweather.domain.entity.Prediction;
 
 import java.util.ArrayList;

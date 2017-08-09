@@ -16,9 +16,9 @@ class UpdateWeatherJob extends Job {
     static final String TAG = "UpdateWeatherJob";
 
     private final GetCurrentCityInteractor getCurrentCityInteractor;
-    private UpdateWeatherInteractor updateWeatherInteractor;
-    private SettingsManager settingsManager;
-    private String units;
+    private final UpdateWeatherInteractor updateWeatherInteractor;
+    private final SettingsManager settingsManager;
+    private final String units;
 
     @Inject
     UpdateWeatherJob(GetCurrentCityInteractor getCurrentCityInteractor, UpdateWeatherInteractor updateWeatherInteractor, SettingsManager settingsManager) {

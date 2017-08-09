@@ -20,6 +20,6 @@ public abstract class Const {
 
     public static final String ID_MOSCOW = "524901"; // STOPSHIP Task #2 only
 
-    public static int DEFAULT_CACHING_TIME_SECONDS = 60 * 10;
+    public static final int DEFAULT_CACHING_TIME_SECONDS = 60 * 10;
 
 }

@@ -1,6 +1,7 @@
 package com.kondenko.yamblzweather.utils.interceptors;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.utils.Utils;
@@ -18,8 +19,8 @@ import okhttp3.Response;
 
 public class CacheInterceptor implements Interceptor {
 
-    private Context context;
-    private int maxStaleSec;
+    private final Context context;
+    private final int maxStaleSec;
 
     @Inject
     public CacheInterceptor(Context context, Integer updateRateSec) {
@@ -28,7 +29,7 @@ public class CacheInterceptor implements Interceptor {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         CacheControl.Builder cacheControl = new CacheControl.Builder();
         if (Utils.isOnline(context)) {

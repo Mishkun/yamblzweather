@@ -5,7 +5,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 
 import com.kondenko.yamblzweather.R;
-import com.kondenko.yamblzweather.data.weather.WeatherModel;
 import com.kondenko.yamblzweather.domain.entity.WeatherConditions;
 
 import java.util.Collections;
@@ -39,7 +38,11 @@ public class WeatherUtils {
      * @return resource id of the icon
      */
     public static int getIconStringResource(WeatherConditions weatherCondition) {
-        return conditionsMap.getOrDefault(weatherCondition, R.string.wi_na);
+        Integer integer = conditionsMap.get(weatherCondition);
+        if (integer == null){
+            integer = R.string.wi_na;
+        }
+        return integer;
     }
 
     public static Spannable getTemperatureString(Context context, String temperature, String units) {

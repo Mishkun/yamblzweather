@@ -1,7 +1,5 @@
 package com.kondenko.yamblzweather.ui;
 
-import android.os.Parcelable;
-
 import com.kondenko.yamblzweather.utils.lifecycle.PresenterEvent;
 import com.kondenko.yamblzweather.utils.lifecycle.RxLifecyclePresenter;
 import com.trello.rxlifecycle2.LifecycleProvider;

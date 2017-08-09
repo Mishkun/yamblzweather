@@ -13,6 +13,7 @@ import com.kondenko.yamblzweather.ui.BasePresenter;
 import javax.inject.Inject;
 
 import io.reactivex.BackpressureStrategy;
+import io.reactivex.Maybe;
 
 /**
  * Created by Mishkun on 28.07.2017.
@@ -91,10 +92,9 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
             .compose(bindToLifecycle())
             .doOnNext((city) -> Log.d(TAG, city.toString()))
             .flatMapMaybe(city -> deleteCityInteractor.run(city)
-                                                      .andThen(getFavoredCitiesInteractor.run())
-                                                      .flatMapMaybe(cities -> getCurrentCityInteractor.run()
-                                                                                                      .map(selected -> SuggestsViewModel
-                                                                                                              .createWithCities(cities, selected))))
+                                                      .andThen(Maybe.zip(getFavoredCitiesInteractor.run().toMaybe(),
+                                                                         getCurrentCityInteractor.run(),
+                                                                         SuggestsViewModel::createWithCities)))
 
             .doOnError((error) -> Log.d(TAG, error.getMessage()))
             .retryWhen((ignore) -> view.getCitiesDeletionsClicks())

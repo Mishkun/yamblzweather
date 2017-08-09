@@ -15,8 +15,8 @@ public class SettingsManager {
 
     private static final String KEY_LATEST_UPDATE = "latestUpdate";
 
-    private Context context;
-    private SharedPreferences preferences;
+    private final Context context;
+    private final SharedPreferences preferences;
 
     public SettingsManager(Context context) {
         this.context = context;

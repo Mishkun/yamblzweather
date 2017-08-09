@@ -7,9 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
 
 import static com.kondenko.yamblzweather.Const.JOB;
 import static com.kondenko.yamblzweather.Const.UI;

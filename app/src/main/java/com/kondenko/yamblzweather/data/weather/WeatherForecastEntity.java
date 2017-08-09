@@ -3,19 +3,17 @@ package com.kondenko.yamblzweather.data.weather;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 /**
  * Created by Mishkun on 05.08.2017.
  */
-@Entity(tableName = "weather_forecast",foreignKeys = @ForeignKey(entity = ForecastEntity.class, parentColumns = "city", childColumns = "forecast", onDelete = CASCADE))
+@Entity(tableName = "weather_forecast", primaryKeys = {"forecast", "timestamp"}, foreignKeys = @ForeignKey(entity = ForecastEntity.class, parentColumns = "city", childColumns = "forecast", onDelete = CASCADE))
 public class WeatherForecastEntity {
     @ColumnInfo(name = "timestamp")
     private long timestamp;
 
-    @PrimaryKey
     @ColumnInfo(name = "forecast")
     private String forecast;
 
@@ -24,7 +22,10 @@ public class WeatherForecastEntity {
 
     @ColumnInfo(name = "temperature")
     private double temperature;
-
+    @ColumnInfo(name = "day_temperature")
+    private double dayTemperature;
+    @ColumnInfo(name = "night_temperature")
+    private double nightTemperature;
     @ColumnInfo(name = "humidity")
     private double humidity;
 
@@ -88,5 +89,22 @@ public class WeatherForecastEntity {
 
     public void setWindSpeed(double windSpeed) {
         this.windSpeed = windSpeed;
+    }
+
+
+    public double getNightTemperature() {
+        return nightTemperature;
+    }
+
+    public void setNightTemperature(double nightTemperature) {
+        this.nightTemperature = nightTemperature;
+    }
+
+    public double getDayTemperature() {
+        return dayTemperature;
+    }
+
+    public void setDayTemperature(double dayTemperature) {
+        this.dayTemperature = dayTemperature;
     }
 }

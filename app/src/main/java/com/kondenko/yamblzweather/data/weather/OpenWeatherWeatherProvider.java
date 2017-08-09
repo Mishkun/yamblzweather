@@ -1,7 +1,5 @@
 package com.kondenko.yamblzweather.data.weather;
 
-import android.util.Log;
-
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Forecast;
 import com.kondenko.yamblzweather.domain.entity.Weather;
@@ -12,7 +10,9 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by Mishkun on 04.08.2017.
@@ -20,6 +20,7 @@ import io.reactivex.Observable;
 
 public class OpenWeatherWeatherProvider implements WeatherProvider {
     private static final String TAG = OpenWeatherWeatherProvider.class.getSimpleName();
+    private static final int COUNT = 8;
     private final WeatherService weatherService;
 
     private final WeatherDao weatherDao;
@@ -37,20 +38,18 @@ public class OpenWeatherWeatherProvider implements WeatherProvider {
     public Observable<Weather> getWeatherSubscription() {
         return weatherDao.getWeather()
                          .map(WeatherMapper::dbToDomain)
-                         .doOnNext(weather -> Log.d(TAG, weather.toString()))
                          .toObservable();
     }
 
     @Override
-    public Observable<Forecast> getForecastSubscription() {
+    public Maybe<Forecast> getForecast() {
         return forecastDao.getForecastEntity()
-                          .flatMapSingle(forecastEntity -> forecastDao.getWeatherForecasts(forecastEntity.getTimestamp())
-                                                                      .flatMap(weatherForecastEntities ->
-                                                                                       Observable.fromIterable(weatherForecastEntities)
-                                                                                                 .map(WeatherMapper::dbToDomain)
-                                                                                                 .toList()))
-                          .map(Forecast::create)
-                          .toObservable();
+                          .flatMapSingleElement(forecastEntity -> forecastDao.getWeatherForecasts(forecastEntity.getCity())
+                                                                             .flatMapSingle(weatherForecastEntities ->
+                                                                                                    Observable.fromIterable(weatherForecastEntities)
+                                                                                                              .map(ForecastMapper::dbToDomain)
+                                                                                                              .toList()))
+                          .map(Forecast::create);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class OpenWeatherWeatherProvider implements WeatherProvider {
     }
 
     private Completable updateForecast(City city) {
-        return weatherService.getForecast(city.location().latitude(), city.location().longitude())
+        return weatherService.getForecast(city.location().latitude(), city.location().longitude(), COUNT)
                              .map(ForecastResponse::getList)
                              .doOnSuccess(ignore -> {
                                  ForecastEntity forecastEntity = new ForecastEntity();
@@ -68,7 +67,8 @@ public class OpenWeatherWeatherProvider implements WeatherProvider {
                                  forecastDao.insertAllForecasts(forecastEntity);
                              })
                              .flatMap(weatherModels -> Observable.fromIterable(weatherModels)
-                                                                 .map(WeatherMapper::responseToWeatherForecastdb)
+                                                                 .skip(1)
+                                                                 .map(ForecastMapper::responseToWeatherForecastdb)
                                                                  .map(weatherForecastEntity -> {
                                                                      weatherForecastEntity.setForecast(city.id());
                                                                      return weatherForecastEntity;
@@ -80,14 +80,19 @@ public class OpenWeatherWeatherProvider implements WeatherProvider {
 
 
     private Completable updateWeather(City city) {
-        return weatherService.getWeather(city.location().latitude(), city.location().longitude())
-                             .map(WeatherMapper::responseToWeatherdb)
-                             .map(weatherEntity -> {
-                                 weatherEntity.setPlace_id(city.id());
-                                 weatherEntity.setTimestamp(new Date().getTime());
-                                 return weatherEntity;
-                             })
-                             .doOnSuccess(weatherDao::insertAllWeather)
-                             .toCompletable();
+        return Single.zip(weatherService.getWeather(city.location().latitude(), city.location().longitude()).map(WeatherMapper::responseToWeatherdb),
+                          weatherService.getForecast(city.location().latitude(), city.location().longitude(), 1),
+                          (weatherEntity, forecast) -> {
+                              weatherEntity.setDayTemperature(forecast.getList().get(0).getTemp().getDay());
+                              weatherEntity.setNightTemperature(forecast.getList().get(0).getTemp().getNight());
+                              return weatherEntity;
+                          })
+                     .map(weatherEntity -> {
+                         weatherEntity.setPlace_id(city.id());
+                         weatherEntity.setTimestamp(new Date().getTime());
+                         return weatherEntity;
+                     })
+                     .doOnSuccess(weatherDao::insertAllWeather)
+                     .toCompletable();
     }
 }
