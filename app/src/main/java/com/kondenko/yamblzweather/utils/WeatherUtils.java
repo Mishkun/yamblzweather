@@ -38,7 +38,11 @@ public class WeatherUtils {
      * @return resource id of the icon
      */
     public static int getIconStringResource(WeatherConditions weatherCondition) {
-        return conditionsMap.getOrDefault(weatherCondition, R.string.wi_na);
+        Integer integer = conditionsMap.get(weatherCondition);
+        if (integer == null){
+            integer = R.string.wi_na;
+        }
+        return integer;
     }
 
     public static Spannable getTemperatureString(Context context, String temperature, String units) {
