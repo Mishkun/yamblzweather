@@ -22,7 +22,7 @@ class CityMapper {
         return domainToDb(city, false);
     }
 
-    static CityEntity domainToDb(City city, boolean select) {
+    private static CityEntity domainToDb(City city, boolean select) {
         CityEntity cityEntity = new CityEntity();
         cityEntity.setLatitude(city.location().latitude());
         cityEntity.setLongitude(city.location().longitude());

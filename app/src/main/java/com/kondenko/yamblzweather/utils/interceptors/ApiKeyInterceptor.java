@@ -1,7 +1,7 @@
 package com.kondenko.yamblzweather.utils.interceptors;
 
 
-import com.kondenko.yamblzweather.Const;
+import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
@@ -17,8 +17,8 @@ import okhttp3.Response;
  */
 public class ApiKeyInterceptor implements Interceptor {
 
-    private String parameterName;
-    private String apiKey;
+    private final String parameterName;
+    private final String apiKey;
 
     @Inject
     public ApiKeyInterceptor(String parameterName, String apiKey) {
@@ -27,7 +27,7 @@ public class ApiKeyInterceptor implements Interceptor {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         HttpUrl url = request.url().newBuilder().addQueryParameter(parameterName, apiKey).build();
         request = request.newBuilder().url(url).build();

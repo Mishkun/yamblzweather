@@ -47,7 +47,7 @@ public class PatternMatching<P, T> {
             }
 
             public static <T, P> Pattern instanceOf(Class<P> clazz, PatternFunction<P, T> function) {
-                return new ClassPattern<P, T>(clazz, function);
+                return new ClassPattern<>(clazz, function);
             }
         }
     }

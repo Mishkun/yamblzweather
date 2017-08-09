@@ -12,8 +12,8 @@ import javax.inject.Singleton;
 public class AppJobCreator implements JobCreator {
 
     private final GetCurrentCityInteractor getCurrentCityInteractor;
-    private UpdateWeatherInteractor updateWeatherInteractor;
-    private SettingsManager settingsManager;
+    private final UpdateWeatherInteractor updateWeatherInteractor;
+    private final SettingsManager settingsManager;
 
     @Inject
     public AppJobCreator(UpdateWeatherInteractor updateWeatherInteractor, GetCurrentCityInteractor getCurrentCityInteractor, SettingsManager settingsManager) {

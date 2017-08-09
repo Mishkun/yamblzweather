@@ -32,7 +32,7 @@ import static com.kondenko.yamblzweather.Const.UI;
 @Module(subcomponents = {WeatherSubcomponent.class, SuggestsSubcomponent.class})
 public class AppModule {
 
-    private App application;
+    private final App application;
 
     public AppModule(App application) {
         this.application = application;

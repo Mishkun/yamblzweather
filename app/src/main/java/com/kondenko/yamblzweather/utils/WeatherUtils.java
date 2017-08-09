@@ -5,7 +5,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 
 import com.kondenko.yamblzweather.R;
-import com.kondenko.yamblzweather.data.weather.WeatherModel;
 import com.kondenko.yamblzweather.domain.entity.WeatherConditions;
 
 import java.util.Collections;
