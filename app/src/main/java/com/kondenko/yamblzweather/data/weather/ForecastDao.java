@@ -7,6 +7,7 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
@@ -23,8 +24,8 @@ public interface ForecastDao {
     void insertAllWeatherForecasts(List<WeatherForecastEntity> entities);
 
     @Query("SELECT * FROM forecast WHERE city = (SELECT id FROM city WHERE selected = 1 LIMIT 1) LIMIT 1")
-    Flowable<ForecastEntity> getForecastEntity();
+    Maybe<ForecastEntity> getForecastEntity();
 
     @Query("SELECT * FROM weather_forecast WHERE forecast = :forecastTimestamp")
-    Single<List<WeatherForecastEntity>> getWeatherForecasts(long forecastTimestamp);
+    Maybe<List<WeatherForecastEntity>> getWeatherForecasts(String forecastTimestamp);
 }

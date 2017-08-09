@@ -4,6 +4,7 @@ import android.os.Parcelable;
 
 import com.google.auto.value.AutoValue;
 import com.kondenko.yamblzweather.domain.entity.City;
+import com.kondenko.yamblzweather.domain.entity.Forecast;
 import com.kondenko.yamblzweather.domain.entity.Weather;
 
 import java.util.List;
@@ -13,11 +14,13 @@ import java.util.List;
  */
 @AutoValue
 abstract class WeatherViewModel implements Parcelable {
-    public static WeatherViewModel create(Weather weather, City city, CityList cityList) {
-        return new AutoValue_WeatherViewModel(weather, city, cityList);
+    public static WeatherViewModel create(Weather weather, Forecast forecast, City city, CityList cityList) {
+        return new AutoValue_WeatherViewModel(weather, forecast, city, cityList);
     }
 
     abstract public Weather weather();
+
+    abstract Forecast forecast();
 
     public abstract City city();
 
@@ -25,9 +28,10 @@ abstract class WeatherViewModel implements Parcelable {
 
     @AutoValue
     static abstract class CityList implements Parcelable {
-        public abstract List<City> cities();
-        public static CityList create(List<City> cities){
+        public static CityList create(List<City> cities) {
             return new AutoValue_WeatherViewModel_CityList(cities);
         }
+
+        public abstract List<City> cities();
     }
 }

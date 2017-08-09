@@ -10,12 +10,11 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 /**
  * Created by Mishkun on 05.08.2017.
  */
-@Entity(tableName = "weather_forecast",foreignKeys = @ForeignKey(entity = ForecastEntity.class, parentColumns = "city", childColumns = "forecast", onDelete = CASCADE))
+@Entity(tableName = "weather_forecast",primaryKeys = {"forecast", "timestamp"}, foreignKeys = @ForeignKey(entity = ForecastEntity.class, parentColumns = "city", childColumns = "forecast", onDelete = CASCADE))
 public class WeatherForecastEntity {
     @ColumnInfo(name = "timestamp")
     private long timestamp;
 
-    @PrimaryKey
     @ColumnInfo(name = "forecast")
     private String forecast;
 

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.util.Log;
@@ -20,6 +23,7 @@ import com.jakewharton.rxbinding2.widget.RxAdapterView;
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Location;
+import com.kondenko.yamblzweather.domain.entity.Weather;
 import com.kondenko.yamblzweather.domain.entity.WeatherConditions;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.ui.about.AboutActivity;
@@ -28,6 +32,7 @@ import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
 import com.kondenko.yamblzweather.utils.Logger;
 import com.kondenko.yamblzweather.utils.WeatherUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -58,7 +63,11 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     public TextView textRainLevel;
     @BindView(R.id.text_wind_value)
     public TextView textWindSpeed;
+    @BindView(R.id.forecast_container)
+    public RecyclerView forecastView;
+
     private ArrayAdapter<City> spinnerAdapter;
+    private ForecastAdapter forecastAdapter;
 
     @Inject
     public void Inject(WeatherPresenter presenter) {
@@ -85,6 +94,16 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
         spinnerAdapter.add(getCityEditorObject());
         spinnerCity.setAdapter(spinnerAdapter);
+
+        forecastAdapter = new ForecastAdapter(new ArrayList<>(), this);
+        forecastView.setAdapter(forecastAdapter);
+        forecastView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        forecastView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 
     @NonNull
@@ -125,6 +144,11 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         showTemperature(weather.weather().temperature().celsiusDegrees(), "C°");
         showCondition(weather.weather().weatherConditions());
         showWindSpeed(weather.weather().windSpeed());
+        showForecast(weather.forecast().weatherList());
+    }
+
+    private void showForecast(List<Weather> weathers) {
+        forecastAdapter.setWeather(weathers);
     }
 
     private void showCityList(List<City> cities, City city) {
@@ -158,9 +182,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         weatherIcon.setIconResource(getString(WeatherUtils.getIconStringResource(condition)));
     }
 
-    private void showRainLevel(double value) {
-        textRainLevel.setText(value > 0 ? getString(R.string.weather_rain_level_value, value) : getString(R.string.weather_unknown_rain_level_value));
-    }
 
     @Override
     protected void onStop() {

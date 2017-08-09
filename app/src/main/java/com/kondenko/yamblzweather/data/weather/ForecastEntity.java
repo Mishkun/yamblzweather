@@ -36,4 +36,8 @@ public class ForecastEntity {
     void setPlace_id(String place_id) {
         this.place_id = place_id;
     }
+
+    public String getCity() {
+        return place_id;
+    }
 }

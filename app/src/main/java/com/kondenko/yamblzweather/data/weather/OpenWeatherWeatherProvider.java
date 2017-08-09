@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 /**
@@ -37,20 +38,18 @@ public class OpenWeatherWeatherProvider implements WeatherProvider {
     public Observable<Weather> getWeatherSubscription() {
         return weatherDao.getWeather()
                          .map(WeatherMapper::dbToDomain)
-                         .doOnNext(weather -> Log.d(TAG, weather.toString()))
                          .toObservable();
     }
 
     @Override
-    public Observable<Forecast> getForecastSubscription() {
+    public Maybe<Forecast> getForecast() {
         return forecastDao.getForecastEntity()
-                          .flatMapSingle(forecastEntity -> forecastDao.getWeatherForecasts(forecastEntity.getTimestamp())
-                                                                      .flatMap(weatherForecastEntities ->
+                          .flatMapSingleElement(forecastEntity -> forecastDao.getWeatherForecasts(forecastEntity.getCity())
+                                                                      .flatMapSingle(weatherForecastEntities ->
                                                                                        Observable.fromIterable(weatherForecastEntities)
                                                                                                  .map(WeatherMapper::dbToDomain)
                                                                                                  .toList()))
-                          .map(Forecast::create)
-                          .toObservable();
+                          .map(Forecast::create);
     }
 
     @Override

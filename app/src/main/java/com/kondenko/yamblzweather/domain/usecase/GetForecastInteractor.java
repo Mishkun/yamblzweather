@@ -6,7 +6,7 @@ import com.kondenko.yamblzweather.domain.guards.WeatherProvider;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import io.reactivex.Observable;
+import io.reactivex.Maybe;
 import io.reactivex.Scheduler;
 
 import static com.kondenko.yamblzweather.Const.JOB;
@@ -29,8 +29,8 @@ public class GetForecastInteractor {
         this.weatherProvider = weatherProvider;
     }
 
-    public Observable<Forecast> run() {
-        return weatherProvider.getForecastSubscription()
+    public Maybe<Forecast> run() {
+        return weatherProvider.getForecast()
                               .subscribeOn(jobScheduler)
                               .observeOn(uiScheduler);
     }
