@@ -47,11 +47,6 @@ public class UtilsTest {
         when(networkInfo.isConnected()).thenReturn(true);
         assertEquals(Utils.isOnline(context), true);
     }
-
-    @Test
-    public void millisTo24time() throws Exception {
-        assertEquals(Utils.millisTo24time(1281828), "3:21");
-        assertEquals(Utils.millisTo24time(128881828), "14:48");
-    }
+    
 
 }
