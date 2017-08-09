@@ -47,6 +47,6 @@ public class UtilsTest {
         when(networkInfo.isConnected()).thenReturn(true);
         assertEquals(Utils.isOnline(context), true);
     }
-    
+
 
 }
