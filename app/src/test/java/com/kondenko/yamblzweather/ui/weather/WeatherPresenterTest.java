@@ -74,10 +74,9 @@ public class WeatherPresenterTest {
 
     @Test
     public void shouldLoadData() throws Exception {
-        WeatherPresenter presenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor, getCurrentCityInteractor, getFavoredCities);
+
         InOrder loadingInOrder = inOrder(weatherView, getCurrentWeatherInteractor);
-        presenter.attachView(weatherView);
-        presenter.updateData();
+
         verify(settingsManager).getRefreshRateHr();
         verify(weatherJobScheduler).scheduleUpdateJob(REFRESH_RATE);
         verifyNoMoreInteractions(weatherJobScheduler);
@@ -101,11 +100,9 @@ public class WeatherPresenterTest {
     public void shouldShowError() {
         HttpException nothing = new HttpException(Response.error(404, ResponseBody.create(null, "NOTHING")));
         when(getCurrentWeatherInteractor.run()).thenReturn(Observable.error(nothing));
-        WeatherPresenter weatherPresenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor, getCurrentCityInteractor, getFavoredCities);
+
         InOrder loadingInOrder = inOrder(weatherView, getCurrentWeatherInteractor);
 
-        weatherPresenter.attachView(weatherView);
-        weatherPresenter.updateData();
         verify(settingsManager).getRefreshRateHr();
         verify(weatherJobScheduler).scheduleUpdateJob(REFRESH_RATE);
         verifyNoMoreInteractions(weatherJobScheduler);
@@ -126,21 +123,11 @@ public class WeatherPresenterTest {
 
     @Test
     public void shouldDetachViewAndNotShowData() {
-        WeatherPresenter succcessPresenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor, getCurrentCityInteractor, getFavoredCities);
-        succcessPresenter.attachView(weatherView);
-        succcessPresenter.detachView();
-        succcessPresenter.updateData();
-
         verifyZeroInteractions(weatherView);
     }
 
     @Test
     public void shouldDetachViewAndNotShowError() {
-        WeatherPresenter errorPresenter = new WeatherPresenter(getCurrentWeatherInteractor, updateWeatherInteractor, getCurrentCityInteractor, getFavoredCities);
-        errorPresenter.attachView(weatherView);
-        errorPresenter.detachView();
-        errorPresenter.updateData();
-
         verifyZeroInteractions(weatherView);
     }
 }

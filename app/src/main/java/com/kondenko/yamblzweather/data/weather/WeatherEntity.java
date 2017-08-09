@@ -12,7 +12,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 /**
  * Created by Mishkun on 05.08.2017.
  */
-@Entity(tableName = "weather",foreignKeys = @ForeignKey(entity = CityEntity.class, parentColumns = "id", childColumns = "city", onDelete = CASCADE))
+@Entity(tableName = "weather", foreignKeys = @ForeignKey(entity = CityEntity.class, parentColumns = "id", childColumns = "city", onDelete = CASCADE))
 public class WeatherEntity {
     @ColumnInfo(name = "timestamp")
     private long timestamp;
@@ -20,6 +20,10 @@ public class WeatherEntity {
     private int weatherConditionCode;
     @ColumnInfo(name = "temperature")
     private double temperature;
+    @ColumnInfo(name = "day_temperature")
+    private double dayTemperature;
+    @ColumnInfo(name = "night_temperature")
+    private double nightTemperature;
     @ColumnInfo(name = "humidity")
     private double humidity;
     @ColumnInfo(name = "pressure")
@@ -84,5 +88,21 @@ public class WeatherEntity {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public double getDayTemperature() {
+        return dayTemperature;
+    }
+
+    public void setDayTemperature(double dayTemperature) {
+        this.dayTemperature = dayTemperature;
+    }
+
+    public double getNightTemperature() {
+        return nightTemperature;
+    }
+
+    public void setNightTemperature(double nightTemperature) {
+        this.nightTemperature = nightTemperature;
     }
 }

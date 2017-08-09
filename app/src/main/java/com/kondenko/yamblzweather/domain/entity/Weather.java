@@ -22,6 +22,10 @@ public abstract class Weather implements Parcelable {
 
     public abstract Temperature temperature();
 
+    public abstract Temperature dayTemperature();
+
+    public abstract Temperature nightTemperature();
+
     public abstract double humidity();
 
     public abstract double windSpeed();
@@ -34,6 +38,10 @@ public abstract class Weather implements Parcelable {
         public abstract Builder timestamp(long timestamp);
 
         public abstract Builder temperature(@NonNull Temperature temperature);
+
+        public abstract Builder dayTemperature(@NonNull Temperature temperature);
+
+        public abstract Builder nightTemperature(@NonNull Temperature temperature);
 
         public abstract Builder humidity(double humidity);
 

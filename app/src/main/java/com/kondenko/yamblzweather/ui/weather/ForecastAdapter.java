@@ -27,7 +27,7 @@ import java.util.Locale;
 
 class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHolder> {
     private static final String TAG = ForecastAdapter.class.getSimpleName();
-    private final static DateFormat containerDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+    private final static DateFormat containerDateFormat = new SimpleDateFormat("dd.MM", Locale.getDefault());
     private final SortedList<Weather> weatherSortedList;
     private final Context context;
 
@@ -75,9 +75,9 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHolder> {
     public void onBindViewHolder(final ForecastAdapter.ViewHolder holder, int position) {
         Weather weather = weatherSortedList.get(position);
         holder.weather = weather;
-        holder.dateView.setText(containerDateFormat.format(new Date(weather.timestamp())));
-        holder.dayTemp.setText(String.format("%s°C", weather.temperature().celsiusDegrees()));
-        holder.nightTemp.setText(String.format("%s°C", weather.temperature().celsiusDegrees()));
+        holder.dateView.setText(containerDateFormat.format(weather.timestamp()*1000L));
+        holder.dayTemp.setText(String.format("%.1f°C", weather.dayTemperature().celsiusDegrees()));
+        holder.nightTemp.setText(String.format("%.1f°C", weather.nightTemperature().celsiusDegrees()));
         holder.weatherIconView.setIconResource(context.getString(WeatherUtils.getIconStringResource(weather.weatherConditions())));
     }
 
