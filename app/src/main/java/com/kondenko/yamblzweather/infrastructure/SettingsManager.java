@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.R;
+import com.kondenko.yamblzweather.domain.entity.TempUnit;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,20 +24,16 @@ public class SettingsManager {
         this.preferences = context.getSharedPreferences(context.getPackageName() + "_preferences", Context.MODE_PRIVATE);
     }
 
-    public String getUnitKey() {
+    public TempUnit getUnitKey() {
         String unitKey = context.getString(R.string.pref_key_temp_unit);
         String defaultUnit = context.getString(R.string.pref_key_unit_kelvin);
-        return preferences.getString(unitKey, defaultUnit);
-    }
-
-    public String getUnitValue() {
-        String selectedUnitKey = getUnitKey();
-        if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_fahrenheit)))
-            return Const.VALUE_UNIT_TEMP_IMPERIAL;
-        if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_celsius)))
-            return Const.VALUE_UNIT_TEMP_METRIC;
-        if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_kelvin)))
-            return Const.VALUE_UNIT_TEMP_DEFAULT;
+        String unit = preferences.getString(unitKey, defaultUnit);
+        if (unit.equals(context.getString(R.string.pref_key_unit_fahrenheit)))
+            return TempUnit.IMPERIAL;
+        if (unit.equals(context.getString(R.string.pref_key_unit_celsius)))
+            return TempUnit.METRIC;
+        if (unit.equals(context.getString(R.string.pref_key_unit_kelvin)))
+            return TempUnit.SCIENTIFIC;
         throw new IllegalArgumentException("Wrong temperature unit");
     }
 
@@ -48,14 +45,6 @@ public class SettingsManager {
 
     public long getRefreshRateSec() {
         return TimeUnit.HOURS.toSeconds(getRefreshRateHr());
-    }
-
-    public String getCity() {
-        return preferences.getString(KEY_SELECTED_CITY, Const.ID_MOSCOW);
-    }
-
-    public void setCity(String cityId) {
-        preferences.edit().putString(KEY_SELECTED_CITY, cityId).apply();
     }
 
     public void setLatestUpdate(long timeMs) {

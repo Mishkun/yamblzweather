@@ -28,7 +28,7 @@ public class AppJobCreatorTest {
 
     @Test
     public void shouldCreateWeatherJob() throws Exception {
-        AppJobCreator appJobCreator = new AppJobCreator(updateWeatherInteractor, getCurrentCityInteractor, settingsManager);
+        AppJobCreator appJobCreator = new AppJobCreator(updateWeatherInteractor, getCurrentCityInteractor);
         Job updateJob = appJobCreator.create(UpdateWeatherJob.TAG);
         assertTrue(updateJob instanceof UpdateWeatherJob);
     }

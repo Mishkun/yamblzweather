@@ -45,10 +45,4 @@ public class WeatherUtils {
         return integer;
     }
 
-    public static Spannable getTemperatureString(Context context, String temperature, String units) {
-        char unitLetter = units.substring(0, 1).toUpperCase(Locale.getDefault()).charAt(0);
-        String temperatureString = context.getString(R.string.weather_temperature_value, temperature, unitLetter);
-        return new SpannableString(temperatureString);
-    }
-
 }

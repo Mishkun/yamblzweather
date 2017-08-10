@@ -20,7 +20,6 @@ import static com.kondenko.yamblzweather.Const.UI;
  */
 
 public class GetCitySuggestsInteractor extends BaseInteractor {
-    public static final String TYPES = "(cities)";
     private final Scheduler jobScheduler;
     private final Scheduler uiScheduler;
     private final CitySuggestProvider citySuggestProvider;

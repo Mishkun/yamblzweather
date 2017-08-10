@@ -25,6 +25,8 @@ import com.jakewharton.rxbinding2.widget.RxAdapterView;
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Location;
+import com.kondenko.yamblzweather.domain.entity.TempUnit;
+import com.kondenko.yamblzweather.domain.entity.Temperature;
 import com.kondenko.yamblzweather.domain.entity.Weather;
 import com.kondenko.yamblzweather.domain.entity.WeatherConditions;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
@@ -37,6 +39,7 @@ import com.kondenko.yamblzweather.utils.WeatherUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -148,7 +151,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     public void setData(WeatherViewModel weather) {
         super.setData(weather);
         showCityList(weather.cities().cities(), weather.city());
-        showTemperature(weather.weather().temperature().celsiusDegrees(), "C°");
+        showTemperature(weather.weather().temperature(), weather.tempUnit());
         showCondition(weather.weather().weatherConditions());
         showWindSpeed(weather.weather().windSpeed());
         showForecast(weather.forecast().weatherList());
@@ -179,10 +182,21 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
 
     // Precise data formatting
 
-    private void showTemperature(double temp, String units) {
-        String temperature = String.valueOf(Math.round(temp));
-        Spannable temperatureSpannable = WeatherUtils.getTemperatureString(this, temperature, units);
-        textTemperature.setText(temperatureSpannable);
+    private void showTemperature(Temperature temperature, TempUnit units) {
+        double temp = 0;
+        switch (units) {
+            case IMPERIAL:
+                temp = temperature.fahrenheitDegrees();
+                break;
+            case METRIC:
+                temp = temperature.celsiusDegrees();
+                break;
+            case SCIENTIFIC:
+                temp = temperature.kelvinDegrees();
+                break;
+        }
+        String tempText = String.format(Locale.getDefault(), "%.1f°%s", temp, units.getUnitLetter());
+        textTemperature.setText(tempText);
     }
 
     private void showCondition(WeatherConditions condition) {

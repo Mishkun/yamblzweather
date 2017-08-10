@@ -17,15 +17,11 @@ class UpdateWeatherJob extends Job {
 
     private final GetCurrentCityInteractor getCurrentCityInteractor;
     private final UpdateWeatherInteractor updateWeatherInteractor;
-    private final SettingsManager settingsManager;
-    private final String units;
 
     @Inject
-    UpdateWeatherJob(GetCurrentCityInteractor getCurrentCityInteractor, UpdateWeatherInteractor updateWeatherInteractor, SettingsManager settingsManager) {
+    UpdateWeatherJob(GetCurrentCityInteractor getCurrentCityInteractor, UpdateWeatherInteractor updateWeatherInteractor) {
         this.getCurrentCityInteractor = getCurrentCityInteractor;
         this.updateWeatherInteractor = updateWeatherInteractor;
-        this.settingsManager = settingsManager;
-        units = settingsManager.getUnitKey();
     }
 
     static void schedulePeriodicJob(long refreshRateMs) {

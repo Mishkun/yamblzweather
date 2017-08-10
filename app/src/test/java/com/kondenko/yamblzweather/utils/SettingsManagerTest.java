@@ -52,29 +52,6 @@ public class SettingsManagerTest {
         assertEquals(settingsManager.getUnitKey(), answer);
     }
 
-    @Test
-    public void shouldGetRightUnits() throws Exception {
-        String celsius = "c";
-        String fahrenheit = "f";
-        String kelvin = "k";
-        String tempUnit = "temp";
-        when(context.getString(R.string.pref_key_unit_kelvin)).thenReturn(kelvin);
-        when(context.getString(R.string.pref_key_unit_fahrenheit)).thenReturn(fahrenheit);
-        when(context.getString(R.string.pref_key_unit_celsius)).thenReturn(celsius);
-        when(context.getString(R.string.pref_key_temp_unit)).thenReturn(tempUnit);
-
-        SettingsManager settingsManager = new SettingsManager(context);
-
-        when(sharedPreferences.getString(tempUnit, kelvin)).thenReturn(kelvin);
-        assertEquals(settingsManager.getUnitValue(), Const.VALUE_UNIT_TEMP_DEFAULT);
-
-        when(sharedPreferences.getString(tempUnit, kelvin)).thenReturn(fahrenheit);
-        assertEquals(settingsManager.getUnitValue(), Const.VALUE_UNIT_TEMP_IMPERIAL);
-
-        when(sharedPreferences.getString(tempUnit, kelvin)).thenReturn(celsius);
-        assertEquals(settingsManager.getUnitValue(), Const.VALUE_UNIT_TEMP_METRIC);
-    }
-
 
     private void setUpRefreshRate(String key, String testValue) {
         when(context.getString(R.string.pref_key_refresh_rate)).thenReturn(key);
@@ -102,27 +79,6 @@ public class SettingsManagerTest {
         assertEquals(settingsManager.getRefreshRateSec(), Integer.parseInt(testValue) * 60 * 60);
     }
 
-    @Test
-    public void getCity() throws Exception {
-        String testCity = "test";
-        when(sharedPreferences.getString("selected_city", Const.ID_MOSCOW)).thenReturn(testCity);
-
-        SettingsManager settingsManager = new SettingsManager(context);
-        assertEquals(settingsManager.getCity(), testCity);
-    }
-
-    @Test
-    public void setCity() throws Exception {
-        String testCity = "test";
-        when(sharedPreferences.edit()).thenReturn(editor);
-        when(editor.putString("selected_city", testCity)).thenReturn(editor);
-
-        SettingsManager settingsManager = new SettingsManager(context);
-        settingsManager.setCity(testCity);
-        verify(sharedPreferences).edit();
-        verify(editor).putString("selected_city", testCity);
-        verify(editor).apply();
-    }
 
     @Test
     public void setLatestUpdate() throws Exception {
