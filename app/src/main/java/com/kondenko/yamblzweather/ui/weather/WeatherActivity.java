@@ -92,11 +92,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         this.presenter = presenter;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.updateData();
-    }
 
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -140,7 +135,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     @Override
     public void setData(WeatherViewModel weather) {
         super.setData(weather);
-        showCityList(weather.cities().cities(), weather.city());
+        setCity(weather.city(), weather.cities().cities());
         showTemperature(weather.weather().temperature(), weather.tempUnit());
         showCondition(weather.weather().weatherConditions());
         showForecast(weather.forecast().weatherList());
@@ -156,7 +151,8 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         forecastAdapter.setWeather(weathers);
     }
 
-    private void showCityList(List<City> cities, City city) {
+    @Override
+    public void setCity(City city, List<City> cities) {
         spinnerAdapter.clear();
         cities.add(getCityEditorObject());
         spinnerAdapter.addAll(cities);

@@ -1,5 +1,8 @@
 package com.kondenko.yamblzweather.ui.weather;
 
+import android.util.Pair;
+
+import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentWeatherInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetFavoredCitiesInteractor;
@@ -11,6 +14,7 @@ import com.kondenko.yamblzweather.ui.BasePresenter;
 import com.kondenko.yamblzweather.ui.weather.WeatherViewModel.CityList;
 import com.kondenko.yamblzweather.utils.Utils;
 
+import java.util.List;
 import java.util.concurrent.CancellationException;
 
 import javax.inject.Inject;
@@ -18,6 +22,7 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class WeatherPresenter extends BasePresenter<WeatherView> {
 
@@ -50,6 +55,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     public void attachView(WeatherView view) {
         super.attachView(view);
         getWeatherViewModel().compose(bindToLifecycle())
+                             .doOnSubscribe((d) -> updateData())
                              .doOnNext(ignore -> {
                                  if (!initialized) {
                                      subscribeCitySelections(getView());
@@ -62,6 +68,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
                                      showUpdateTime(result.weather().timestamp());
                                  }
                              });
+
     }
 
     @Override
