@@ -12,6 +12,6 @@
         android:textColor="@color/colorTextPrimary"
         android:textSize="@dimen/text_size"
 
-        tools:text="Android"
+        tools:text="Moscow"
         android:layout_height="wrap_content"/>
 </FrameLayout>

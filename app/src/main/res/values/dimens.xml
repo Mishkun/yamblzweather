@@ -10,6 +10,7 @@
     <dimen name="text_margin">8dp</dimen>
     <dimen name="text_big_margin">16dp</dimen>
     <dimen name="text_size">16sp</dimen>
+    <dimen name="text_medium_size">20sp</dimen>
     <dimen name="text_large_size">24sp</dimen>
     <dimen name="settings_text_size">16sp</dimen>
     <integer name="size_weather_condition_icon">80</integer>
