@@ -25,7 +25,7 @@
 
     <string name="error_generic">Error</string>
     <string name="error_loading_weather">Error updating weatherCondition</string>
-    <string name="error_loading_cities">Error loading cities…</string>
+    <string name="error_loading_cities">Error loading cities.\nPlease, check Internet connection</string>
 
     <!--Settings-->
 
@@ -60,6 +60,8 @@
     <string name="delete_button">delete</string>
     <string name="onboard_choose_city_button_text">Choose your city</string>
     <string name="onboard_summary_text">Welcome to Yamblz Weather!\nPlease, choose your city so we can be friends ;)</string>
-    <string name="key_onboarding_completion">KEY_ONBOARDING_COMPLETION</string>
+    <string name="key_onboarding_completion" translatable="false">KEY_ONBOARDING_COMPLETION</string>
+    <string name="search_city_hint">Find new city…</string>
+    <string name="close_content_description">Delete city</string>
 
 </resources>

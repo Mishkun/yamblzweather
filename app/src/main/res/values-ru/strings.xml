@@ -24,6 +24,10 @@
     <string name="weather_wind_speed_value">%.0f м/с</string>
     <string name="delete_button">Удалить</string>
     <string name="edit_city_list_button_text">Изменить город…</string>
-    <string name="error_loading_cities">Не удалось загрузить список городов…</string>
+    <string name="error_loading_cities">Не удалось загрузить список городов\nПроверьте подключение к интернету</string>
     <string name="title_suggests">Выбор города</string>
+    <string name="onboard_choose_city_button_text">Выберите свой город</string>
+    <string name="onboard_summary_text">Добро пожаловать в ЯмблзПогода</string>
+    <string name="close_content_description">Удалить город</string>
+    <string name="search_city_hint">Найти новый город…</string>
 </resources>

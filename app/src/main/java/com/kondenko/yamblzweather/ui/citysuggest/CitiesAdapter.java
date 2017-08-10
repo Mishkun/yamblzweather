@@ -8,7 +8,7 @@ import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.kondenko.yamblzweather.R;
@@ -36,7 +36,7 @@ class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> {
         citiesList = new SortedList<>(City.class, new SortedListAdapterCallback<City>(this) {
             @Override
             public int compare(City o1, City o2) {
-                return o1.id().compareTo(o2.id());
+                return o1.name().compareTo(o2.name());
             }
 
             @Override
@@ -105,14 +105,14 @@ class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
         final View view;
         final TextView textView;
-        final Button button;
+        final ImageButton button;
         City city;
 
         ViewHolder(View view) {
             super(view);
             this.view = view;
             textView = (TextView) view.findViewById(R.id.suggest_text);
-            button = (Button) view.findViewById(R.id.delete_city_button);
+            button = (ImageButton) view.findViewById(R.id.delete_city_button);
         }
 
         @Override
