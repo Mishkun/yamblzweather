@@ -7,10 +7,5 @@
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/title_settings"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_about"
-        android:icon="@drawable/ic_help_black_24dp"
-        android:title="@string/title_about"
-        app:showAsAction="collapseActionView" />
 
 </menu>

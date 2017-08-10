@@ -136,10 +136,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
             }
-            case R.id.action_about: {
-                startActivity(new Intent(this, AboutActivity.class));
-                break;
-            }
             default: {
                 throw new IllegalArgumentException("Wrong menu item used");
             }
