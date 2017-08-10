@@ -61,14 +61,6 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
                                      showUpdateTime(result.weather().timestamp());
                                  }
                              });
-        getCurrentCityInteractor.run()
-                                .doOnComplete(() -> {
-                                    if (initialized) {
-                                        subscribeCitySelections(getView());
-                                        initialized = true;
-                                    }
-                                })
-                                .subscribe();
     }
 
     @Override

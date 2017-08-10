@@ -1,7 +1,9 @@
 package com.kondenko.yamblzweather.ui.weather;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -28,6 +30,7 @@ import com.kondenko.yamblzweather.domain.entity.WeatherConditions;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.ui.about.AboutActivity;
 import com.kondenko.yamblzweather.ui.citysuggest.SuggestsActivity;
+import com.kondenko.yamblzweather.ui.onboarding.OnboardingActivity;
 import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
 import com.kondenko.yamblzweather.utils.Logger;
 import com.kondenko.yamblzweather.utils.WeatherUtils;
@@ -81,6 +84,10 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     }
 
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!defaultSharedPreferences.getBoolean(getString(R.string.key_onboarding_completion), false)){
+            startActivity(new Intent(this, OnboardingActivity.class));
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_weather);
         ButterKnife.bind(this);

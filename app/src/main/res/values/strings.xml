@@ -58,5 +58,8 @@
     <!-- Edit cities -->
     <string name="edit_city_list_button_text">Edit city…</string>
     <string name="delete_button">delete</string>
+    <string name="onboard_choose_city_button_text">Choose your city</string>
+    <string name="onboard_summary_text">Welcome to Yamblz Weather!\nPlease, choose your city so we can be friends ;)</string>
+    <string name="key_onboarding_completion">KEY_ONBOARDING_COMPLETION</string>
 
 </resources>
