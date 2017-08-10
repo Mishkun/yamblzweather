@@ -94,9 +94,9 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
     @Override
     public void setData(SuggestsViewModel data) {
         super.setData(data);
+        errorTextView.setVisibility(View.GONE);
         if (data.predictions().isEmpty() && !data.cities().isEmpty()) {
             suggestsView.setVisibility(View.GONE);
-            errorTextView.setVisibility(View.GONE);
             citiesView.setVisibility(View.VISIBLE);
             citiesAdapter.setCities(data.cities(), data.selectedCity());
             ActionBar actionBar = getSupportActionBar();
@@ -106,7 +106,6 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
             }
         } else if (!data.predictions().isEmpty()) {
             citiesView.setVisibility(View.GONE);
-            errorTextView.setVisibility(View.GONE);
             suggestsView.setVisibility(View.VISIBLE);
             suggestsAdapter.setPredictions(data.predictions());
         }else {

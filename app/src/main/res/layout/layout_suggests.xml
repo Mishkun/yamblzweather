@@ -43,6 +43,7 @@
         android:id="@+id/suggests_city_error"
         android:layout_width="match_parent"
         android:layout_height="256dp"
+        android:visibility="gone"
         android:orientation="vertical"
         android:padding="@dimen/text_big_margin"
         android:background="@color/colorPrimaryDark">
