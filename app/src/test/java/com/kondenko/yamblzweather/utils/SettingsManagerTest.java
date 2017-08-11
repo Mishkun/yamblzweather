@@ -37,20 +37,6 @@ public class SettingsManagerTest {
         when(context.getSharedPreferences(PACKAGE_NAME + "_preferences", Context.MODE_PRIVATE)).thenReturn(sharedPreferences);
     }
 
-    @Test
-    public void getShouldGetUnitKey() throws Exception {
-        String keypref = "test_key";
-        String defaultpref = "default";
-        String answer = "???";
-        when(context.getString(R.string.pref_key_temp_unit)).thenReturn(keypref);
-        when(context.getString(R.string.pref_key_unit_kelvin)).thenReturn(defaultpref);
-        when(sharedPreferences.getString(keypref, defaultpref)).thenReturn(answer);
-
-
-        SettingsManager settingsManager = new SettingsManager(context);
-        assertEquals(settingsManager.getUnitKey(), answer);
-    }
-
 
     private void setUpRefreshRate(String key, String testValue) {
         when(context.getString(R.string.pref_key_refresh_rate)).thenReturn(key);
