@@ -4,7 +4,6 @@ package com.kondenko.yamblzweather.infrastructure;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.domain.entity.TempUnit;
 
@@ -13,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class SettingsManager {
 
     private static final String KEY_SELECTED_CITY = "selected_city";
-
+    private static final String PREF_REFRESH_RATE_DEFAULT_HOURS = "2";
     private static final String KEY_LATEST_UPDATE = "latestUpdate";
 
     private final Context context;
@@ -39,7 +38,7 @@ public class SettingsManager {
 
     public int getRefreshRateHr() {
         String rateKey = context.getString(R.string.pref_key_refresh_rate);
-        String defaultRate = Const.PREF_REFRESH_RATE_DEFAULT_HOURS;
+        String defaultRate = PREF_REFRESH_RATE_DEFAULT_HOURS;
         return Integer.parseInt(preferences.getString(rateKey, defaultRate));
     }
 

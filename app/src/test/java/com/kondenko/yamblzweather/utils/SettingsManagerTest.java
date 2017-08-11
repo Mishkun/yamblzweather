@@ -3,7 +3,6 @@ package com.kondenko.yamblzweather.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.infrastructure.SettingsManager;
 
@@ -55,7 +54,7 @@ public class SettingsManagerTest {
 
     private void setUpRefreshRate(String key, String testValue) {
         when(context.getString(R.string.pref_key_refresh_rate)).thenReturn(key);
-        when(sharedPreferences.getString(key, Const.PREF_REFRESH_RATE_DEFAULT_HOURS)).thenReturn(testValue);
+        when(sharedPreferences.getString(key, "2")).thenReturn(testValue);
     }
 
     @Test
