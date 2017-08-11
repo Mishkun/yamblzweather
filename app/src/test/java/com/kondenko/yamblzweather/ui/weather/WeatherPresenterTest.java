@@ -146,4 +146,20 @@ public class WeatherPresenterTest {
 
         verify(updateWeatherInteractor, atLeastOnce()).run(city);
     }
+
+    @Test
+    public void shouldShowError() throws Exception {
+        when(getCurrentCityInteractor.run()).thenReturn(Observable.just(city, city));
+        when(view.getCitySelections()).thenReturn(Observable.never());
+        when(currentWeatherInteractor.run()).thenReturn(Maybe.empty());
+        when(getFavoredCitiesInteractor.run()).thenReturn(Single.just(new ArrayList<>()));
+        when(getForecastInteractor.run()).thenReturn(Maybe.empty());
+        when(getUnitsInteractor.run()).thenReturn(Single.just(TempUnit.IMPERIAL));
+        when(updateWeatherInteractor.run(any())).thenReturn(Completable.error(new Throwable()));
+
+        weatherPresenter.attachView(view);
+        weatherPresenter.updateData();
+
+        verify(view).showError(any());
+    }
 }
