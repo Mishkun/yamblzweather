@@ -28,7 +28,7 @@ public class DeleteCityInteractor {
     }
 
     public Completable run(City city) {
-        return locationProvider.getCurrentCity()
+        return locationProvider.getCurrentCity().firstElement()
                                .flatMapCompletable(currentCity -> !currentCity.equals(city)
                                        ? locationProvider.deleteFavoriteCity(city)
                                        : locationProvider.deleteFavoriteCity(city)

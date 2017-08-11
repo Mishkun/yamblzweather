@@ -45,6 +45,7 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
     LinearLayout errorTextView;
     private SuggestsAdapter suggestsAdapter;
     private CitiesAdapter citiesAdapter;
+    private boolean canQuit;
 
     @Inject
     public void Inject(SuggestsPresenter presenter) {
@@ -67,7 +68,7 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
         }
 
         citiesAdapter = new CitiesAdapter(this, new ArrayList<>());
-        citiesView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false){
+        citiesView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -77,7 +78,7 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
         citiesView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         suggestsAdapter = new SuggestsAdapter(new ArrayList<>());
-        suggestsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false){
+        suggestsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -99,16 +100,18 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
             if (actionBar != null) {
                 actionBar.setDisplayShowHomeEnabled(true);
                 actionBar.setDisplayHomeAsUpEnabled(true);
+                canQuit = true;
             }
         } else if (!data.predictions().isEmpty()) {
             citiesView.setVisibility(View.GONE);
             suggestsView.setVisibility(View.VISIBLE);
             suggestsAdapter.setPredictions(data.predictions());
-        }else {
+        } else {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(false);
                 actionBar.setDisplayShowHomeEnabled(false);
+                canQuit = false;
             }
         }
     }
@@ -117,6 +120,8 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
     public void showLoading(boolean loading) {
         if (loading) {
             suggestsProgressBar.show();
+            citiesView.setVisibility(View.GONE);
+            suggestsView.setVisibility(View.GONE);
         } else {
             suggestsProgressBar.hide();
         }
@@ -127,6 +132,13 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
         citiesView.setVisibility(View.GONE);
         suggestsView.setVisibility(View.GONE);
         errorTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (canQuit) {
+            super.onBackPressed();
+        }
     }
 
     @Override

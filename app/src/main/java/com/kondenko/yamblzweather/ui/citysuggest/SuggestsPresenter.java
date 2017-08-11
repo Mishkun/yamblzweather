@@ -90,7 +90,6 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
 
         view.getCitiesDeletionsClicks()
             .compose(bindToLifecycle())
-            .doOnNext((city) -> Log.d(TAG, city.toString()))
             .flatMapMaybe(city -> deleteCityInteractor.run(city)
                                                       .andThen(Maybe.zip(getFavoredCitiesInteractor.run().toMaybe(),
                                                                          getCurrentCityInteractor.run().firstElement(),
