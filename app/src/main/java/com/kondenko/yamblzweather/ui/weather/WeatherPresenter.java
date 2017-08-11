@@ -48,12 +48,12 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     @Override
     public void attachView(WeatherView view) {
         super.attachView(view);
-        currentWeatherInteractor.run()
-                                .flatMapMaybe(weather -> Maybe.zip(getFavoredCitiesInteractor.run().toMaybe(),
-                                                                   getCurrentCityInteractor.run(),
-                                                                   getForecastInteractor.run(),
-                                                                   getUnitsInteractor.run().toMaybe(),
-                                                                   (cities, city, forecast, unit) -> WeatherViewModel.create(weather, forecast,
+        getCurrentCityInteractor.run()
+                                .flatMapMaybe(city -> Maybe.zip(getFavoredCitiesInteractor.run().toMaybe(),
+                                                                currentWeatherInteractor.run(),
+                                                                getForecastInteractor.run(),
+                                                                getUnitsInteractor.run().toMaybe(),
+                                                                (cities, weather, forecast, unit) -> WeatherViewModel.create(weather, forecast,
                                                                                                                              city,
                                                                                                                              cities, unit)))
                                 .compose(bindToLifecycle())
@@ -64,10 +64,15 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
                                     }
                                 })
                                 .subscribe(result -> {
-                                    if (isViewAttached()) {
-                                        getView().setData(result);
-                                    }
-                                });
+                                               if (isViewAttached()) {
+                                                   getView().setData(result);
+                                               }
+                                           },
+                                           throwable -> {
+                                               if (isViewAttached()) {
+                                                   getView().showError(throwable);
+                                               }
+                                           });
     }
 
     @Override
@@ -87,6 +92,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     void updateData() {
         if (isViewAttached()) getView().showLoading(true);
         getCurrentCityInteractor.run()
+                                .firstElement()
                                 .compose(bindToLifecycle())
                                 .flatMapCompletable(updateWeatherInteractor::run)
                                 .doFinally(() -> {

@@ -13,6 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
 import retrofit2.http.GET;
@@ -40,12 +41,12 @@ public class GetCurrentCityInteractorTest {
 
     @Test
     public void run() throws Exception {
-        when(locationProvider.getCurrentCity()).thenReturn(Maybe.just(city));
+        when(locationProvider.getCurrentCity()).thenReturn(Observable.just(city, city));
 
         TestObserver<City> cityTestObserver = getCurrentCityInteractor.run().test();
         testScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
 
-        cityTestObserver.assertResult(city);
+        cityTestObserver.assertResult(city, city);
     }
 
 }

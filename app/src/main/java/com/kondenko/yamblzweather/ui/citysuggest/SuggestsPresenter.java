@@ -71,7 +71,7 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
             .filter(String::isEmpty)
             .compose(bindToLifecycle())
             .flatMapSingle((ignore) -> getFavoredCitiesInteractor.run())
-            .flatMapMaybe(cities -> getCurrentCityInteractor.run().map(city -> SuggestsViewModel.createWithCities(cities, city)))
+            .flatMapMaybe(cities -> getCurrentCityInteractor.run().firstElement().map(city -> SuggestsViewModel.createWithCities(cities, city)))
             .subscribe((result) -> {
                 if (isViewAttached()) {
                     getView().setData(result);
@@ -93,7 +93,7 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
             .doOnNext((city) -> Log.d(TAG, city.toString()))
             .flatMapMaybe(city -> deleteCityInteractor.run(city)
                                                       .andThen(Maybe.zip(getFavoredCitiesInteractor.run().toMaybe(),
-                                                                         getCurrentCityInteractor.run(),
+                                                                         getCurrentCityInteractor.run().firstElement(),
                                                                          SuggestsViewModel::createWithCities)))
 
             .doOnError((error) -> Log.d(TAG, error.getMessage()))

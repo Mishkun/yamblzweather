@@ -5,6 +5,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
@@ -17,5 +18,5 @@ public interface WeatherDao {
     void insertAllWeather(WeatherEntity... entities);
 
     @Query("SELECT * FROM weather WHERE city = (SELECT id FROM city WHERE selected = 1 LIMIT 1) LIMIT 1")
-    Flowable<WeatherEntity> getWeather();
+    Maybe<WeatherEntity> getWeather();
 }
