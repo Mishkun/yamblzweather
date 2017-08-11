@@ -49,36 +49,29 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     public void attachView(WeatherView view) {
         super.attachView(view);
         getCurrentCityInteractor.run()
-                                .flatMapMaybe(city -> Maybe.zip(getFavoredCitiesInteractor.run().toMaybe(),
-                                                                currentWeatherInteractor.run(),
-                                                                getForecastInteractor.run(),
-                                                                getUnitsInteractor.run().toMaybe(),
-                                                                (cities, weather, forecast, unit) -> WeatherViewModel.create(weather, forecast,
-                                                                                                                             city,
-                                                                                                                             cities, unit)))
                                 .compose(bindToLifecycle())
-                                .doOnNext(ignore -> {
+                                .flatMapMaybe(city -> updateWeatherInteractor.run(city)
+                                                                             .onErrorComplete()
+                                                                             .andThen(Maybe.zip(currentWeatherInteractor.run(),
+                                                                                                getFavoredCitiesInteractor.run()
+                                                                                                                          .toMaybe(),
+                                                                                                getForecastInteractor.run(),
+                                                                                                getUnitsInteractor.run().toMaybe(),
+                                                                                                (weather, cities, forecast, unit) -> WeatherViewModel
+                                                                                                        .create(weather, forecast,
+                                                                                                                city,
+                                                                                                                cities, unit))))
+                                .doAfterNext(ignore -> {
                                     if (!initialized) {
                                         subscribeCitySelections(getView());
                                         initialized = true;
                                     }
                                 })
                                 .subscribe(result -> {
-                                               if (isViewAttached()) {
-                                                   getView().setData(result);
-                                               }
-                                           },
-                                           throwable -> {
-                                               if (isViewAttached()) {
-                                                   getView().showError(throwable);
-                                               }
-                                           });
-    }
-
-    @Override
-    public void detachView() {
-        super.detachView();
-        initialized = false;
+                                    if (isViewAttached()) {
+                                        getView().setData(result);
+                                    }
+                                });
     }
 
     private void subscribeCitySelections(WeatherView view) {

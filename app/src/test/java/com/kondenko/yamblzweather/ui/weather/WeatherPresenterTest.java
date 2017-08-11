@@ -23,10 +23,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 
+import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -97,11 +100,12 @@ public class WeatherPresenterTest {
 
     @Test
     public void shouldSubscribeViewOnWeather() throws Exception {
-        when(currentWeatherInteractor.run()).thenReturn(Observable.just(weather, weather));
+        when(getCurrentCityInteractor.run()).thenReturn(Observable.just(city, city));
+        when(currentWeatherInteractor.run()).thenReturn(Maybe.just(weather));
         when(getFavoredCitiesInteractor.run()).thenReturn(Single.just(cityList));
-        when(getCurrentCityInteractor.run()).thenReturn(Maybe.just(city));
         when(getForecastInteractor.run()).thenReturn(Maybe.just(forecast));
         when(getUnitsInteractor.run()).thenReturn(Single.just(TempUnit.IMPERIAL));
+        when(updateWeatherInteractor.run(any())).thenReturn(Completable.complete());
         when(view.getCitySelections()).thenReturn(Observable.never());
 
         weatherPresenter.attachView(view);
@@ -113,7 +117,33 @@ public class WeatherPresenterTest {
 
     @Test
     public void shouldSubscribeToCityUpdates() throws Exception {
+        when(getCurrentCityInteractor.run()).thenReturn(Observable.just(city, city));
+        when(setCurrentCityInteractor.run(any())).thenReturn(Completable.complete());
+        when(currentWeatherInteractor.run()).thenReturn(Maybe.just(weather));
+        when(getFavoredCitiesInteractor.run()).thenReturn(Single.just(new ArrayList<>()));
+        when(getForecastInteractor.run()).thenReturn(Maybe.just(forecast));
+        when(getUnitsInteractor.run()).thenReturn(Single.just(TempUnit.IMPERIAL));
+        when(updateWeatherInteractor.run(any())).thenReturn(Completable.complete());
+        when(view.getCitySelections()).thenReturn(Observable.just(city, city));
 
+        weatherPresenter.attachView(view);
+
+        verify(setCurrentCityInteractor, times(2)).run(city);
     }
 
+    @Test
+    public void shouldUpdateData() throws Exception {
+        when(getCurrentCityInteractor.run()).thenReturn(Observable.just(city, city));
+        when(view.getCitySelections()).thenReturn(Observable.never());
+        when(currentWeatherInteractor.run()).thenReturn(Maybe.empty());
+        when(getFavoredCitiesInteractor.run()).thenReturn(Single.just(new ArrayList<>()));
+        when(getForecastInteractor.run()).thenReturn(Maybe.empty());
+        when(getUnitsInteractor.run()).thenReturn(Single.just(TempUnit.IMPERIAL));
+        when(updateWeatherInteractor.run(any())).thenReturn(Completable.complete());
+
+        weatherPresenter.attachView(view);
+        weatherPresenter.updateData();
+
+        verify(updateWeatherInteractor, atLeastOnce()).run(city);
+    }
 }

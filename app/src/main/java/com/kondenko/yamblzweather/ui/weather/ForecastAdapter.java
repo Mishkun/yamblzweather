@@ -54,7 +54,6 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHolder> {
         weatherSortedList.beginBatchedUpdates();
         weatherSortedList.clear();
         weatherSortedList.addAll(data);
-        Log.d(TAG, "setWeather" + data.get(0));
         weatherSortedList.endBatchedUpdates();
         notifyDataSetChanged();
     }

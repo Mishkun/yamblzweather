@@ -114,7 +114,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         bottomGuideline.setLayoutParams(layoutParams);
 
         spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
-        spinnerAdapter.add(getCityEditorObject());
         spinnerCity.setAdapter(spinnerAdapter);
 
         forecastAdapter = new ForecastAdapter(new ArrayList<>());
@@ -128,10 +127,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         forecastView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 
-    @NonNull
-    private City getCityEditorObject() {
-        return City.create(Location.builder().latitude(0).longitude(0).build(), getString(R.string.no_city_text), "ID");
-    }
 
 
     @Override
