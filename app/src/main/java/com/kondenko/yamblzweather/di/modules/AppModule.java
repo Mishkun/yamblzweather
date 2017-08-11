@@ -9,6 +9,9 @@ import com.kondenko.yamblzweather.data.location.CityDao;
 import com.kondenko.yamblzweather.data.location.RoomLocationProvider;
 import com.kondenko.yamblzweather.data.weather.ForecastDao;
 import com.kondenko.yamblzweather.data.weather.WeatherDao;
+import com.kondenko.yamblzweather.di.Job;
+import com.kondenko.yamblzweather.di.Lang;
+import com.kondenko.yamblzweather.di.Ui;
 import com.kondenko.yamblzweather.domain.guards.JobsScheduler;
 import com.kondenko.yamblzweather.domain.guards.LocationProvider;
 import com.kondenko.yamblzweather.infrastructure.AppJobCreator;
@@ -17,7 +20,8 @@ import com.kondenko.yamblzweather.infrastructure.WeatherJobsScheduler;
 import com.kondenko.yamblzweather.ui.citysuggest.dagger.SuggestsSubcomponent;
 import com.kondenko.yamblzweather.ui.weather.dagger.WeatherSubcomponent;
 
-import javax.inject.Named;
+import java.util.Locale;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -25,9 +29,6 @@ import dagger.Provides;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.kondenko.yamblzweather.Const.JOB;
-import static com.kondenko.yamblzweather.Const.UI;
 
 @Module(subcomponents = {WeatherSubcomponent.class, SuggestsSubcomponent.class})
 public class AppModule {
@@ -76,31 +77,37 @@ public class AppModule {
     }
 
     @Provides
-    CityDao provideCityDao(AppDatabase appDatabase){
+    @Lang
+    String provideLangString() {
+        return Locale.getDefault().getLanguage();
+    }
+
+    @Provides
+    CityDao provideCityDao(AppDatabase appDatabase) {
         return appDatabase.cityDao();
     }
 
     @Provides
-    WeatherDao provideWeatherDao(AppDatabase appDatabase){
+    WeatherDao provideWeatherDao(AppDatabase appDatabase) {
         return appDatabase.weatherDao();
     }
 
     @Provides
-    ForecastDao provideForecastDao(AppDatabase appDatabase){
+    ForecastDao provideForecastDao(AppDatabase appDatabase) {
         return appDatabase.forecastDao();
     }
 
 
     @Provides
     @Singleton
-    @Named(JOB)
+    @Job
     Scheduler provideBackgroundScheduler() {
         return Schedulers.io();
     }
 
     @Provides
     @Singleton
-    @Named(UI)
+    @Ui
     Scheduler provideUiScheduler() {
         return AndroidSchedulers.mainThread();
     }

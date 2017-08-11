@@ -10,6 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -42,6 +45,8 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
     @BindView(R.id.cities_view)
     RecyclerView citiesView;
 
+    @BindView(R.id.suggests_city_error)
+    LinearLayout errorTextView;
     private SuggestsAdapter suggestsAdapter;
     private CitiesAdapter citiesAdapter;
 
@@ -66,21 +71,30 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
         }
 
         citiesAdapter = new CitiesAdapter(this, new ArrayList<>());
-        citiesView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        citiesView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         citiesView.setAdapter(citiesAdapter);
-        citiesView.setHasFixedSize(true);
         citiesView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         suggestsAdapter = new SuggestsAdapter(new ArrayList<>());
-        suggestsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        suggestsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         suggestsView.setAdapter(suggestsAdapter);
         suggestsView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        suggestsView.setHasFixedSize(true);
     }
 
     @Override
     public void setData(SuggestsViewModel data) {
         super.setData(data);
+        errorTextView.setVisibility(View.GONE);
         if (data.predictions().isEmpty() && !data.cities().isEmpty()) {
             suggestsView.setVisibility(View.GONE);
             citiesView.setVisibility(View.VISIBLE);
@@ -115,7 +129,9 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
     @Override
     public void showError(Throwable error) {
         Logger.w(TAG, error);
-        Toast.makeText(this, this.getString(R.string.error_loading_cities), Toast.LENGTH_LONG).show();
+        citiesView.setVisibility(View.GONE);
+        suggestsView.setVisibility(View.GONE);
+        errorTextView.setVisibility(View.VISIBLE);
     }
 
     @Override

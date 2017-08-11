@@ -1,25 +1,30 @@
 package com.kondenko.yamblzweather.ui.weather;
 
-import android.util.Log;
+import android.util.Pair;
 
+import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentWeatherInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetFavoredCitiesInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetForecastInteractor;
+import com.kondenko.yamblzweather.domain.usecase.GetUnitsInteractor;
 import com.kondenko.yamblzweather.domain.usecase.SetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.UpdateWeatherInteractor;
 import com.kondenko.yamblzweather.ui.BasePresenter;
 import com.kondenko.yamblzweather.ui.weather.WeatherViewModel.CityList;
 import com.kondenko.yamblzweather.utils.Utils;
 
+import java.util.List;
 import java.util.concurrent.CancellationException;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
-
+import io.reactivex.Single;
+@Singleton
 public class WeatherPresenter extends BasePresenter<WeatherView> {
 
     private static final String TAG = WeatherPresenter.class.getSimpleName();
@@ -29,6 +34,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     private final SetCurrentCityInteractor setCurrentCityInteractor;
     private final GetCurrentCityInteractor getCurrentCityInteractor;
     private final GetFavoredCitiesInteractor getFavoredCitiesInteractor;
+    private final GetUnitsInteractor getUnitsInteractor;
 
     private boolean initialized = false;
 
@@ -36,19 +42,21 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     WeatherPresenter(GetCurrentWeatherInteractor currentWeatherInteractor, GetForecastInteractor getForecastInteractor,
                      UpdateWeatherInteractor updateWeatherInteractor,
                      SetCurrentCityInteractor setCurrentCityInteractor, GetCurrentCityInteractor getCurrentCityInteractor,
-                     GetFavoredCitiesInteractor getFavoredCitiesInteractor) {
+                     GetFavoredCitiesInteractor getFavoredCitiesInteractor, GetUnitsInteractor getUnitsInteractor) {
         this.currentWeatherInteractor = currentWeatherInteractor;
         this.getForecastInteractor = getForecastInteractor;
         this.updateWeatherInteractor = updateWeatherInteractor;
         this.setCurrentCityInteractor = setCurrentCityInteractor;
         this.getCurrentCityInteractor = getCurrentCityInteractor;
         this.getFavoredCitiesInteractor = getFavoredCitiesInteractor;
+        this.getUnitsInteractor = getUnitsInteractor;
     }
 
     @Override
     public void attachView(WeatherView view) {
         super.attachView(view);
         getWeatherViewModel().compose(bindToLifecycle())
+                             .doOnSubscribe((d) -> updateData())
                              .doOnNext(ignore -> {
                                  if (!initialized) {
                                      subscribeCitySelections(getView());
@@ -61,14 +69,6 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
                                      showUpdateTime(result.weather().timestamp());
                                  }
                              });
-        getCurrentCityInteractor.run()
-                                .doOnComplete(() -> {
-                                    if (initialized) {
-                                        subscribeCitySelections(getView());
-                                        initialized = true;
-                                    }
-                                })
-                                .subscribe();
     }
 
     @Override
@@ -88,12 +88,11 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
         return currentWeatherInteractor.run()
                                        .flatMapMaybe(weather -> Maybe.zip(getFavoredCitiesInteractor.run().map(CityList::create).toMaybe(),
                                                                           getCurrentCityInteractor.run(),
-                                                                          getForecastInteractor.run().doOnSuccess(forecast -> Log.d(TAG,
-                                                                                                                                    "getWeatherViewModel" + forecast
-                                                                                                                                            .toString())),
-                                                                          (cities, city, forecast) -> WeatherViewModel.create(weather, forecast,
-                                                                                                                              city,
-                                                                                                                              cities)));
+                                                                          getForecastInteractor.run(),
+                                                                          getUnitsInteractor.run().toMaybe(),
+                                                                          (cities, city, forecast, unit) -> WeatherViewModel.create(weather, forecast,
+                                                                                                                                    city,
+                                                                                                                                    cities, unit)));
     }
 
 

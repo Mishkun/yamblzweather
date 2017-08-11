@@ -4,15 +4,15 @@ package com.kondenko.yamblzweather.infrastructure;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.kondenko.yamblzweather.Const;
 import com.kondenko.yamblzweather.R;
+import com.kondenko.yamblzweather.domain.entity.TempUnit;
 
 import java.util.concurrent.TimeUnit;
 
 public class SettingsManager {
 
     private static final String KEY_SELECTED_CITY = "selected_city";
-
+    private static final String PREF_REFRESH_RATE_DEFAULT_HOURS = "2";
     private static final String KEY_LATEST_UPDATE = "latestUpdate";
 
     private final Context context;
@@ -23,39 +23,27 @@ public class SettingsManager {
         this.preferences = context.getSharedPreferences(context.getPackageName() + "_preferences", Context.MODE_PRIVATE);
     }
 
-    public String getUnitKey() {
+    public TempUnit getUnitKey() {
         String unitKey = context.getString(R.string.pref_key_temp_unit);
         String defaultUnit = context.getString(R.string.pref_key_unit_kelvin);
-        return preferences.getString(unitKey, defaultUnit);
-    }
-
-    public String getUnitValue() {
-        String selectedUnitKey = getUnitKey();
-        if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_fahrenheit)))
-            return Const.VALUE_UNIT_TEMP_IMPERIAL;
-        if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_celsius)))
-            return Const.VALUE_UNIT_TEMP_METRIC;
-        if (selectedUnitKey.equals(context.getString(R.string.pref_key_unit_kelvin)))
-            return Const.VALUE_UNIT_TEMP_DEFAULT;
+        String unit = preferences.getString(unitKey, defaultUnit);
+        if (unit.equals(context.getString(R.string.pref_key_unit_fahrenheit)))
+            return TempUnit.IMPERIAL;
+        if (unit.equals(context.getString(R.string.pref_key_unit_celsius)))
+            return TempUnit.METRIC;
+        if (unit.equals(context.getString(R.string.pref_key_unit_kelvin)))
+            return TempUnit.SCIENTIFIC;
         throw new IllegalArgumentException("Wrong temperature unit");
     }
 
     public int getRefreshRateHr() {
         String rateKey = context.getString(R.string.pref_key_refresh_rate);
-        String defaultRate = Const.PREF_REFRESH_RATE_DEFAULT_HOURS;
+        String defaultRate = PREF_REFRESH_RATE_DEFAULT_HOURS;
         return Integer.parseInt(preferences.getString(rateKey, defaultRate));
     }
 
     public long getRefreshRateSec() {
         return TimeUnit.HOURS.toSeconds(getRefreshRateHr());
-    }
-
-    public String getCity() {
-        return preferences.getString(KEY_SELECTED_CITY, Const.ID_MOSCOW);
-    }
-
-    public void setCity(String cityId) {
-        preferences.edit().putString(KEY_SELECTED_CITY, cityId).apply();
     }
 
     public void setLatestUpdate(long timeMs) {

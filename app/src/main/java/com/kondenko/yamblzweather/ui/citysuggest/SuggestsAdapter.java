@@ -29,7 +29,7 @@ class SuggestsAdapter extends RecyclerView.Adapter<SuggestsAdapter.ViewHolder> {
         predictionList = new SortedList<>(Prediction.class, new SortedListAdapterCallback<Prediction>(this) {
             @Override
             public int compare(Prediction o1, Prediction o2) {
-                return o1.id().compareTo(o2.id());
+                return o1.name().compareTo(o2.name());
             }
 
             @Override

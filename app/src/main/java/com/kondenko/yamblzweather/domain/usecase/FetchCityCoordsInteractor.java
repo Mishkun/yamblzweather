@@ -1,18 +1,16 @@
 package com.kondenko.yamblzweather.domain.usecase;
 
+import com.kondenko.yamblzweather.di.Job;
+import com.kondenko.yamblzweather.di.Ui;
 import com.kondenko.yamblzweather.domain.BaseInteractor;
 import com.kondenko.yamblzweather.domain.entity.Prediction;
 import com.kondenko.yamblzweather.domain.guards.CitySuggestProvider;
 import com.kondenko.yamblzweather.domain.guards.LocationProvider;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import io.reactivex.Completable;
 import io.reactivex.Scheduler;
-
-import static com.kondenko.yamblzweather.Const.JOB;
-import static com.kondenko.yamblzweather.Const.UI;
 
 /**
  * Created by Mishkun on 27.07.2017.
@@ -25,7 +23,7 @@ public class FetchCityCoordsInteractor extends BaseInteractor {
     private final LocationProvider locationProvider;
 
     @Inject
-    FetchCityCoordsInteractor(@Named(JOB) Scheduler jobScheduler, @Named(UI) Scheduler uiScheduler, CitySuggestProvider citiesSuggestProvider,
+    FetchCityCoordsInteractor(@Job Scheduler jobScheduler, @Ui Scheduler uiScheduler, CitySuggestProvider citiesSuggestProvider,
                               LocationProvider locationProvider) {
         this.jobScheduler = jobScheduler;
         this.uiScheduler = uiScheduler;

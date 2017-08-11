@@ -10,16 +10,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_margin="@dimen/text_big_margin"
         android:layout_weight="95"
         android:textColor="@color/colorTextPrimary"
         android:textSize="@dimen/text_size"
         tools:text="Android"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/delete_city_button"
         android:layout_width="@dimen/corners_weather_button_city"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/text_big_margin"
         android:layout_weight="5"
-        android:text="@string/delete_button"/>
+        android:background="@null"
+        android:src="@drawable/ic_close_black_24dp"
+        android:text="@string/delete_button"
+        android:contentDescription="@string/close_content_description"/>
 </LinearLayout>

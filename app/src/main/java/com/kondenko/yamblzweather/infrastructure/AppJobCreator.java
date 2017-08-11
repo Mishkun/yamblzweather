@@ -13,18 +13,16 @@ public class AppJobCreator implements JobCreator {
 
     private final GetCurrentCityInteractor getCurrentCityInteractor;
     private final UpdateWeatherInteractor updateWeatherInteractor;
-    private final SettingsManager settingsManager;
 
     @Inject
-    public AppJobCreator(UpdateWeatherInteractor updateWeatherInteractor, GetCurrentCityInteractor getCurrentCityInteractor, SettingsManager settingsManager) {
+    public AppJobCreator(UpdateWeatherInteractor updateWeatherInteractor, GetCurrentCityInteractor getCurrentCityInteractor) {
         this.updateWeatherInteractor = updateWeatherInteractor;
         this.getCurrentCityInteractor = getCurrentCityInteractor;
-        this.settingsManager = settingsManager;
     }
 
     @Override
     public Job create(String tag) {
-        if (tag.equals(UpdateWeatherJob.TAG)) return new UpdateWeatherJob(getCurrentCityInteractor, updateWeatherInteractor, settingsManager);
+        if (tag.equals(UpdateWeatherJob.TAG)) return new UpdateWeatherJob(getCurrentCityInteractor, updateWeatherInteractor);
         return null;
     }
 
