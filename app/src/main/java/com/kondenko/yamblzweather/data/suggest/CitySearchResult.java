@@ -1,22 +1,30 @@
 package com.kondenko.yamblzweather.data.suggest;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Mishkun on 27.07.2017.
  */
 
-public class CitySearchResult {
+class CitySearchResult {
 
     @SerializedName("result")
     private
     Result result;
 
-    public Result getResult() {
+    CitySearchResult(Result result) {
+        this.result = result;
+    }
+
+    CitySearchResult() {
+    }
+
+    Result getResult() {
         return result;
     }
 
-    public static class Result {
+    static class Result {
         @SerializedName("geometry")
         Geometry geometry;
 
@@ -25,25 +33,71 @@ public class CitySearchResult {
         @SerializedName("place_id")
         String id;
 
-        public Geometry getGeometry() {
+        Result(Geometry geometry, String name, String id) {
+            this.geometry = geometry;
+            this.name = name;
+            this.id = id;
+        }
+
+        Result() {
+        }
+
+        Geometry getGeometry() {
             return geometry;
         }
 
-        public String getName() {
+        String getName() {
             return name;
         }
 
-        public String getId() {
+        String getId() {
             return id;
         }
 
-        public static class Geometry {
+        static class Geometry {
             @SerializedName("location")
             Coord coordinates;
 
-            public Coord getCoordinates() {
+            Geometry() {
+
+            }
+
+            Geometry(Coord coord) {
+                coordinates = coord;
+            }
+
+            Coord getCoordinates() {
                 return coordinates;
+            }
+
+            static class Coord {
+
+                @SerializedName("lng")
+                @Expose
+                private double lon;
+                @SerializedName("lat")
+                @Expose
+                private double lat;
+
+                Coord(double lat, double lon) {
+                    this.lon = lon;
+                    this.lat = lat;
+                }
+
+                Coord() {
+                }
+
+                double getLon() {
+                    return lon;
+                }
+
+                double getLat() {
+                    return lat;
+                }
+
             }
         }
     }
+
+
 }

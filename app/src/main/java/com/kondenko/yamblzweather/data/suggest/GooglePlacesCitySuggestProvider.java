@@ -34,9 +34,7 @@ public class GooglePlacesCitySuggestProvider implements CitySuggestProvider {
                                    .map(CitySuggest::getPredictionResponses)
                                    .flatMapObservable(Observable::fromIterable)
                                    .map(PredictionMapper::responseToDomain)
-                                   .toList()
-                .doOnSuccess(predictions -> Log.d(TAG, "getCitySuggests"))
-                .doOnError(error -> Log.d(TAG, error.getMessage()));
+                                   .toList();
     }
 
     @Override
