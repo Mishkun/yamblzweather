@@ -2,7 +2,6 @@ package com.kondenko.yamblzweather.domain.usecase;
 
 import com.kondenko.yamblzweather.di.Job;
 import com.kondenko.yamblzweather.di.Ui;
-import com.kondenko.yamblzweather.domain.BaseInteractor;
 import com.kondenko.yamblzweather.domain.entity.Weather;
 import com.kondenko.yamblzweather.domain.guards.WeatherProvider;
 
@@ -11,7 +10,7 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 
-public class GetCurrentWeatherInteractor extends BaseInteractor {
+public class GetCurrentWeatherInteractor {
 
     private final Scheduler jobScheduler;
     private final Scheduler uiScheduler;
