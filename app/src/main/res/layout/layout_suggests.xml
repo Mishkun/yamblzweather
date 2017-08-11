@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/text_margin"
-            android:src="@drawable/ic_connection"/>
+            android:src="@drawable/ic_connection_dark"/>
 
         <TextView
             android:layout_width="match_parent"

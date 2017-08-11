@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class WeatherModel {
+class WeatherModel {
 
     @SerializedName("weather")
     @Expose
@@ -24,34 +24,34 @@ public class WeatherModel {
     private Clouds clouds;
 
 
-    public List<WeatherCondition> getWeatherCondition() {
+    List<WeatherCondition> getWeatherCondition() {
         return weatherCondition;
     }
 
 
-    public String getBase() {
+    String getBase() {
         return base;
     }
 
 
-    public Main getMain() {
+    Main getMain() {
         return main;
     }
 
 
-    public Wind getWind() {
+    Wind getWind() {
         return wind;
     }
 
 
-    public Clouds getClouds() {
+    Clouds getClouds() {
         return clouds;
     }
 
 
 
 
-    public static class WeatherCondition {
+    static class WeatherCondition {
 
         @SerializedName("id")
         @Expose
@@ -66,29 +66,29 @@ public class WeatherModel {
         @Expose
         private String icon;
 
-        public int getId() {
+        int getId() {
             return id;
         }
 
 
-        public String getMain() {
+        String getMain() {
             return main;
         }
 
 
-        public String getDescription() {
+        String getDescription() {
             return description;
         }
 
 
-        public String getIcon() {
+        String getIcon() {
             return icon;
         }
 
 
     }
 
-    public long getDt() {
+    long getDt() {
         return dt;
     }
 
@@ -96,7 +96,7 @@ public class WeatherModel {
     private long dt;
 
 
-    public static class Sys {
+    static class Sys {
 
         @SerializedName("type")
         @Expose
@@ -117,39 +117,39 @@ public class WeatherModel {
         @Expose
         private int sunset;
 
-        public int getType() {
+        int getType() {
             return type;
         }
 
 
-        public int getId() {
+        int getId() {
             return id;
         }
 
 
-        public double getMessage() {
+        double getMessage() {
             return message;
         }
 
 
-        public String getCountry() {
+        String getCountry() {
             return country;
         }
 
 
-        public int getSunrise() {
+        int getSunrise() {
             return sunrise;
         }
 
 
-        public int getSunset() {
+        int getSunset() {
             return sunset;
         }
 
 
     }
 
-    public static class Main {
+    static class Main {
 
         @SerializedName("temp")
         @Expose
@@ -161,7 +161,7 @@ public class WeatherModel {
         @Expose
         private double humidity;
 
-        public double getTemp() {
+        double getTemp() {
             return temp;
         }
 
@@ -184,7 +184,7 @@ public class WeatherModel {
         @Expose
         private int all;
 
-        public int getAll() {
+        int getAll() {
             return all;
         }
 
@@ -200,11 +200,11 @@ public class WeatherModel {
         @Expose
         private double deg;
 
-        public double getSpeed() {
+        double getSpeed() {
             return speed;
         }
 
-        public double getDeg() {
+        double getDeg() {
             return deg;
         }
     }

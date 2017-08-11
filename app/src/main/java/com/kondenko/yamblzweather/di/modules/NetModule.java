@@ -2,11 +2,11 @@ package com.kondenko.yamblzweather.di.modules;
 
 import android.content.Context;
 
-import com.kondenko.yamblzweather.Const;
+import com.kondenko.yamblzweather.di.Lang;
 import com.kondenko.yamblzweather.infrastructure.SettingsManager;
-import com.kondenko.yamblzweather.utils.interceptors.ApiKeyInterceptor;
 import com.kondenko.yamblzweather.utils.interceptors.CacheInterceptor;
 import com.kondenko.yamblzweather.utils.interceptors.LoggingInterceptor;
+import com.kondenko.yamblzweather.utils.interceptors.ParameterInterceptor;
 
 import java.io.File;
 
@@ -25,12 +25,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetModule {
 
-    public final static String GOOGLE_SUGGESTS_API = "GOOGLE_SUGGESTS_API";
-    public final static String OPEN_WEATHER_MAP_API = "OPEN_WEATHE_RMAP_API";
+    final static String GOOGLE_SUGGESTS_API = "GOOGLE_SUGGESTS_API";
+    final static String OPEN_WEATHER_MAP_API = "OPEN_WEATHER_MAP_API";
+
+    private static final String OPEN_WEATHER_MAP_API_KEY_QUERYNAME = "APPID";
+    private static final String OPEN_WEATHER_MAP_API_KEY = "55b2afa5241f9e7efe29e0c11fd124be";
+    private static final String OPEN_WEATHER_MAP_BASE_URL = "http://api.openweathermap.org/data/2.5/";
 
     private static final String GOOGLE_API_KEY = "AIzaSyDAR4vuMn57JCPaCeyNPeA4Vkcv7VPno3k";
     private static final String GOOGLE_API_KEY_QUERYNAME = "key";
-    private static final String GOOGLE_API_ENDPOINT = "https://maps.googleapis.com/maps/api/place/";
+    private static final String GOOGLE_API_BASE_URL = "https://maps.googleapis.com/maps/api/place/";
+    private static final String GOOGLE_API_LANG_QUERYNAME = "language";
 
     public NetModule() {
     }
@@ -57,7 +62,7 @@ public class NetModule {
     OkHttpClient provideHttpClient(Cache cache, CacheInterceptor cacheInterceptor) {
         return new OkHttpClient.Builder()
                 .cache(cache)
-                .addInterceptor(new ApiKeyInterceptor(Const.PARAM_API_KEY, Const.API_KEY))
+                .addInterceptor(new ParameterInterceptor(OPEN_WEATHER_MAP_API_KEY_QUERYNAME, OPEN_WEATHER_MAP_API_KEY))
                 .addInterceptor(cacheInterceptor)
                 .addInterceptor(new LoggingInterceptor())
                 .build();
@@ -68,7 +73,7 @@ public class NetModule {
     @Named(OPEN_WEATHER_MAP_API)
     Retrofit provideRetrofit(@Named(OPEN_WEATHER_MAP_API) OkHttpClient client) {
         return new Retrofit.Builder()
-                .baseUrl(Const.BASE_URL)
+                .baseUrl(OPEN_WEATHER_MAP_BASE_URL)
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -78,10 +83,11 @@ public class NetModule {
     @Provides
     @Singleton
     @Named(GOOGLE_SUGGESTS_API)
-    OkHttpClient provideGooglePlacesHttpClient(Cache cache, CacheInterceptor cacheInterceptor) {
+    OkHttpClient provideGooglePlacesHttpClient(Cache cache, CacheInterceptor cacheInterceptor, @Lang String language) {
         return new OkHttpClient.Builder()
                 .cache(cache)
-                .addInterceptor(new ApiKeyInterceptor(GOOGLE_API_KEY_QUERYNAME, GOOGLE_API_KEY))
+                .addInterceptor(new ParameterInterceptor(GOOGLE_API_KEY_QUERYNAME, GOOGLE_API_KEY))
+                .addInterceptor(new ParameterInterceptor(GOOGLE_API_LANG_QUERYNAME, language))
                 .addInterceptor(cacheInterceptor)
                 .addInterceptor(new LoggingInterceptor())
                 .build();
@@ -90,9 +96,9 @@ public class NetModule {
     @Provides
     @Singleton
     @Named(GOOGLE_SUGGESTS_API)
-    public Retrofit provideGooglePlacesRetrofit(@Named(GOOGLE_SUGGESTS_API) OkHttpClient client) {
+    Retrofit provideGooglePlacesRetrofit(@Named(GOOGLE_SUGGESTS_API) OkHttpClient client) {
         return new Retrofit.Builder()
-                .baseUrl(GOOGLE_API_ENDPOINT)
+                .baseUrl(GOOGLE_API_BASE_URL)
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

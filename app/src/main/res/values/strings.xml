@@ -63,5 +63,51 @@
     <string name="key_onboarding_completion" translatable="false">KEY_ONBOARDING_COMPLETION</string>
     <string name="search_city_hint">Find new city…</string>
     <string name="close_content_description">Delete city</string>
+    <string name="n_a" translatable="false">N/A</string>
+    <string name="no_server_connection">No server connection</string>
+    <string name="please_try_again">Please try again</string>
+
+    <!-- Weather titles -->
+    <string name="cold_rain">cold rain</string>
+    <string name="just_rain">rainy</string>
+    <string name="hot_rain">warm rain</string>
+
+    <string name="hot_cloudy">steamy</string>
+    <string name="just_cloudy">cloudy</string>
+    <string name="cold_cloudy">cold and cloudy</string>
+
+    <string name="hot_thunder">warm thunder</string>
+    <string name="just_thunder">thunderstorm</string>
+    <string name="cold_thunder">cold and thunder</string>
+
+    <string name="hot_fog">steamy fog</string>
+    <string name="just_fog">low fog</string>
+    <string name="cold_fog">cold fog</string>
+
+    <string name="hot_clear">hell hot</string>
+    <string name="just_clear">warm day</string>
+    <string name="cold_clear">cold and sun</string>
+
+    <string name="hot_drizzle">wet breeze</string>
+    <string name="just_drizzle">nasty drizzle</string>
+    <string name="cold_drizzle">cold slush</string>
+
+    <string name="cold_snow">frosty snow</string>
+    <string name="just_snow">wet snow</string>
+    <string name="hot_snow">hot snow???</string>
+
+    <string name="hot_clear_stuffy">stuffy</string>
+    <string name="just_clear_stuffy">wet</string>
+    <string name="cold_clear_stuffy">cold and wet</string>
+
+    <string name="defaultweather">the right day</string>
+
+    <string name="title_text">Today is %s</string>
+
+    <string name="subtitle_tonight_text">Tonight is %s</string>
+    <string name="subtitle_tonight_also_text">Tonight is also\n%s</string>
+
+    <string name="subtitle_tomorow_text">Tomorrow is %s</string>
+    <string name="subtitle_tomorow_also_text">Tomorrow is also\n%s</string>
 
 </resources>

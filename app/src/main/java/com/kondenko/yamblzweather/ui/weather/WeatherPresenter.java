@@ -18,12 +18,13 @@ import java.util.List;
 import java.util.concurrent.CancellationException;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-
+@Singleton
 public class WeatherPresenter extends BasePresenter<WeatherView> {
 
     private static final String TAG = WeatherPresenter.class.getSimpleName();
@@ -68,7 +69,6 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
                                      showUpdateTime(result.weather().timestamp());
                                  }
                              });
-
     }
 
     @Override

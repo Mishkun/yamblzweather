@@ -2,6 +2,7 @@ package com.kondenko.yamblzweather.data.suggest;
 
 import android.util.Log;
 
+import com.kondenko.yamblzweather.di.Lang;
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Prediction;
 import com.kondenko.yamblzweather.domain.guards.CitySuggestProvider;

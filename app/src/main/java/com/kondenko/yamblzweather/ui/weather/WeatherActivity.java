@@ -13,17 +13,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.pwittchen.weathericonview.WeatherIconView;
 import com.jakewharton.rxbinding2.widget.RxAdapterView;
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.domain.entity.City;
@@ -31,15 +28,14 @@ import com.kondenko.yamblzweather.domain.entity.Location;
 import com.kondenko.yamblzweather.domain.entity.TempUnit;
 import com.kondenko.yamblzweather.domain.entity.Temperature;
 import com.kondenko.yamblzweather.domain.entity.Weather;
-import com.kondenko.yamblzweather.domain.entity.WeatherConditions;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.ui.citysuggest.SuggestsActivity;
 import com.kondenko.yamblzweather.ui.onboarding.OnboardingActivity;
 import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
 import com.kondenko.yamblzweather.utils.Logger;
-import com.kondenko.yamblzweather.utils.WeatherUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,7 +57,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     TextView textTemperature;
 
     @BindView(R.id.weather_icon_condition)
-    WeatherIconView weatherIcon;
+    ImageView weatherIcon;
 
     @BindView(R.id.weather_refresh_layout)
     SwipeRefreshLayout refreshLayout;
@@ -87,6 +83,12 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     private ArrayAdapter<City> spinnerAdapter;
     private ForecastAdapter forecastAdapter;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.updateData();
+    }
+
     @Inject
     public void Inject(WeatherPresenter presenter) {
         this.presenter = presenter;
@@ -107,7 +109,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
 
         Point point = new Point();
         ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getSize(point);
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams)bottomGuideline.getLayoutParams();
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) bottomGuideline.getLayoutParams();
         layoutParams.guideBegin = point.y;
         bottomGuideline.setLayoutParams(layoutParams);
 
@@ -115,7 +117,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         spinnerAdapter.add(getCityEditorObject());
         spinnerCity.setAdapter(spinnerAdapter);
 
-        forecastAdapter = new ForecastAdapter(new ArrayList<>(), this);
+        forecastAdapter = new ForecastAdapter(new ArrayList<>());
         forecastView.setAdapter(forecastAdapter);
         forecastView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
             @Override
@@ -137,14 +139,52 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         super.setData(weather);
         setCity(weather.city(), weather.cities().cities());
         showTemperature(weather.weather().temperature(), weather.tempUnit());
-        showCondition(weather.weather().weatherConditions());
+        showCondition(ConditionMapper.map(weather.weather().weatherConditions()));
         showForecast(weather.forecast().weatherList());
-        showTextual(weather.weather().temperature().celsiusDegrees() > 20 ? "today is warm" : "today is cool");
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        if (hour < 3 || hour > 16) {
+            showTextualTomorrow(weather.weather(), weather.forecast().weatherList().get(0));
+        } else {
+            showTextualTonight(weather.weather());
+        }
     }
 
-    private void showTextual(String message) {
-        weatherSummaryTitle.setText(message);
-        weatherSummarySubtitle.setText(message);
+    private void showTextualTonight(Weather weatherToday) {
+        int titleResource = TitleMapper.map(weatherToday.temperature(),
+                                            weatherToday.weatherConditions(),
+                                            weatherToday.humidity());
+        String title = String.format(Locale.getDefault(),
+                                     getString(R.string.title_text),
+                                     getString(titleResource));
+        weatherSummaryTitle.setText(title);
+        int subtitleResource = TitleMapper.map(weatherToday.nightTemperature(),
+                                               weatherToday.weatherConditions(),
+                                               weatherToday.humidity());
+        String subtitle = String.format(Locale.getDefault(),
+                                        getString(titleResource == subtitleResource
+                                                          ? R.string.subtitle_tonight_also_text
+                                                          : R.string.subtitle_tonight_text),
+                                        getString(subtitleResource));
+        weatherSummarySubtitle.setText(subtitle);
+    }
+
+    private void showTextualTomorrow(Weather weatherToday, Weather weatherTomorow) {
+        int titleResource = TitleMapper.map(weatherToday.temperature(),
+                                            weatherToday.weatherConditions(),
+                                            weatherToday.humidity());
+        String title = String.format(Locale.getDefault(),
+                                     getString(R.string.title_text),
+                                     getString(titleResource));
+        weatherSummaryTitle.setText(title);
+        int subtitleResource = TitleMapper.map(weatherTomorow.temperature(),
+                                               weatherTomorow.weatherConditions(),
+                                               weatherTomorow.humidity());
+        String subtitle = String.format(Locale.getDefault(),
+                                        getString(titleResource == subtitleResource
+                                                          ? R.string.subtitle_tomorow_also_text
+                                                          : R.string.subtitle_tomorow_text),
+                                        getString(subtitleResource));
+        weatherSummarySubtitle.setText(subtitle);
     }
 
     private void showForecast(List<Weather> weathers) {
@@ -190,15 +230,8 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         textTemperature.setText(tempText);
     }
 
-    private void showCondition(WeatherConditions condition) {
-        weatherIcon.setIconResource(getString(WeatherUtils.getIconStringResource(condition)));
-    }
-
-
-    @Override
-    protected void onStop() {
-        Log.d(TAG, "onStop");
-        super.onStop();
+    private void showCondition(int condition) {
+        weatherIcon.setBackgroundResource(condition);
     }
 
 
