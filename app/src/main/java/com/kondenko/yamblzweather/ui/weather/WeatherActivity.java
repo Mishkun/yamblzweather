@@ -29,13 +29,13 @@ import com.kondenko.yamblzweather.domain.entity.TempUnit;
 import com.kondenko.yamblzweather.domain.entity.Temperature;
 import com.kondenko.yamblzweather.domain.entity.Weather;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
-import com.kondenko.yamblzweather.ui.citysuggest.SuggestsActivity;
 import com.kondenko.yamblzweather.ui.onboarding.OnboardingActivity;
 import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
-import com.kondenko.yamblzweather.utils.Logger;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -114,7 +114,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         bottomGuideline.setLayoutParams(layoutParams);
 
         spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
-        spinnerAdapter.add(getCityEditorObject());
         spinnerCity.setAdapter(spinnerAdapter);
 
         forecastAdapter = new ForecastAdapter(new ArrayList<>());
@@ -128,19 +127,16 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         forecastView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 
-    @NonNull
-    private City getCityEditorObject() {
-        return City.create(Location.builder().latitude(0).longitude(0).build(), getString(R.string.edit_city_list_button_text), "ID");
-    }
 
 
     @Override
     public void setData(WeatherViewModel weather) {
         super.setData(weather);
-        setCity(weather.city(), weather.cities().cities());
+        setCity(weather.city(), weather.cities());
         showTemperature(weather.weather().temperature(), weather.tempUnit());
         showCondition(ConditionMapper.map(weather.weather().weatherConditions()));
         showForecast(weather.forecast().weatherList());
+        showLatestUpdate(weather.weather().timestamp());
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if (hour < 3 || hour > 16) {
             showTextualTomorrow(weather.weather(), weather.forecast().weatherList().get(0));
@@ -194,7 +190,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     @Override
     public void setCity(City city, List<City> cities) {
         spinnerAdapter.clear();
-        cities.add(getCityEditorObject());
         spinnerAdapter.addAll(cities);
         spinnerAdapter.notifyDataSetChanged();
         spinnerCity.setSelection(cities.indexOf(city));
@@ -207,7 +202,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
 
     @Override
     public void showError(Throwable error) {
-        Logger.w(TAG, error);
         Toast.makeText(this, this.getString(R.string.error_loading_weather), Toast.LENGTH_LONG).show();
     }
 
@@ -234,9 +228,10 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         weatherIcon.setBackgroundResource(condition);
     }
 
-
-    @Override
-    public void showLatestUpdate(String latestUpdateTime) {
+    public void showLatestUpdate(long updateTime) {
+        Date date = new Date(updateTime);
+        DateFormat formatter = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
+        String latestUpdateTime = formatter.format(date);
         String latestUpdateTimeString = getString(R.string.weather_latest_update_time_value, latestUpdateTime);
         textLatestUpdate.setText(latestUpdateTimeString);
     }
@@ -245,12 +240,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     public Observable<City> getCitySelections() {
         return RxAdapterView.itemSelections(spinnerCity)
                             .skipInitialValue()
-                            .doOnNext(x -> {
-                                if (x != null && x == spinnerAdapter.getCount() - 1) {
-                                    startActivity(new Intent(this, SuggestsActivity.class));
-                                }
-                            })
-                            .filter(x -> x != spinnerAdapter.getCount() - 1)
                             .map(spinnerAdapter::getItem)
                             .distinctUntilChanged();
     }

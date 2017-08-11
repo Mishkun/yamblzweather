@@ -9,8 +9,6 @@ import io.reactivex.Observable;
 
 public interface WeatherView extends BaseView<WeatherViewModel> {
 
-    void showLatestUpdate(String latestUpdateTime);
-
     Observable<City> getCitySelections();
 
     void setCity(City city, List<City> cities);

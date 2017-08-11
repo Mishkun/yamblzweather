@@ -13,11 +13,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -52,12 +52,12 @@ public class GetCurrentWeatherInteractorTest {
     }
     @Test
     public void run() throws Exception {
-        when(weatherProvider.getWeatherSubscription()).thenReturn(Observable.just(weather, weather));
+        when(weatherProvider.getWeather()).thenReturn(Maybe.just(weather));
 
         TestObserver<Weather> weatherTestObserver = getCurrentWeatherInteractor.run().test();
         testScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
 
-        weatherTestObserver.assertResult(weather, weather);
+        weatherTestObserver.assertResult(weather);
     }
 
 }

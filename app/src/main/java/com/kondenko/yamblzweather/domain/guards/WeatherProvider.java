@@ -13,7 +13,7 @@ import io.reactivex.Observable;
  */
 
 public interface WeatherProvider {
-    Observable<Weather> getWeatherSubscription();
+    Maybe<Weather> getWeather();
     Maybe<Forecast> getForecast();
     Completable update(City city);
 }

@@ -15,7 +15,7 @@ import java.util.List;
  */
 @AutoValue
 abstract class WeatherViewModel implements Parcelable {
-    public static WeatherViewModel create(Weather weather, Forecast forecast, City city, CityList cityList, TempUnit tempUnit) {
+    public static WeatherViewModel create(Weather weather, Forecast forecast, City city, List<City> cityList, TempUnit tempUnit) {
         return new AutoValue_WeatherViewModel(weather, forecast, city, cityList, tempUnit);
     }
 
@@ -25,16 +25,8 @@ abstract class WeatherViewModel implements Parcelable {
 
     public abstract City city();
 
-    public abstract CityList cities();
+    public abstract List<City> cities();
 
     public abstract TempUnit tempUnit();
 
-    @AutoValue
-    static abstract class CityList implements Parcelable {
-        public static CityList create(List<City> cities) {
-            return new AutoValue_WeatherViewModel_CityList(cities);
-        }
-
-        public abstract List<City> cities();
-    }
 }

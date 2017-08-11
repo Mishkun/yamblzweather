@@ -13,9 +13,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
+import io.reactivex.processors.PublishProcessor;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -40,10 +42,11 @@ public class RoomLocationProviderTest {
 
     @Before
     public void setUp() throws Exception {
-        roomLocationProvider = new RoomLocationProvider(cityDao);
-
         city = City.create(Location.builder().longitude(longitude).latitude(latitude).build(), NAME, ID);
         setupCityEntity();
+
+        when(cityDao.getSelectedCity()).thenReturn(Flowable.just(cityEntity, cityEntity));
+        roomLocationProvider = new RoomLocationProvider(cityDao);
     }
 
     private void setupCityEntity() {
@@ -56,11 +59,15 @@ public class RoomLocationProviderTest {
 
     @Test
     public void shouldGetCurrentCity() throws Exception {
-        when(cityDao.getSelectedCity()).thenReturn(Maybe.just(cityEntity));
+        PublishProcessor<CityEntity> cityPublishProcessor = PublishProcessor.create();
+        when(cityDao.getSelectedCity()).thenReturn(cityPublishProcessor);
 
+        roomLocationProvider = new RoomLocationProvider(cityDao);
         TestObserver<City> cityTestObserver = roomLocationProvider.getCurrentCity().test();
+        cityPublishProcessor.onNext(cityEntity);
+        cityPublishProcessor.onNext(cityEntity);
 
-        cityTestObserver.assertResult(city);
+        cityTestObserver.assertValues(city, city);
     }
 
     @Test

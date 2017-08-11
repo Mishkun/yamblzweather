@@ -25,7 +25,7 @@ public class SettingsManager {
 
     public TempUnit getUnitKey() {
         String unitKey = context.getString(R.string.pref_key_temp_unit);
-        String defaultUnit = context.getString(R.string.pref_key_unit_kelvin);
+        String defaultUnit = context.getString(R.string.pref_key_unit_celsius);
         String unit = preferences.getString(unitKey, defaultUnit);
         if (unit.equals(context.getString(R.string.pref_key_unit_fahrenheit)))
             return TempUnit.IMPERIAL;

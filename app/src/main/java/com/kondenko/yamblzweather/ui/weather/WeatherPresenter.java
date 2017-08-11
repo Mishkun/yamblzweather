@@ -1,8 +1,5 @@
 package com.kondenko.yamblzweather.ui.weather;
 
-import android.util.Pair;
-
-import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentWeatherInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetFavoredCitiesInteractor;
@@ -11,10 +8,7 @@ import com.kondenko.yamblzweather.domain.usecase.GetUnitsInteractor;
 import com.kondenko.yamblzweather.domain.usecase.SetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.UpdateWeatherInteractor;
 import com.kondenko.yamblzweather.ui.BasePresenter;
-import com.kondenko.yamblzweather.ui.weather.WeatherViewModel.CityList;
-import com.kondenko.yamblzweather.utils.Utils;
 
-import java.util.List;
 import java.util.concurrent.CancellationException;
 
 import javax.inject.Inject;
@@ -22,8 +16,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
-import io.reactivex.Single;
+
 @Singleton
 public class WeatherPresenter extends BasePresenter<WeatherView> {
 
@@ -55,26 +48,30 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     @Override
     public void attachView(WeatherView view) {
         super.attachView(view);
-        getWeatherViewModel().compose(bindToLifecycle())
-                             .doOnSubscribe((d) -> updateData())
-                             .doOnNext(ignore -> {
-                                 if (!initialized) {
-                                     subscribeCitySelections(getView());
-                                     initialized = true;
-                                 }
-                             })
-                             .subscribe(result -> {
-                                 if (isViewAttached()) {
-                                     getView().setData(result);
-                                     showUpdateTime(result.weather().timestamp());
-                                 }
-                             });
-    }
-
-    @Override
-    public void detachView() {
-        super.detachView();
-        initialized = false;
+        getCurrentCityInteractor.run()
+                                .compose(bindToLifecycle())
+                                .flatMapMaybe(city -> updateWeatherInteractor.run(city)
+                                                                             .onErrorComplete()
+                                                                             .andThen(Maybe.zip(currentWeatherInteractor.run(),
+                                                                                                getFavoredCitiesInteractor.run()
+                                                                                                                          .toMaybe(),
+                                                                                                getForecastInteractor.run(),
+                                                                                                getUnitsInteractor.run().toMaybe(),
+                                                                                                (weather, cities, forecast, unit) -> WeatherViewModel
+                                                                                                        .create(weather, forecast,
+                                                                                                                city,
+                                                                                                                cities, unit))))
+                                .doAfterNext(ignore -> {
+                                    if (!initialized) {
+                                        subscribeCitySelections(getView());
+                                        initialized = true;
+                                    }
+                                })
+                                .subscribe(result -> {
+                                    if (isViewAttached()) {
+                                        getView().setData(result);
+                                    }
+                                });
     }
 
     private void subscribeCitySelections(WeatherView view) {
@@ -84,21 +81,11 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
             .subscribe();
     }
 
-    private Observable<WeatherViewModel> getWeatherViewModel() {
-        return currentWeatherInteractor.run()
-                                       .flatMapMaybe(weather -> Maybe.zip(getFavoredCitiesInteractor.run().map(CityList::create).toMaybe(),
-                                                                          getCurrentCityInteractor.run(),
-                                                                          getForecastInteractor.run(),
-                                                                          getUnitsInteractor.run().toMaybe(),
-                                                                          (cities, city, forecast, unit) -> WeatherViewModel.create(weather, forecast,
-                                                                                                                                    city,
-                                                                                                                                    cities, unit)));
-    }
-
 
     void updateData() {
         if (isViewAttached()) getView().showLoading(true);
         getCurrentCityInteractor.run()
+                                .firstElement()
                                 .compose(bindToLifecycle())
                                 .flatMapCompletable(updateWeatherInteractor::run)
                                 .doFinally(() -> {
@@ -113,11 +100,6 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
                                 })
                                 .onErrorComplete()
                                 .subscribe();
-    }
-
-    private void showUpdateTime(long time) {
-        String latestUpdateTime = Utils.millisTo24time(time);
-        if (isViewAttached()) getView().showLatestUpdate(latestUpdateTime);
     }
 
 }

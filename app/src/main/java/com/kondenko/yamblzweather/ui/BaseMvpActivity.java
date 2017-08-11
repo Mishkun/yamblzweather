@@ -12,14 +12,14 @@ public abstract class BaseMvpActivity<M extends Parcelable, P extends BasePresen
     protected P presenter;
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         presenter.attachView(this);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         presenter.detachView();
     }
 

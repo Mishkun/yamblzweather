@@ -1,8 +1,7 @@
 package com.kondenko.yamblzweather.utils.interceptors;
 
 import android.support.annotation.NonNull;
-
-import com.kondenko.yamblzweather.utils.Logger;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -18,10 +17,8 @@ public class LoggingInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         Response response = chain.proceed(request);
-        //Logger.i(TAG, request.headers().toString());
-        Logger.i(TAG, request.toString());
-        //Logger.i(TAG, response.headers().toString());
-        Logger.i(TAG, response.toString());
+        Log.i(TAG, request.toString());
+        Log.i(TAG, response.toString());
         return response;
     }
 
