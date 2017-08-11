@@ -2,7 +2,6 @@ package com.kondenko.yamblzweather.domain.usecase;
 
 import com.kondenko.yamblzweather.di.Job;
 import com.kondenko.yamblzweather.di.Ui;
-import com.kondenko.yamblzweather.domain.BaseInteractor;
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.guards.LocationProvider;
 
@@ -15,7 +14,7 @@ import io.reactivex.Scheduler;
  * Created by Mishkun on 05.08.2017.
  */
 
-public class DeleteCityInteractor extends BaseInteractor {
+public class DeleteCityInteractor {
     private final LocationProvider locationProvider;
     private final Scheduler jobScheduler;
     private final Scheduler uiScheduler;
@@ -30,12 +29,13 @@ public class DeleteCityInteractor extends BaseInteractor {
 
     public Completable run(City city) {
         return locationProvider.getCurrentCity()
-                               .flatMapCompletable(currentCity -> !currentCity.equals(city) ? locationProvider.deleteFavoriteCity(
-                                       city) : locationProvider.deleteFavoriteCity(city)
-                                                               .andThen(locationProvider.getFavoriteCities()
-                                                                                        .flatMapCompletable(
-                                                                                                cities -> locationProvider.setCurrentCity(cities.get(
-                                                                                                        0)))))
+                               .flatMapCompletable(currentCity -> !currentCity.equals(city)
+                                       ? locationProvider.deleteFavoriteCity(city)
+                                       : locationProvider.deleteFavoriteCity(city)
+                                                         .andThen(locationProvider.getFavoriteCities()
+                                                                                  .flatMapCompletable(
+                                                                                          cities -> locationProvider.setCurrentCity(cities.get(
+                                                                                                  0)))))
                                .subscribeOn(jobScheduler)
                                .observeOn(uiScheduler);
     }

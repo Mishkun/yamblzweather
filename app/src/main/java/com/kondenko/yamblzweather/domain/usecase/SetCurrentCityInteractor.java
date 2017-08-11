@@ -2,7 +2,6 @@ package com.kondenko.yamblzweather.domain.usecase;
 
 import com.kondenko.yamblzweather.di.Job;
 import com.kondenko.yamblzweather.di.Ui;
-import com.kondenko.yamblzweather.domain.BaseInteractor;
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.guards.LocationProvider;
 
@@ -15,7 +14,7 @@ import io.reactivex.Scheduler;
  * Created by Mishkun on 04.08.2017.
  */
 
-public class SetCurrentCityInteractor extends BaseInteractor {
+public class SetCurrentCityInteractor {
     private final LocationProvider locationProvider;
     private final Scheduler jobScheduler;
     private final Scheduler uiScheduler;

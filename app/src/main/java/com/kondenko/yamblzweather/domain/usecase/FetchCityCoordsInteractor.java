@@ -2,7 +2,6 @@ package com.kondenko.yamblzweather.domain.usecase;
 
 import com.kondenko.yamblzweather.di.Job;
 import com.kondenko.yamblzweather.di.Ui;
-import com.kondenko.yamblzweather.domain.BaseInteractor;
 import com.kondenko.yamblzweather.domain.entity.Prediction;
 import com.kondenko.yamblzweather.domain.guards.CitySuggestProvider;
 import com.kondenko.yamblzweather.domain.guards.LocationProvider;
@@ -16,7 +15,7 @@ import io.reactivex.Scheduler;
  * Created by Mishkun on 27.07.2017.
  */
 
-public class FetchCityCoordsInteractor extends BaseInteractor {
+public class FetchCityCoordsInteractor {
     private final Scheduler jobScheduler;
     private final Scheduler uiScheduler;
     private final CitySuggestProvider citySuggestProvider;
