@@ -1,5 +1,6 @@
 package com.kondenko.yamblzweather.data.suggest;
 
+import com.kondenko.yamblzweather.data.suggest.CitySearchResult.Result.Geometry.Coord;
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Location;
 

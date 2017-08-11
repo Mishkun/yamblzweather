@@ -13,7 +13,10 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/*_MembersInjector*.*',
             '**/*_Provide*.*',
             '**/Dagger*.*',
+            '**/*_Impl*.*',
             '**/di/*',
+            '**/dagger/*',
+            '**/*AutoValue_*.*',
             '**/di/modules/*'
     ]
 

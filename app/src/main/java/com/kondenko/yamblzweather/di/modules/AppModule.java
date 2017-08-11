@@ -4,7 +4,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.kondenko.yamblzweather.App;
-import com.kondenko.yamblzweather.data.location.AppDatabase;
+import com.kondenko.yamblzweather.data.AppDatabase;
 import com.kondenko.yamblzweather.data.location.CityDao;
 import com.kondenko.yamblzweather.data.location.RoomLocationProvider;
 import com.kondenko.yamblzweather.data.weather.ForecastDao;

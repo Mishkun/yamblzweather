@@ -25,43 +25,61 @@ public class CityEntity {
     @ColumnInfo(name = "selected")
     private boolean selected;
 
-    public String getPlace_id() {
+    String getPlace_id() {
         return place_id;
     }
 
-    public void setPlace_id(String place_id) {
+    void setPlace_id(String place_id) {
         this.place_id = place_id;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public double getLatitude() {
+    double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public boolean isSelected() {
+    boolean isSelected() {
         return selected;
     }
 
-    public void setSelected(boolean selected) {
+    void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CityEntity that = (CityEntity) o;
+
+        if (Double.compare(that.latitude, latitude) != 0) return false;
+        if (Double.compare(that.longitude, longitude) != 0) return false;
+        return place_id.equals(that.place_id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return place_id.hashCode();
     }
 }

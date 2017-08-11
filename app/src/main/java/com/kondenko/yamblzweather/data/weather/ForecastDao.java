@@ -24,6 +24,6 @@ public interface ForecastDao {
     @Query("SELECT * FROM forecast WHERE city = (SELECT id FROM city WHERE selected = 1 LIMIT 1) LIMIT 1")
     Maybe<ForecastEntity> getForecastEntity();
 
-    @Query("SELECT * FROM weather_forecast WHERE forecast = :forecastTimestamp")
-    Maybe<List<WeatherForecastEntity>> getWeatherForecasts(String forecastTimestamp);
+    @Query("SELECT * FROM weather_forecast WHERE forecast = :forecastId")
+    Maybe<List<WeatherForecastEntity>> getWeatherForecasts(String forecastId);
 }
