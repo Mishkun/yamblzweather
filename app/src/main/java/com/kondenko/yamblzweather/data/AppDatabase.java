@@ -1,8 +1,10 @@
-package com.kondenko.yamblzweather.data.location;
+package com.kondenko.yamblzweather.data;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
+import com.kondenko.yamblzweather.data.location.CityDao;
+import com.kondenko.yamblzweather.data.location.CityEntity;
 import com.kondenko.yamblzweather.data.weather.ForecastDao;
 import com.kondenko.yamblzweather.data.weather.ForecastEntity;
 import com.kondenko.yamblzweather.data.weather.WeatherDao;

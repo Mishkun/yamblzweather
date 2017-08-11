@@ -34,7 +34,6 @@ public class RoomLocationProvider implements LocationProvider {
     public Completable setCurrentCity(City city) {
         return Completable.fromAction(() -> {
             cityDao.deselectAll();
-            Log.d(TAG, "setCurrentCity " + city.name());
             cityDao.setSelectedCity(city.id());});
     }
 
