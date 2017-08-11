@@ -35,10 +35,9 @@ public class OpenWeatherWeatherProvider implements WeatherProvider {
 
 
     @Override
-    public Observable<Weather> getWeatherSubscription() {
+    public Maybe<Weather> getWeather() {
         return weatherDao.getWeather()
-                         .map(WeatherMapper::dbToDomain)
-                         .toObservable();
+                         .map(WeatherMapper::dbToDomain);
     }
 
     @Override

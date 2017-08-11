@@ -165,11 +165,11 @@ public class OpenWeatherWeatherProviderTest {
 
     @Test
     public void shouldGetWeatherSubscription() throws Exception {
-        when(weatherDao.getWeather()).thenReturn(Flowable.just(weatherEntity, weatherEntity));
+        when(weatherDao.getWeather()).thenReturn(Maybe.just(weatherEntity));
 
-        TestObserver<Weather> weatherTestObserver = openWeatherWeatherProvider.getWeatherSubscription().test();
+        TestObserver<Weather> weatherTestObserver = openWeatherWeatherProvider.getWeather().test();
 
-        weatherTestObserver.assertResult(weather, weather);
+        weatherTestObserver.assertResult(weather);
     }
 
 

@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
@@ -47,7 +49,7 @@ public class DeleteCityInteractorTest {
 
     @Test
     public void shouldJustDeleteCity() throws Exception {
-        when(locationProvider.getCurrentCity()).thenReturn(Maybe.just(cityOther));
+        when(locationProvider.getCurrentCity()).thenReturn(Observable.just(cityOther));
         when(locationProvider.deleteFavoriteCity(any())).thenReturn(Completable.complete());
 
         TestObserver<Void> voidTestObserver = deleteCityInteractor.run(city).test();
@@ -59,7 +61,7 @@ public class DeleteCityInteractorTest {
 
     @Test
     public void shouldDeleteCityAndChooseNewOne() throws Exception{
-        when(locationProvider.getCurrentCity()).thenReturn(Maybe.just(city));
+        when(locationProvider.getCurrentCity()).thenReturn(Observable.just(city));
         when(locationProvider.getFavoriteCities()).thenReturn(Single.just(new ArrayList<City>(){{add(cityOther);}}));
         when(locationProvider.deleteFavoriteCity(any())).thenReturn(Completable.complete());
         when(locationProvider.setCurrentCity(any())).thenReturn(Completable.complete());
