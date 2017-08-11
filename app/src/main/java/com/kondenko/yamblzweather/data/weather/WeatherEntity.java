@@ -82,27 +82,27 @@ public class WeatherEntity {
         this.place_id = place_id;
     }
 
-    public long getTimestamp() {
+    long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public double getDayTemperature() {
+    double getDayTemperature() {
         return dayTemperature;
     }
 
-    public void setDayTemperature(double dayTemperature) {
+    void setDayTemperature(double dayTemperature) {
         this.dayTemperature = dayTemperature;
     }
 
-    public double getNightTemperature() {
+    double getNightTemperature() {
         return nightTemperature;
     }
 
-    public void setNightTemperature(double nightTemperature) {
+    void setNightTemperature(double nightTemperature) {
         this.nightTemperature = nightTemperature;
     }
 }

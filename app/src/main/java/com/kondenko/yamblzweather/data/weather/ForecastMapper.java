@@ -1,5 +1,6 @@
 package com.kondenko.yamblzweather.data.weather;
 
+import com.kondenko.yamblzweather.data.weather.ForecastResponse.ForecastWeather;
 import com.kondenko.yamblzweather.domain.entity.Temperature;
 import com.kondenko.yamblzweather.domain.entity.Weather;
 
@@ -8,14 +9,14 @@ import com.kondenko.yamblzweather.domain.entity.Weather;
  */
 
 class ForecastMapper {
-    static WeatherForecastEntity responseToWeatherForecastdb(ForecastResponse.ForecastWeather weatherModel) {
+    static WeatherForecastEntity responseToWeatherForecastdb(ForecastWeather weatherModel) {
         WeatherForecastEntity weatherEntity = new WeatherForecastEntity();
         weatherEntity.setHumidity(weatherModel.getHumidity());
         weatherEntity.setPressure(weatherModel.getPressure());
         weatherEntity.setTemperature(weatherModel.getTemp().getDay());
         weatherEntity.setDayTemperature(weatherModel.getTemp().getDay());
         weatherEntity.setNightTemperature(weatherModel.getTemp().getNight());
-        weatherEntity.setWindSpeed(0);
+        weatherEntity.setWindSpeed(weatherModel.getWindspeed());
         weatherEntity.setTimestamp(weatherModel.getDt());
         weatherEntity.setWeatherConditionCode(weatherModel.getWeatherCondition().get(0).getId());
         return weatherEntity;

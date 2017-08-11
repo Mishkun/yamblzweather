@@ -21,11 +21,11 @@ public class ForecastEntity {
     @ColumnInfo(name = "city")
     private String place_id;
 
-    public long getTimestamp() {
+    long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -37,7 +37,26 @@ public class ForecastEntity {
         this.place_id = place_id;
     }
 
-    public String getCity() {
+    String getCity() {
         return place_id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ForecastEntity that = (ForecastEntity) o;
+
+        if (timestamp != that.timestamp) return false;
+        return place_id.equals(that.place_id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (timestamp ^ (timestamp >>> 32));
+        result = 31 * result + place_id.hashCode();
+        return result;
     }
 }

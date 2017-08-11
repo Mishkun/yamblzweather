@@ -22,10 +22,13 @@ public class WeatherForecastEntity {
 
     @ColumnInfo(name = "temperature")
     private double temperature;
+
     @ColumnInfo(name = "day_temperature")
     private double dayTemperature;
+
     @ColumnInfo(name = "night_temperature")
     private double nightTemperature;
+
     @ColumnInfo(name = "humidity")
     private double humidity;
 
@@ -35,76 +38,76 @@ public class WeatherForecastEntity {
     @ColumnInfo(name = "wind_speed")
     private double windSpeed;
 
-    public long getTimestamp() {
+    long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public String getForecast() {
+    String getForecast() {
         return forecast;
     }
 
-    public void setForecast(String forecast) {
+    void setForecast(String forecast) {
         this.forecast = forecast;
     }
 
-    public int getWeatherConditionCode() {
+    int getWeatherConditionCode() {
         return weatherConditionCode;
     }
 
-    public void setWeatherConditionCode(int weatherConditionCode) {
+    void setWeatherConditionCode(int weatherConditionCode) {
         this.weatherConditionCode = weatherConditionCode;
     }
 
-    public double getTemperature() {
+    double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(double temperature) {
+    void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
-    public double getHumidity() {
+    double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(double humidity) {
+    void setHumidity(double humidity) {
         this.humidity = humidity;
     }
 
-    public double getPressure() {
+    double getPressure() {
         return pressure;
     }
 
-    public void setPressure(double pressure) {
+    void setPressure(double pressure) {
         this.pressure = pressure;
     }
 
-    public double getWindSpeed() {
+    double getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(double windSpeed) {
+    void setWindSpeed(double windSpeed) {
         this.windSpeed = windSpeed;
     }
 
 
-    public double getNightTemperature() {
+    double getNightTemperature() {
         return nightTemperature;
     }
 
-    public void setNightTemperature(double nightTemperature) {
+    void setNightTemperature(double nightTemperature) {
         this.nightTemperature = nightTemperature;
     }
 
-    public double getDayTemperature() {
+    double getDayTemperature() {
         return dayTemperature;
     }
 
-    public void setDayTemperature(double dayTemperature) {
+    void setDayTemperature(double dayTemperature) {
         this.dayTemperature = dayTemperature;
     }
 }

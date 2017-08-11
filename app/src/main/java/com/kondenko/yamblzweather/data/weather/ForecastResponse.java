@@ -13,7 +13,14 @@ class ForecastResponse {
     @SerializedName("list")
     private List<ForecastWeather> list;
 
-    public List<ForecastWeather> getList() {
+    ForecastResponse(List<ForecastWeather> list) {
+        this.list = list;
+    }
+
+    ForecastResponse() {
+    }
+
+    List<ForecastWeather> getList() {
         return list;
     }
 
@@ -29,10 +36,26 @@ class ForecastResponse {
         private double pressure;
 
         @SerializedName("humidity")
-        private int humidity;
+        private double humidity;
+
+        @SerializedName("speed")
+        private double windspeed;
 
         @SerializedName("weather")
         private List<WeatherCondition> weatherCondition;
+
+        ForecastWeather(long dt, Temp temp, double pressure, double humidity,
+                        double windspeed, List<WeatherCondition> weatherCondition) {
+            this.dt = dt;
+            this.temp = temp;
+            this.pressure = pressure;
+            this.humidity = humidity;
+            this.windspeed = windspeed;
+            this.weatherCondition = weatherCondition;
+        }
+
+        ForecastWeather() {
+        }
 
         long getDt() {
             return dt;
@@ -46,12 +69,16 @@ class ForecastResponse {
             return pressure;
         }
 
-        int getHumidity() {
+        double getHumidity() {
             return humidity;
         }
 
         List<WeatherCondition> getWeatherCondition() {
             return weatherCondition;
+        }
+
+        double getWindspeed() {
+            return windspeed;
         }
 
 
@@ -60,49 +87,25 @@ class ForecastResponse {
             @SerializedName("day")
             private double day;
 
-            @SerializedName("min")
-            private double min;
-
-            @SerializedName("max")
-            private double max;
-
             @SerializedName("night")
             private double night;
 
-            @SerializedName("eve")
-            private double eve;
+            Temp(double day, double night) {
+                this.day = day;
+                this.night = night;
+            }
 
-            @SerializedName("morn")
-            private double morn;
+            Temp() {
+            }
 
             double getDay() {
                 return day;
             }
 
 
-            double getMin() {
-                return min;
-            }
-
-            double getMax() {
-                return max;
-            }
-
-
             double getNight() {
                 return night;
             }
-
-
-            double getEve() {
-                return eve;
-            }
-
-
-            double getMorn() {
-                return morn;
-            }
-
         }
     }
 

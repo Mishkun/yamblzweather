@@ -6,33 +6,28 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 class WeatherModel {
-
     @SerializedName("weather")
     @Expose
     private List<WeatherCondition> weatherCondition;
-    @SerializedName("base")
-    @Expose
-    private String base;
     @SerializedName("main")
     @Expose
     private Main main;
     @SerializedName("wind")
     @Expose
     private Wind wind;
-    @SerializedName("clouds")
-    @Expose
-    private Clouds clouds;
 
+    WeatherModel() {
+    }
+
+    WeatherModel(List<WeatherCondition> weatherCondition, Main main, Wind wind) {
+        this.weatherCondition = weatherCondition;
+        this.main = main;
+        this.wind = wind;
+    }
 
     List<WeatherCondition> getWeatherCondition() {
         return weatherCondition;
     }
-
-
-    String getBase() {
-        return base;
-    }
-
 
     Main getMain() {
         return main;
@@ -43,114 +38,25 @@ class WeatherModel {
         return wind;
     }
 
-
-    Clouds getClouds() {
-        return clouds;
-    }
-
-
-
-
     static class WeatherCondition {
 
         @SerializedName("id")
         @Expose
         private int id;
-        @SerializedName("main")
-        @Expose
-        private String main;
-        @SerializedName("description")
-        @Expose
-        private String description;
-        @SerializedName("icon")
-        @Expose
-        private String icon;
+
+        WeatherCondition(int id) {
+            this.id = id;
+        }
+
+        WeatherCondition() {
+        }
 
         int getId() {
             return id;
         }
-
-
-        String getMain() {
-            return main;
-        }
-
-
-        String getDescription() {
-            return description;
-        }
-
-
-        String getIcon() {
-            return icon;
-        }
-
-
-    }
-
-    long getDt() {
-        return dt;
-    }
-
-    @SerializedName("dt")
-    private long dt;
-
-
-    static class Sys {
-
-        @SerializedName("type")
-        @Expose
-        private int type;
-        @SerializedName("id")
-        @Expose
-        private int id;
-        @SerializedName("message")
-        @Expose
-        private double message;
-        @SerializedName("country")
-        @Expose
-        private String country;
-        @SerializedName("sunrise")
-        @Expose
-        private int sunrise;
-        @SerializedName("sunset")
-        @Expose
-        private int sunset;
-
-        int getType() {
-            return type;
-        }
-
-
-        int getId() {
-            return id;
-        }
-
-
-        double getMessage() {
-            return message;
-        }
-
-
-        String getCountry() {
-            return country;
-        }
-
-
-        int getSunrise() {
-            return sunrise;
-        }
-
-
-        int getSunset() {
-            return sunset;
-        }
-
-
     }
 
     static class Main {
-
         @SerializedName("temp")
         @Expose
         private double temp;
@@ -160,6 +66,15 @@ class WeatherModel {
         @SerializedName("humidity")
         @Expose
         private double humidity;
+
+        Main() {
+        }
+
+        Main(double temp, double pressure, double humidity) {
+            this.temp = temp;
+            this.pressure = pressure;
+            this.humidity = humidity;
+        }
 
         double getTemp() {
             return temp;
@@ -174,38 +89,22 @@ class WeatherModel {
         double getHumidity() {
             return humidity;
         }
-
-
-    }
-
-    static class Clouds {
-
-        @SerializedName("all")
-        @Expose
-        private int all;
-
-        int getAll() {
-            return all;
-        }
-
-
     }
 
     static class Wind {
-
         @SerializedName("speed")
         @Expose
         private double speed;
-        @SerializedName("deg")
-        @Expose
-        private double deg;
+
+        Wind() {
+        }
+
+        Wind(double speed) {
+            this.speed = speed;
+        }
 
         double getSpeed() {
             return speed;
-        }
-
-        double getDeg() {
-            return deg;
         }
     }
 }

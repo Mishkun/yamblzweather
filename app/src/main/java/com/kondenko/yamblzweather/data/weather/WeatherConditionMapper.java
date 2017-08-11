@@ -18,7 +18,7 @@ class WeatherConditionMapper {
             return WeatherConditions.SNOW;
         } else if (code >= 700 && code < 800) {
             return WeatherConditions.FOG;
-        } else if (code >= 800 && code < 803) {
+        } else if (code >= 801 && code < 803) {
             return WeatherConditions.PARTLY_CLOUDY;
         } else if (code >= 803 && code < 900) {
             return WeatherConditions.CLOUDY;
