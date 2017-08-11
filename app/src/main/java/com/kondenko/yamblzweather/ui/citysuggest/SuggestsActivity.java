@@ -10,17 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Prediction;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
-import com.kondenko.yamblzweather.utils.Logger;
 
 import java.util.ArrayList;
 
@@ -128,7 +124,6 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
 
     @Override
     public void showError(Throwable error) {
-        Logger.w(TAG, error);
         citiesView.setVisibility(View.GONE);
         suggestsView.setVisibility(View.GONE);
         errorTextView.setVisibility(View.VISIBLE);

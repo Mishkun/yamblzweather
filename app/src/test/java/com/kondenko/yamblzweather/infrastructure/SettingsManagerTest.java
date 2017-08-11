@@ -1,4 +1,4 @@
-package com.kondenko.yamblzweather.utils;
+package com.kondenko.yamblzweather.infrastructure;
 
 import android.content.Context;
 import android.content.SharedPreferences;

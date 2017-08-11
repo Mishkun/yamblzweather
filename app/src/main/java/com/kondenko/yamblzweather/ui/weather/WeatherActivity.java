@@ -32,10 +32,11 @@ import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 import com.kondenko.yamblzweather.ui.citysuggest.SuggestsActivity;
 import com.kondenko.yamblzweather.ui.onboarding.OnboardingActivity;
 import com.kondenko.yamblzweather.ui.settings.SettingsActivity;
-import com.kondenko.yamblzweather.utils.Logger;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -137,10 +138,11 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     @Override
     public void setData(WeatherViewModel weather) {
         super.setData(weather);
-        setCity(weather.city(), weather.cities().cities());
+        setCity(weather.city(), weather.cities());
         showTemperature(weather.weather().temperature(), weather.tempUnit());
         showCondition(ConditionMapper.map(weather.weather().weatherConditions()));
         showForecast(weather.forecast().weatherList());
+        showLatestUpdate(weather.weather().timestamp());
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if (hour < 3 || hour > 16) {
             showTextualTomorrow(weather.weather(), weather.forecast().weatherList().get(0));
@@ -207,7 +209,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
 
     @Override
     public void showError(Throwable error) {
-        Logger.w(TAG, error);
         Toast.makeText(this, this.getString(R.string.error_loading_weather), Toast.LENGTH_LONG).show();
     }
 
@@ -234,9 +235,10 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         weatherIcon.setBackgroundResource(condition);
     }
 
-
-    @Override
-    public void showLatestUpdate(String latestUpdateTime) {
+    public void showLatestUpdate(long updateTime) {
+        Date date = new Date(updateTime);
+        DateFormat formatter = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
+        String latestUpdateTime = formatter.format(date);
         String latestUpdateTimeString = getString(R.string.weather_latest_update_time_value, latestUpdateTime);
         textLatestUpdate.setText(latestUpdateTimeString);
     }
