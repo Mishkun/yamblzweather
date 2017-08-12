@@ -43,6 +43,16 @@ public class CityEntityTest {
     }
 
     @Test
+    public void shouldBeEqualToSelf() throws Exception {
+        assertEquals(cityEntity, cityEntity);
+    }
+
+    @Test
+    public void shouldBeNotEqualToNull() throws Exception {
+        assertFalse(cityEntity.equals(null));
+    }
+
+    @Test
     public void shouldBeEqual() throws Exception {
         assertEquals(cityEntity, cityEntity3);
         assertEquals(cityEntity2, cityEntity4);

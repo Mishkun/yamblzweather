@@ -35,6 +35,17 @@ public class ForecastEntityTest {
         return forecastEntity;
     }
 
+
+    @Test
+    public void shouldBeEqualToSelf() throws Exception {
+        assertEquals(forecastEntity1, forecastEntity1);
+    }
+
+    @Test
+    public void shouldBeNotEqualToNull() throws Exception {
+        assertFalse(forecastEntity1.equals(null));
+    }
+
     @Test
     public void shouldBeEqual() throws Exception {
         assertEquals(forecastEntity1, forecastEntity3);
