@@ -1,5 +1,8 @@
 package com.kondenko.yamblzweather.ui.weather;
 
+
+import android.support.v4.util.Pair;
+
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentWeatherInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetFavoredCitiesInteractor;
@@ -16,6 +19,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 @Singleton
 public class WeatherPresenter extends BasePresenter<WeatherView> {
@@ -48,30 +52,33 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     @Override
     public void attachView(WeatherView view) {
         super.attachView(view);
-        getCurrentCityInteractor.run()
-                                .compose(bindToLifecycle())
-                                .flatMapMaybe(city -> updateWeatherInteractor.run(city)
-                                                                             .onErrorComplete()
-                                                                             .andThen(Maybe.zip(currentWeatherInteractor.run(),
-                                                                                                getFavoredCitiesInteractor.run()
-                                                                                                                          .toMaybe(),
-                                                                                                getForecastInteractor.run(),
-                                                                                                getUnitsInteractor.run().toMaybe(),
-                                                                                                (weather, cities, forecast, unit) -> WeatherViewModel
-                                                                                                        .create(weather, forecast,
-                                                                                                                city,
-                                                                                                                cities, unit))))
-                                .doAfterNext(ignore -> {
-                                    if (!initialized) {
-                                        subscribeCitySelections(getView());
-                                        initialized = true;
-                                    }
-                                })
-                                .subscribe(result -> {
-                                    if (isViewAttached()) {
-                                        getView().setData(result);
-                                    }
-                                });
+        Observable.combineLatest(getCurrentCityInteractor.run(),
+                                 currentWeatherInteractor.run(),
+                                 Pair::new)
+                  .compose(bindToLifecycle())
+                  .doOnNext(pair -> {
+                      if (!initialized && isViewAttached()) {
+                          updateWeatherInteractor.run(pair.first).onErrorComplete().subscribe();
+                      }
+                  })
+                  .flatMapMaybe(pair -> Maybe.zip(getFavoredCitiesInteractor.run().toMaybe(),
+                                                  getForecastInteractor.run(),
+                                                  getUnitsInteractor.run().toMaybe(),
+                                                  (cities, forecast, unit) -> WeatherViewModel
+                                                          .create(pair.second, forecast,
+                                                                  pair.first,
+                                                                  cities, unit)).onErrorComplete())
+                  .doAfterNext(ignore -> {
+                      if (!initialized && isViewAttached()) {
+                          subscribeCitySelections(getView());
+                          initialized = true;
+                      }
+                  })
+                  .subscribe(result -> {
+                      if (isViewAttached()) {
+                          getView().setData(result);
+                      }
+                  });
     }
 
     private void subscribeCitySelections(WeatherView view) {
@@ -81,6 +88,11 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
             .subscribe();
     }
 
+    @Override
+    public void detachView() {
+        super.detachView();
+        initialized = false;
+    }
 
     void updateData() {
         if (isViewAttached()) getView().showLoading(true);

@@ -18,5 +18,5 @@ public interface WeatherDao {
     void insertAllWeather(WeatherEntity... entities);
 
     @Query("SELECT * FROM weather WHERE city = (SELECT id FROM city WHERE selected = 1 LIMIT 1) LIMIT 1")
-    Maybe<WeatherEntity> getWeather();
+    Flowable<WeatherEntity> getWeather();
 }

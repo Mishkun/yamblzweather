@@ -52,12 +52,12 @@ public class GetCurrentWeatherInteractorTest {
     }
     @Test
     public void run() throws Exception {
-        when(weatherProvider.getWeather()).thenReturn(Maybe.just(weather));
+        when(weatherProvider.getWeather()).thenReturn(Observable.just(weather, weather));
 
         TestObserver<Weather> weatherTestObserver = getCurrentWeatherInteractor.run().test();
         testScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
 
-        weatherTestObserver.assertResult(weather);
+        weatherTestObserver.assertResult(weather, weather);
     }
 
 }
