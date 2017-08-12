@@ -5,6 +5,7 @@ import com.kondenko.yamblzweather.domain.entity.Forecast;
 import com.kondenko.yamblzweather.domain.entity.Weather;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
@@ -13,7 +14,7 @@ import io.reactivex.Observable;
  */
 
 public interface WeatherProvider {
-    Maybe<Weather> getWeather();
+    Observable<Weather> getWeather();
     Maybe<Forecast> getForecast();
     Completable update(City city);
 }

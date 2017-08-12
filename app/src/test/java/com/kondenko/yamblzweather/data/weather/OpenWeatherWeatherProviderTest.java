@@ -19,6 +19,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
 
@@ -165,11 +166,11 @@ public class OpenWeatherWeatherProviderTest {
 
     @Test
     public void shouldGetWeatherSubscription() throws Exception {
-        when(weatherDao.getWeather()).thenReturn(Maybe.just(weatherEntity));
+        when(weatherDao.getWeather()).thenReturn(Flowable.just(weatherEntity, weatherEntity));
 
         TestObserver<Weather> weatherTestObserver = openWeatherWeatherProvider.getWeather().test();
 
-        weatherTestObserver.assertResult(weather);
+        weatherTestObserver.assertResult(weather, weather);
     }
 
 

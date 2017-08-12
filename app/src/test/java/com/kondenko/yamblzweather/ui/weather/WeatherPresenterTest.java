@@ -1,5 +1,6 @@
 package com.kondenko.yamblzweather.ui.weather;
 
+
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Forecast;
 import com.kondenko.yamblzweather.domain.entity.Location;
@@ -101,7 +102,7 @@ public class WeatherPresenterTest {
     @Test
     public void shouldSubscribeViewOnWeather() throws Exception {
         when(getCurrentCityInteractor.run()).thenReturn(Observable.just(city, city));
-        when(currentWeatherInteractor.run()).thenReturn(Maybe.just(weather));
+        when(currentWeatherInteractor.run()).thenReturn(Observable.just(weather, weather));
         when(getFavoredCitiesInteractor.run()).thenReturn(Single.just(cityList));
         when(getForecastInteractor.run()).thenReturn(Maybe.just(forecast));
         when(getUnitsInteractor.run()).thenReturn(Single.just(TempUnit.IMPERIAL));
@@ -116,10 +117,10 @@ public class WeatherPresenterTest {
     }
 
     @Test
-    public void shouldSubscribeToCityUpdates() throws Exception {
+    public void shouldSubscribeToCityUpdatesAndOnlyOnce() throws Exception {
         when(getCurrentCityInteractor.run()).thenReturn(Observable.just(city, city));
         when(setCurrentCityInteractor.run(any())).thenReturn(Completable.complete());
-        when(currentWeatherInteractor.run()).thenReturn(Maybe.just(weather));
+        when(currentWeatherInteractor.run()).thenReturn(Observable.just(weather, weather));
         when(getFavoredCitiesInteractor.run()).thenReturn(Single.just(new ArrayList<>()));
         when(getForecastInteractor.run()).thenReturn(Maybe.just(forecast));
         when(getUnitsInteractor.run()).thenReturn(Single.just(TempUnit.IMPERIAL));
@@ -135,7 +136,7 @@ public class WeatherPresenterTest {
     public void shouldUpdateData() throws Exception {
         when(getCurrentCityInteractor.run()).thenReturn(Observable.just(city, city));
         when(view.getCitySelections()).thenReturn(Observable.never());
-        when(currentWeatherInteractor.run()).thenReturn(Maybe.empty());
+        when(currentWeatherInteractor.run()).thenReturn(Observable.never());
         when(getFavoredCitiesInteractor.run()).thenReturn(Single.just(new ArrayList<>()));
         when(getForecastInteractor.run()).thenReturn(Maybe.empty());
         when(getUnitsInteractor.run()).thenReturn(Single.just(TempUnit.IMPERIAL));
@@ -151,7 +152,7 @@ public class WeatherPresenterTest {
     public void shouldShowError() throws Exception {
         when(getCurrentCityInteractor.run()).thenReturn(Observable.just(city, city));
         when(view.getCitySelections()).thenReturn(Observable.never());
-        when(currentWeatherInteractor.run()).thenReturn(Maybe.empty());
+        when(currentWeatherInteractor.run()).thenReturn(Observable.never());
         when(getFavoredCitiesInteractor.run()).thenReturn(Single.just(new ArrayList<>()));
         when(getForecastInteractor.run()).thenReturn(Maybe.empty());
         when(getUnitsInteractor.run()).thenReturn(Single.just(TempUnit.IMPERIAL));
@@ -162,4 +163,5 @@ public class WeatherPresenterTest {
 
         verify(view).showError(any());
     }
+
 }

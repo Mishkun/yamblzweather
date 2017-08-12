@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,7 +23,6 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding2.widget.RxAdapterView;
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.domain.entity.City;
-import com.kondenko.yamblzweather.domain.entity.Location;
 import com.kondenko.yamblzweather.domain.entity.TempUnit;
 import com.kondenko.yamblzweather.domain.entity.Temperature;
 import com.kondenko.yamblzweather.domain.entity.Weather;
@@ -128,7 +126,6 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     }
 
 
-
     @Override
     public void setData(WeatherViewModel weather) {
         super.setData(weather);
@@ -139,7 +136,9 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         showLatestUpdate(weather.weather().timestamp());
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if (hour < 3 || hour > 16) {
-            showTextualTomorrow(weather.weather(), weather.forecast().weatherList().get(0));
+            if (weather.forecast().weatherList().size() > 0) {
+                showTextualTomorrow(weather.weather(), weather.forecast().weatherList().get(0));
+            }
         } else {
             showTextualTonight(weather.weather());
         }

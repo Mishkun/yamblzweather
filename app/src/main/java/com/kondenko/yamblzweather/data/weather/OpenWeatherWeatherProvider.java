@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -35,9 +36,9 @@ public class OpenWeatherWeatherProvider implements WeatherProvider {
 
 
     @Override
-    public Maybe<Weather> getWeather() {
+    public Observable<Weather> getWeather() {
         return weatherDao.getWeather()
-                         .map(WeatherMapper::dbToDomain);
+                         .map(WeatherMapper::dbToDomain).toObservable();
     }
 
     @Override
