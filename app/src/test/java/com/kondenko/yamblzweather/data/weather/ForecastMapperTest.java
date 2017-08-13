@@ -78,7 +78,7 @@ public class ForecastMapperTest {
 
     @Test
     public void shouldConvertResponseToWeatherForecastdb() throws Exception {
-        WeatherForecastEntity testWeatherForecastEntity = ForecastMapper.responseToWeatherForecastdb(forecastWeatherResponse);
+        WeatherForecastEntity testWeatherForecastEntity = ForecastMapper.responseToWeatherForecastDb(forecastWeatherResponse);
         assertEquals(testWeatherForecastEntity.getDayTemperature(), weatherForecastEntity.getDayTemperature());
         assertEquals(testWeatherForecastEntity.getNightTemperature(),weatherForecastEntity.getNightTemperature());
         assertEquals(testWeatherForecastEntity.getTemperature(),weatherForecastEntity.getTemperature());

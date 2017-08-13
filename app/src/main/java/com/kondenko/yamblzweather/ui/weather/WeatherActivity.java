@@ -176,7 +176,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         weatherSummarySubtitle.setText(subtitle);
     }
 
-    private void showTextualTomorrow(Weather weatherToday, Weather weatherTomorow) {
+    private void showTextualTomorrow(Weather weatherToday, Weather weatherTomorrow) {
         int titleResource = TitleMapper.map(weatherToday.temperature(),
                                             weatherToday.weatherConditions(),
                                             weatherToday.humidity());
@@ -184,13 +184,13 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
                                      getString(R.string.title_text),
                                      getString(titleResource));
         weatherSummaryTitle.setText(title);
-        int subtitleResource = TitleMapper.map(weatherTomorow.temperature(),
-                                               weatherTomorow.weatherConditions(),
-                                               weatherTomorow.humidity());
+        int subtitleResource = TitleMapper.map(weatherTomorrow.temperature(),
+                                               weatherTomorrow.weatherConditions(),
+                                               weatherTomorrow.humidity());
         String subtitle = String.format(Locale.getDefault(),
                                         getString(titleResource == subtitleResource
-                                                          ? R.string.subtitle_tomorow_also_text
-                                                          : R.string.subtitle_tomorow_text),
+                                                          ? R.string.subtitle_tomorrow_also_text
+                                                          : R.string.subtitle_tomorrow_text),
                                         getString(subtitleResource));
         weatherSummarySubtitle.setText(subtitle);
     }

@@ -9,12 +9,12 @@ public enum TempUnit {
     METRIC("C"),
     SCIENTIFIC("K");
 
-    private final String repr;
+    private final String symbol;
 
-    TempUnit(String repr) {
-        this.repr = repr;
+    TempUnit(String symbol) {
+        this.symbol = symbol;
     }
     public String getUnitLetter(){
-        return repr;
+        return symbol;
     }
 }

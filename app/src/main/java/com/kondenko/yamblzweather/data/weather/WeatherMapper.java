@@ -8,7 +8,7 @@ import com.kondenko.yamblzweather.domain.entity.Weather;
  */
 
 class WeatherMapper {
-    static WeatherEntity responseToWeatherdb(WeatherModel weatherModel) {
+    static WeatherEntity responseToWeatherDb(WeatherModel weatherModel) {
         WeatherEntity weatherEntity = new WeatherEntity();
         weatherEntity.setHumidity(weatherModel.getMain().getHumidity());
         weatherEntity.setPressure(hPaToMmHg(weatherModel.getMain().getPressure()));

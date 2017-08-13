@@ -61,7 +61,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="0dp"
-            android:background="@drawable/backgound_weather_button_city"
+            android:background="@drawable/background_weather_button_city"
             android:paddingBottom="@dimen/text_margin"
             android:paddingEnd="@dimen/text_big_margin"
             android:paddingStart="@dimen/text_big_margin"

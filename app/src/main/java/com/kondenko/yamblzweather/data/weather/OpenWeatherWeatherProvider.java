@@ -68,7 +68,7 @@ public class OpenWeatherWeatherProvider implements WeatherProvider {
                              })
                              .flatMap(weatherModels -> Observable.fromIterable(weatherModels)
                                                                  .skip(1)
-                                                                 .map(ForecastMapper::responseToWeatherForecastdb)
+                                                                 .map(ForecastMapper::responseToWeatherForecastDb)
                                                                  .map(weatherForecastEntity -> {
                                                                      weatherForecastEntity.setForecast(city.id());
                                                                      return weatherForecastEntity;
@@ -80,7 +80,7 @@ public class OpenWeatherWeatherProvider implements WeatherProvider {
 
 
     private Completable updateWeather(City city) {
-        return Single.zip(weatherService.getWeather(city.location().latitude(), city.location().longitude()).map(WeatherMapper::responseToWeatherdb),
+        return Single.zip(weatherService.getWeather(city.location().latitude(), city.location().longitude()).map(WeatherMapper::responseToWeatherDb),
                           weatherService.getForecast(city.location().latitude(), city.location().longitude(), 1),
                           (weatherEntity, forecast) -> {
                               weatherEntity.setDayTemperature(forecast.getList().get(0).getTemp().getDay());

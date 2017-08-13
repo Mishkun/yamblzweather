@@ -88,14 +88,14 @@
     <string name="just_clear_stuffy">wet</string>
     <string name="cold_clear_stuffy">cold and wet</string>
 
-    <string name="defaultweather">the right day</string>
+    <string name="default_weather">the right day</string>
 
     <string name="title_text">Today is %s</string>
 
     <string name="subtitle_tonight_text">Tonight is %s</string>
     <string name="subtitle_tonight_also_text">Tonight is also\n%s</string>
 
-    <string name="subtitle_tomorow_text">Tomorrow is %s</string>
-    <string name="subtitle_tomorow_also_text">Tomorrow is also\n%s</string>
+    <string name="subtitle_tomorrow_text">Tomorrow is %s</string>
+    <string name="subtitle_tomorrow_also_text">Tomorrow is also\n%s</string>
 
 </resources>

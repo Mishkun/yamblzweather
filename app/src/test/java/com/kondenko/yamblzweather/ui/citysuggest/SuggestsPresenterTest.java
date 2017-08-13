@@ -4,7 +4,7 @@ import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Location;
 import com.kondenko.yamblzweather.domain.entity.Prediction;
 import com.kondenko.yamblzweather.domain.usecase.DeleteCityInteractor;
-import com.kondenko.yamblzweather.domain.usecase.FetchCityCoordsInteractor;
+import com.kondenko.yamblzweather.domain.usecase.FetchCityCoordinatesInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCitySuggestsInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetFavoredCitiesInteractor;
@@ -45,7 +45,7 @@ public class SuggestsPresenterTest {
     @Mock
     private GetCitySuggestsInteractor getCitySuggestsInteractor;
     @Mock
-    private FetchCityCoordsInteractor fetchCityCoordsInteractor;
+    private FetchCityCoordinatesInteractor fetchCityCoordinatesInteractor;
     @Mock
     private GetFavoredCitiesInteractor getFavoredCitiesInteractor;
     @Mock
@@ -63,7 +63,7 @@ public class SuggestsPresenterTest {
 
     @Before
     public void setUp() throws Exception {
-        suggestsPresenter = new SuggestsPresenter(getCitySuggestsInteractor, fetchCityCoordsInteractor, getFavoredCitiesInteractor,
+        suggestsPresenter = new SuggestsPresenter(getCitySuggestsInteractor, fetchCityCoordinatesInteractor, getFavoredCitiesInteractor,
                                                   setCurrentCityInteractor,
                                                   deleteCityInteractor, getCurrentCityInteractor);
         city = City.create(Location.builder().longitude(0).latitude(0).build(), NAME, PLACE_ID);
@@ -164,7 +164,7 @@ public class SuggestsPresenterTest {
         when(view.getCitiesClicks()).thenReturn(Observable.never());
         when(view.getCitiesDeletionsClicks()).thenReturn(Observable.never());
         when(view.getSuggestsClicks()).thenReturn(Observable.just(prediction));
-        when(fetchCityCoordsInteractor.run(prediction)).thenReturn(Completable.complete());
+        when(fetchCityCoordinatesInteractor.run(prediction)).thenReturn(Completable.complete());
 
         suggestsPresenter.attachView(view);
 
@@ -179,8 +179,8 @@ public class SuggestsPresenterTest {
         Prediction ERROR = Prediction.create("ERROR", "ERROR");
         PublishSubject<Prediction> subject = PublishSubject.create();
         when(view.getSuggestsClicks()).thenReturn(subject);
-        when(fetchCityCoordsInteractor.run(ERROR)).thenReturn(Completable.error(new Throwable()));
-        when(fetchCityCoordsInteractor.run(prediction)).thenReturn(Completable.complete());
+        when(fetchCityCoordinatesInteractor.run(ERROR)).thenReturn(Completable.error(new Throwable()));
+        when(fetchCityCoordinatesInteractor.run(prediction)).thenReturn(Completable.complete());
 
         suggestsPresenter.attachView(view);
         subject.onNext(ERROR);

@@ -71,7 +71,7 @@ public class WeatherMapperTest {
 
     @Test
     public void shouldConvertResponseToWeatherdb() throws Exception {
-        WeatherEntity testWeatherEntity = WeatherMapper.responseToWeatherdb(weatherModel);
+        WeatherEntity testWeatherEntity = WeatherMapper.responseToWeatherDb(weatherModel);
         assertEquals(testWeatherEntity.getTemperature(),weatherEntity.getTemperature());
         assertEquals(testWeatherEntity.getPressure(),weatherEntity.getPressure());
         assertEquals(testWeatherEntity.getWindSpeed(),weatherEntity.getWindSpeed());
