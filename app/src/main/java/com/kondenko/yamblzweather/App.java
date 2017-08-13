@@ -5,8 +5,8 @@ import android.app.Application;
 
 import com.evernote.android.job.JobManager;
 import com.facebook.stetho.Stetho;
-import com.kondenko.yamblzweather.di.components.DaggerAppComponent;
-import com.kondenko.yamblzweather.di.modules.AppModule;
+import com.kondenko.yamblzweather.di.DaggerAppComponent;
+import com.kondenko.yamblzweather.di.AppModule;
 import com.kondenko.yamblzweather.domain.guards.JobsScheduler;
 import com.kondenko.yamblzweather.infrastructure.SettingsManager;
 import com.squareup.leakcanary.LeakCanary;

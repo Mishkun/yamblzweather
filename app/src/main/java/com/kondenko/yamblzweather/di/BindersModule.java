@@ -1,4 +1,4 @@
-package com.kondenko.yamblzweather.di.modules;
+package com.kondenko.yamblzweather.di;
 
 import android.app.Activity;
 
@@ -14,7 +14,7 @@ import dagger.android.AndroidInjector;
 import dagger.multibindings.IntoMap;
 
 @Module
-public abstract class BindersModule {
+abstract class BindersModule {
 
     @Binds
     @IntoMap

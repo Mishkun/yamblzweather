@@ -1,10 +1,6 @@
-package com.kondenko.yamblzweather.di.components;
+package com.kondenko.yamblzweather.di;
 
 import com.kondenko.yamblzweather.App;
-import com.kondenko.yamblzweather.di.modules.BindersModule;
-import com.kondenko.yamblzweather.di.modules.AppModule;
-import com.kondenko.yamblzweather.di.modules.DataModule;
-import com.kondenko.yamblzweather.di.modules.NetModule;
 
 import javax.inject.Singleton;
 
@@ -18,9 +14,13 @@ import dagger.android.support.AndroidSupportInjectionModule;
         BindersModule.class,
         AppModule.class,
         NetModule.class,
-        DataModule.class
+        DataModule.class,
+        SchedulersModule.class,
+        DatabaseModule.class,
+        InfrastructureModule.class,
+        SchedulersModule.class
         })
-interface AppComponent {
+public interface AppComponent {
 
     void inject(App app);
 
@@ -30,8 +30,6 @@ interface AppComponent {
         Builder application(App application);
 
         Builder appModule(AppModule appModule);
-
-        Builder netModule(NetModule appModule);
 
         AppComponent build();
     }

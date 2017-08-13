@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 public class SettingsManager {
 
     private static final String PREF_REFRESH_RATE_DEFAULT_HOURS = "2";
-    private static final String KEY_LATEST_UPDATE = "latestUpdate";
 
     private final Context context;
     private final SharedPreferences preferences;
@@ -42,14 +41,6 @@ public class SettingsManager {
 
     public long getRefreshRateSec() {
         return TimeUnit.HOURS.toSeconds(getRefreshRateHr());
-    }
-
-    public void setLatestUpdate(long timeMs) {
-        preferences.edit().putLong(KEY_LATEST_UPDATE, timeMs).apply();
-    }
-
-    public long getLatestUpdateTime() {
-        return preferences.getLong(KEY_LATEST_UPDATE, 0);
     }
 
 }

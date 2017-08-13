@@ -65,26 +65,4 @@ public class SettingsManagerTest {
     }
 
 
-    @Test
-    public void setLatestUpdate() throws Exception {
-        long testMs = 123;
-        when(sharedPreferences.edit()).thenReturn(editor);
-        when(editor.putLong("latestUpdate", testMs)).thenReturn(editor);
-
-        SettingsManager settingsManager = new SettingsManager(context);
-        settingsManager.setLatestUpdate(testMs);
-        verify(sharedPreferences).edit();
-        verify(editor).putLong("latestUpdate", testMs);
-        verify(editor).apply();
-    }
-
-    @Test
-    public void getLatestUpdateTime() throws Exception {
-        long testMs = 123;
-        when(sharedPreferences.getLong("latestUpdate", 0)).thenReturn(testMs);
-
-        SettingsManager settingsManager = new SettingsManager(context);
-        assertEquals(settingsManager.getLatestUpdateTime(), testMs);
-    }
-
 }
