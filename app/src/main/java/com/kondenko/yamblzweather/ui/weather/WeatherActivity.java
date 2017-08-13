@@ -145,7 +145,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         setCity(weather.city(), weather.cities());
         showTemperature(weather.weather().temperature(), weather.tempUnit());
         showCondition(ConditionMapper.map(weather.weather().weatherConditions()));
-        showForecast(weather.forecast().weatherList());
+        showForecast(weather.forecast().weatherList(), weather.tempUnit());
         showLatestUpdate(weather.weather().timestamp());
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if (hour < 3 || hour > 16) {
@@ -195,8 +195,8 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         weatherSummarySubtitle.setText(subtitle);
     }
 
-    private void showForecast(List<Weather> weathers) {
-        forecastAdapter.setWeather(weathers);
+    private void showForecast(List<Weather> weathers, TempUnit tempUnit) {
+        forecastAdapter.setWeather(weathers, tempUnit);
     }
 
     private void setCity(City city, List<City> cities) {
@@ -219,20 +219,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     // Precise data formatting
 
     private void showTemperature(Temperature temperature, TempUnit units) {
-        double temp = 0;
-        switch (units) {
-            case IMPERIAL:
-                temp = temperature.fahrenheitDegrees();
-                break;
-            case METRIC:
-                temp = temperature.celsiusDegrees();
-                break;
-            case SCIENTIFIC:
-                temp = temperature.kelvinDegrees();
-                break;
-        }
-        String tempText = String.format(Locale.getDefault(), "%.1f°%s", temp, units.getUnitLetter());
-        textTemperature.setText(tempText);
+        textTemperature.setText(TemperatureFormatter.format(temperature, units, Locale.getDefault()));
     }
 
     private void showCondition(int condition) {
