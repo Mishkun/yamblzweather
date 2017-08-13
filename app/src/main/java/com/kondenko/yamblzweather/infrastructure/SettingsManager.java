@@ -6,21 +6,28 @@ import android.content.SharedPreferences;
 
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.domain.entity.TempUnit;
+import com.kondenko.yamblzweather.domain.guards.TemperatureUnitProvider;
 
 import java.util.concurrent.TimeUnit;
 
-public class SettingsManager {
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
+public class SettingsManager implements TemperatureUnitProvider {
 
     private static final String PREF_REFRESH_RATE_DEFAULT_HOURS = "2";
 
     private final Context context;
     private final SharedPreferences preferences;
 
+    @Inject
     public SettingsManager(Context context) {
         this.context = context;
         this.preferences = context.getSharedPreferences(context.getPackageName() + "_preferences", Context.MODE_PRIVATE);
     }
 
+    @Override
     public TempUnit getUnitKey() {
         String unitKey = context.getString(R.string.pref_key_temp_unit);
         String defaultUnit = context.getString(R.string.pref_key_unit_celsius);

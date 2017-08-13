@@ -3,7 +3,7 @@ package com.kondenko.yamblzweather.domain.usecase;
 import com.kondenko.yamblzweather.di.Job;
 import com.kondenko.yamblzweather.di.Ui;
 import com.kondenko.yamblzweather.domain.entity.TempUnit;
-import com.kondenko.yamblzweather.infrastructure.SettingsManager;
+import com.kondenko.yamblzweather.domain.guards.TemperatureUnitProvider;
 
 import javax.inject.Inject;
 
@@ -17,17 +17,17 @@ import io.reactivex.Single;
 public class GetUnitsInteractor {
     private final Scheduler jobScheduler;
     private final Scheduler uiScheduler;
-    private final SettingsManager settingsManager;
+    private final TemperatureUnitProvider temperatureUnitProvider;
 
     @Inject
-    GetUnitsInteractor(@Job Scheduler jobScheduler, @Ui Scheduler uiScheduler, SettingsManager settingsManager) {
+    GetUnitsInteractor(@Job Scheduler jobScheduler, @Ui Scheduler uiScheduler, TemperatureUnitProvider temperatureUnitProvider) {
         this.jobScheduler = jobScheduler;
         this.uiScheduler = uiScheduler;
-        this.settingsManager = settingsManager;
+        this.temperatureUnitProvider = temperatureUnitProvider;
     }
 
     public Single<TempUnit> run() {
-        return Single.fromCallable(settingsManager::getUnitKey)
+        return Single.fromCallable(temperatureUnitProvider::getUnitKey)
                      .subscribeOn(jobScheduler)
                      .observeOn(uiScheduler);
     }

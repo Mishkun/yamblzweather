@@ -1,7 +1,7 @@
 package com.kondenko.yamblzweather.domain.usecase;
 
 import com.kondenko.yamblzweather.domain.entity.TempUnit;
-import com.kondenko.yamblzweather.infrastructure.SettingsManager;
+import com.kondenko.yamblzweather.domain.guards.TemperatureUnitProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -25,17 +24,17 @@ public class GetUnitsInteractorTest {
     private TestScheduler testScheduler;
     private GetUnitsInteractor getUnitsInteractor;
     @Mock
-    private SettingsManager settingsManager;
+    private TemperatureUnitProvider temperatureUnitProvider;
 
     @Before
     public void setUp() throws Exception {
         testScheduler = new TestScheduler();
-        getUnitsInteractor = new GetUnitsInteractor(testScheduler, testScheduler, settingsManager);
+        getUnitsInteractor = new GetUnitsInteractor(testScheduler, testScheduler, temperatureUnitProvider);
     }
 
     @Test
     public void run() throws Exception {
-        when(settingsManager.getUnitKey()).thenReturn(TempUnit.IMPERIAL);
+        when(temperatureUnitProvider.getUnitKey()).thenReturn(TempUnit.IMPERIAL);
 
         TestObserver<TempUnit> tempUnitTestObserver = getUnitsInteractor.run().test();
         testScheduler.advanceTimeBy(1, TimeUnit.SECONDS);

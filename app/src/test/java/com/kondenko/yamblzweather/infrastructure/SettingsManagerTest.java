@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.kondenko.yamblzweather.R;
-import com.kondenko.yamblzweather.infrastructure.SettingsManager;
 
 import org.junit.Before;
 import org.junit.Test;
