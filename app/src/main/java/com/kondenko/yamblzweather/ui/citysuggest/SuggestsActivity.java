@@ -19,6 +19,7 @@ import com.kondenko.yamblzweather.domain.entity.Prediction;
 import com.kondenko.yamblzweather.ui.BaseMvpActivity;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -143,7 +144,7 @@ public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, Suggest
 
     @Override
     public Observable<String> getCityNamesStream() {
-        return RxTextView.textChanges(searchField).map(CharSequence::toString).map(String::trim);
+        return RxTextView.textChanges(searchField).debounce(500, TimeUnit.MILLISECONDS).map(CharSequence::toString).map(String::trim);
     }
 
     @Override

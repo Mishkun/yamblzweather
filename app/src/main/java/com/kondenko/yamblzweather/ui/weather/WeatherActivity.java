@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -69,6 +71,10 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     @BindView(R.id.weather_title)
     TextView weatherSummaryTitle;
 
+    @BindView(R.id.scroll_view)
+    @Nullable
+    NestedScrollView scrollView;
+
     @BindView(R.id.weather_subtitle)
     TextView weatherSummarySubtitle;
 
@@ -77,6 +83,10 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
 
     @BindView(R.id.bottom_guideline)
     Guideline bottomGuideline;
+
+    @BindView(R.id.arrow_image_view)
+    @Nullable
+    ImageButton arrowButton;
 
     private ArrayAdapter<City> spinnerAdapter;
     private ForecastAdapter forecastAdapter;
@@ -110,6 +120,9 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) bottomGuideline.getLayoutParams();
         layoutParams.guideBegin = point.y;
         bottomGuideline.setLayoutParams(layoutParams);
+        if (arrowButton != null && scrollView != null) {
+            arrowButton.setOnClickListener(v -> scrollView.smoothScrollTo(0, point.y));
+        }
 
         spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
         spinnerCity.setAdapter(spinnerAdapter);
