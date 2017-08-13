@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -20,6 +19,7 @@ import io.reactivex.Single;
  */
 
 public class OpenWeatherWeatherProvider implements WeatherProvider {
+    @SuppressWarnings("unused")
     private static final String TAG = OpenWeatherWeatherProvider.class.getSimpleName();
     private static final int COUNT = 8;
     private final WeatherService weatherService;

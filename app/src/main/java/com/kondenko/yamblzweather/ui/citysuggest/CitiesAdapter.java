@@ -24,6 +24,7 @@ import io.reactivex.subjects.PublishSubject;
  */
 
 class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> {
+    @SuppressWarnings("unused")
     private static final String TAG = CitiesAdapter.class.getSimpleName();
     private final SortedList<City> citiesList;
     private final PublishSubject<City> onClickSubject;

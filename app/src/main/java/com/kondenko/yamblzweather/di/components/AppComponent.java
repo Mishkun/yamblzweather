@@ -20,8 +20,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
         NetModule.class,
         DataModule.class
         })
-
-public interface AppComponent {
+interface AppComponent {
 
     void inject(App app);
 

@@ -16,6 +16,7 @@ class WeatherModel {
     @Expose
     private Wind wind;
 
+    @SuppressWarnings("unused")
     WeatherModel() {
     }
 
@@ -48,6 +49,7 @@ class WeatherModel {
             this.id = id;
         }
 
+        @SuppressWarnings("unused")
         WeatherCondition() {
         }
 
@@ -67,6 +69,7 @@ class WeatherModel {
         @Expose
         private double humidity;
 
+        @SuppressWarnings("unused")
         Main() {
         }
 
@@ -96,6 +99,7 @@ class WeatherModel {
         @Expose
         private double speed;
 
+        @SuppressWarnings("unused")
         Wind() {
         }
 

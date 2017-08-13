@@ -1,12 +1,8 @@
 package com.kondenko.yamblzweather.ui.weather;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +22,7 @@ import java.util.Locale;
  */
 
 class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHolder> {
+    @SuppressWarnings("unused")
     private static final String TAG = ForecastAdapter.class.getSimpleName();
     private final static DateFormat containerDateFormat = new SimpleDateFormat("E, dd MMM", Locale.getDefault());
     private final SortedList<Weather> weatherSortedList;
@@ -63,8 +60,7 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHolder> {
     public ForecastAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                                   .inflate(R.layout.item_forecast, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override

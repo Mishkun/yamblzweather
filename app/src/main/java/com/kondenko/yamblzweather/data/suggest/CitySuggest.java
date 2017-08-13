@@ -16,6 +16,7 @@ class CitySuggest {
         return predictionResponses;
     }
 
+    @SuppressWarnings("unused")
     CitySuggest(){
 
     }
@@ -32,6 +33,7 @@ class CitySuggest {
         private
         String id;
 
+        @SuppressWarnings("unused")
         PredictionResponse() {
 
         }

@@ -11,7 +11,8 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="InconsistentLayout">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -153,7 +154,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintVertical_bias="1.0"/>
+                app:layout_constraintVertical_bias="1.0"
+                tools:ignore="InconsistentLayout"/>
 
             <android.support.constraint.Guideline
                 android:id="@+id/bottom_guideline"

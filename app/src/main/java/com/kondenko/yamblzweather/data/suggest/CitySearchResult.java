@@ -17,6 +17,7 @@ class CitySearchResult {
         this.result = result;
     }
 
+    @SuppressWarnings("unused")
     CitySearchResult() {
     }
 
@@ -39,6 +40,7 @@ class CitySearchResult {
             this.id = id;
         }
 
+        @SuppressWarnings("unused")
         Result() {
         }
 
@@ -58,6 +60,7 @@ class CitySearchResult {
             @SerializedName("location")
             Coord coordinates;
 
+            @SuppressWarnings("unused")
             Geometry() {
 
             }
@@ -84,6 +87,7 @@ class CitySearchResult {
                     this.lat = lat;
                 }
 
+                @SuppressWarnings("unused")
                 Coord() {
                 }
 

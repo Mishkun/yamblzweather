@@ -14,6 +14,7 @@ public abstract class BaseMvpActivity<M extends Parcelable, P extends BasePresen
     @Override
     protected void onResume() {
         super.onResume();
+        //noinspection unchecked
         presenter.attachView(this);
     }
 

@@ -24,7 +24,7 @@ import io.reactivex.Observable;
 @Singleton
 public class WeatherPresenter extends BasePresenter<WeatherView> {
 
-    private static final String TAG = WeatherPresenter.class.getSimpleName();
+    @SuppressWarnings("unused")     private static final String TAG = WeatherPresenter.class.getSimpleName();
     private final GetCurrentWeatherInteractor currentWeatherInteractor;
     private final GetForecastInteractor getForecastInteractor;
     private final UpdateWeatherInteractor updateWeatherInteractor;

@@ -18,7 +18,7 @@ import io.reactivex.Maybe;
  */
 
 public class SuggestsPresenter extends BasePresenter<SuggestsView> {
-    private static final String TAG = SuggestsPresenter.class.getSimpleName();
+    @SuppressWarnings("unused")     private static final String TAG = SuggestsPresenter.class.getSimpleName();
     private final GetCitySuggestsInteractor getCitySuggestsInteractor;
     private final GetFavoredCitiesInteractor getFavoredCitiesInteractor;
     private final SetCurrentCityInteractor setCurrentCityInteractor;
@@ -113,8 +113,4 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
             .subscribe();
     }
 
-    @Override
-    public void detachView() {
-        super.detachView();
-    }
 }

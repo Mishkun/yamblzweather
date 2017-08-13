@@ -5,7 +5,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import io.reactivex.Flowable;
-import io.reactivex.Maybe;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 

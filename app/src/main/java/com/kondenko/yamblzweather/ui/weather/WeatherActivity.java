@@ -47,8 +47,8 @@ import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 
 public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPresenter> implements WeatherView {
-
-    private static final java.lang.String TAG = "WeatherActivity";
+    @SuppressWarnings("unused")
+    private static final String TAG = WeatherActivity.class.getSimpleName();
 
     @BindView(R.id.weather_button_city)
     Spinner spinnerCity;
@@ -199,8 +199,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         forecastAdapter.setWeather(weathers);
     }
 
-    @Override
-    public void setCity(City city, List<City> cities) {
+    private void setCity(City city, List<City> cities) {
         spinnerAdapter.clear();
         spinnerAdapter.addAll(cities);
         spinnerAdapter.notifyDataSetChanged();
@@ -240,7 +239,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         weatherIcon.setBackgroundResource(condition);
     }
 
-    public void showLatestUpdate(long updateTime) {
+    private void showLatestUpdate(long updateTime) {
         Date date = new Date(updateTime);
         DateFormat formatter = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
         String latestUpdateTime = formatter.format(date);

@@ -3,7 +3,6 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#cccccc</color>
 
-    <color name="colorAccentPrimary">#616161</color>
     <color name="colorAccentSecondary">#8e8e8e</color>
 
     <color name="colorTextPrimary">#494949</color>
@@ -11,10 +10,5 @@
 
     <color name="colorYandexAccent">#ffcc00</color>
     <color name="colorStatusBar">#14f0f0f0</color>
-
-    <color name="colorBackground">#ffffff</color>
-
-    <color name="colorIcon">#616161</color>
-    <color name="colorIconDisabled">#14616161</color>
 
 </resources>

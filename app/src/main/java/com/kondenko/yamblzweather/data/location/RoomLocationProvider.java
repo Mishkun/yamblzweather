@@ -15,6 +15,7 @@ import io.reactivex.processors.BehaviorProcessor;
  */
 
 public class RoomLocationProvider implements LocationProvider {
+    @SuppressWarnings("unused")
     private static final String TAG = RoomLocationProvider.class.getSimpleName();
     private final CityDao cityDao;
     private final BehaviorProcessor<CityEntity> cityBehaviour;
