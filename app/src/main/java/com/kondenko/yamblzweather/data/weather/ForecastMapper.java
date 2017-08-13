@@ -12,7 +12,7 @@ class ForecastMapper {
     static WeatherForecastEntity responseToWeatherForecastDb(ForecastWeather weatherModel) {
         WeatherForecastEntity weatherEntity = new WeatherForecastEntity();
         weatherEntity.setHumidity(weatherModel.getHumidity());
-        weatherEntity.setPressure(weatherModel.getPressure());
+        weatherEntity.setPressure(hPaToMmHg(weatherModel.getPressure()));
         weatherEntity.setTemperature(weatherModel.getTemp().getDay());
         weatherEntity.setDayTemperature(weatherModel.getTemp().getDay());
         weatherEntity.setNightTemperature(weatherModel.getTemp().getNight());
@@ -20,6 +20,11 @@ class ForecastMapper {
         weatherEntity.setTimestamp(weatherModel.getDt());
         weatherEntity.setWeatherConditionCode(weatherModel.getWeatherCondition().get(0).getId());
         return weatherEntity;
+    }
+
+    // function to convert hectopascal to millimeter mercury. Formula from here: http://www.convertunits.com/from/mm+Hg/to/hPa
+    private static double hPaToMmHg(double pressureHPa) {
+        return pressureHPa * 0.750061561303;
     }
 
     static Weather dbToDomain(WeatherForecastEntity weatherForecastEntity) {

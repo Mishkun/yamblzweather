@@ -15,7 +15,8 @@ import static junit.framework.Assert.assertEquals;
  * Created by Mishkun on 11.08.2017.
  */
 public class WeatherMapperTest {
-    private static final double PRESSURE = 765.3;
+    private static final double PRESSURE_HPA = 765.3;
+    private static final double PRESSURE_HHMG = 574.0221128651858;
     private static final double TEMP = 273;
     private static final double HUMIDITY = 1280;
     private static final long TIMESTAMP = 9999999999L;
@@ -40,14 +41,14 @@ public class WeatherMapperTest {
         weatherEntity.setDayTemperature(TEMP);
         weatherEntity.setTemperature(TEMP);
         weatherEntity.setTimestamp(TIMESTAMP);
-        weatherEntity.setPressure(PRESSURE);
+        weatherEntity.setPressure(PRESSURE_HHMG);
         weatherEntity.setHumidity(HUMIDITY);
         weatherEntity.setWindSpeed(WINDSPEED);
         weatherEntity.setWeatherConditionCode(ID);
     }
 
     private void setupResponseWeather() {
-        WeatherModel.Main main = new WeatherModel.Main(TEMP, PRESSURE, HUMIDITY);
+        WeatherModel.Main main = new WeatherModel.Main(TEMP, PRESSURE_HPA, HUMIDITY);
         WeatherModel.WeatherCondition weatherCondition = new WeatherModel.WeatherCondition(ID);
         WeatherModel.Wind wind = new WeatherModel.Wind(WINDSPEED);
         weatherModel = new WeatherModel(new ArrayList<WeatherModel.WeatherCondition>() {{
@@ -62,7 +63,7 @@ public class WeatherMapperTest {
                          .dayTemperature(temperature)
                          .nightTemperature(temperature)
                          .temperature(temperature)
-                         .pressure(PRESSURE)
+                         .pressure(PRESSURE_HHMG)
                          .humidity(HUMIDITY)
                          .timestamp(TIMESTAMP)
                          .windSpeed(WINDSPEED)

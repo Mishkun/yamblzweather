@@ -19,7 +19,6 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
 
@@ -34,7 +33,8 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class OpenWeatherWeatherProviderTest {
-    private static final double PRESSURE = 765.3;
+    private static final double PRESSURE_HPA = 765.3;
+    private static final double PRESSURE_HHMG = 574.0221128651858;
     private static final double TEMP = 273;
     private static final double HUMIDITY = 1280;
     private static final long TIMESTAMP = 9999999999L;
@@ -88,7 +88,7 @@ public class OpenWeatherWeatherProviderTest {
         WeatherModel.WeatherCondition weatherCondition = new WeatherModel.WeatherCondition(CONDITION_ID);
         ForecastResponse.ForecastWeather forecastWeatherResponse = new ForecastResponse.ForecastWeather(TIMESTAMP,
                                                                        temp,
-                                                                       PRESSURE,
+                                                                                                        PRESSURE_HPA,
                                                                        HUMIDITY,
                                                                        WINDSPEED,
                                                                        new ArrayList<WeatherModel.WeatherCondition>() {{
@@ -103,7 +103,7 @@ public class OpenWeatherWeatherProviderTest {
         weatherForecastEntity.setDayTemperature(TEMP);
         weatherForecastEntity.setTemperature(TEMP);
         weatherForecastEntity.setTimestamp(TIMESTAMP);
-        weatherForecastEntity.setPressure(PRESSURE);
+        weatherForecastEntity.setPressure(PRESSURE_HHMG);
         weatherForecastEntity.setForecast(FORECAST_ID);
         weatherForecastEntity.setHumidity(HUMIDITY);
         weatherForecastEntity.setWindSpeed(WINDSPEED);
@@ -120,7 +120,7 @@ public class OpenWeatherWeatherProviderTest {
                          .dayTemperature(temperature)
                          .nightTemperature(temperature)
                          .temperature(temperature)
-                         .pressure(PRESSURE)
+                         .pressure(PRESSURE_HHMG)
                          .humidity(HUMIDITY)
                          .timestamp(TIMESTAMP)
                          .windSpeed(WINDSPEED)
@@ -134,14 +134,14 @@ public class OpenWeatherWeatherProviderTest {
         weatherEntity.setDayTemperature(TEMP);
         weatherEntity.setTemperature(TEMP);
         weatherEntity.setTimestamp(TIMESTAMP);
-        weatherEntity.setPressure(PRESSURE);
+        weatherEntity.setPressure(PRESSURE_HHMG);
         weatherEntity.setHumidity(HUMIDITY);
         weatherEntity.setWindSpeed(WINDSPEED);
         weatherEntity.setWeatherConditionCode(CONDITION_ID);
     }
 
     private void setupResponseWeather() {
-        WeatherModel.Main main = new WeatherModel.Main(TEMP, PRESSURE, HUMIDITY);
+        WeatherModel.Main main = new WeatherModel.Main(TEMP, PRESSURE_HPA, HUMIDITY);
         WeatherModel.WeatherCondition weatherCondition = new WeatherModel.WeatherCondition(CONDITION_ID);
         WeatherModel.Wind wind = new WeatherModel.Wind(WINDSPEED);
         weatherModel = new WeatherModel(new ArrayList<WeatherModel.WeatherCondition>() {{
@@ -156,7 +156,7 @@ public class OpenWeatherWeatherProviderTest {
                          .dayTemperature(temperature)
                          .nightTemperature(temperature)
                          .temperature(temperature)
-                         .pressure(PRESSURE)
+                         .pressure(PRESSURE_HHMG)
                          .humidity(HUMIDITY)
                          .timestamp(TIMESTAMP)
                          .windSpeed(WINDSPEED)
