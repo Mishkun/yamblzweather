@@ -6,3 +6,4 @@
 /build
 app/libs/
 gradle.properties
+keystore.properties

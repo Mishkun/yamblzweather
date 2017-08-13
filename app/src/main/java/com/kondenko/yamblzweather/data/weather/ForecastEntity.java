@@ -48,8 +48,7 @@ public class ForecastEntity {
 
         ForecastEntity that = (ForecastEntity) o;
 
-        if (timestamp != that.timestamp) return false;
-        return place_id.equals(that.place_id);
+        return timestamp == that.timestamp && place_id.equals(that.place_id);
 
     }
 

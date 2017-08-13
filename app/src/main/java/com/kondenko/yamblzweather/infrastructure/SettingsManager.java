@@ -6,23 +6,28 @@ import android.content.SharedPreferences;
 
 import com.kondenko.yamblzweather.R;
 import com.kondenko.yamblzweather.domain.entity.TempUnit;
+import com.kondenko.yamblzweather.domain.guards.TemperatureUnitProvider;
 
 import java.util.concurrent.TimeUnit;
 
-public class SettingsManager {
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-    private static final String KEY_SELECTED_CITY = "selected_city";
+@Singleton
+public class SettingsManager implements TemperatureUnitProvider {
+
     private static final String PREF_REFRESH_RATE_DEFAULT_HOURS = "2";
-    private static final String KEY_LATEST_UPDATE = "latestUpdate";
 
     private final Context context;
     private final SharedPreferences preferences;
 
+    @Inject
     public SettingsManager(Context context) {
         this.context = context;
         this.preferences = context.getSharedPreferences(context.getPackageName() + "_preferences", Context.MODE_PRIVATE);
     }
 
+    @Override
     public TempUnit getUnitKey() {
         String unitKey = context.getString(R.string.pref_key_temp_unit);
         String defaultUnit = context.getString(R.string.pref_key_unit_celsius);
@@ -38,20 +43,11 @@ public class SettingsManager {
 
     public int getRefreshRateHr() {
         String rateKey = context.getString(R.string.pref_key_refresh_rate);
-        String defaultRate = PREF_REFRESH_RATE_DEFAULT_HOURS;
-        return Integer.parseInt(preferences.getString(rateKey, defaultRate));
+        return Integer.parseInt(preferences.getString(rateKey, PREF_REFRESH_RATE_DEFAULT_HOURS));
     }
 
     public long getRefreshRateSec() {
         return TimeUnit.HOURS.toSeconds(getRefreshRateHr());
-    }
-
-    public void setLatestUpdate(long timeMs) {
-        preferences.edit().putLong(KEY_LATEST_UPDATE, timeMs).apply();
-    }
-
-    public long getLatestUpdateTime() {
-        return preferences.getLong(KEY_LATEST_UPDATE, 0);
     }
 
 }

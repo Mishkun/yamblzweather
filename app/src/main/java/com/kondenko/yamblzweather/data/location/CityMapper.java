@@ -17,17 +17,12 @@ class CityMapper {
                            cityEntity.getPlace_id());
     }
 
-
     static CityEntity domainToDb(City city) {
-        return domainToDb(city, false);
-    }
-
-    private static CityEntity domainToDb(City city, boolean select) {
         CityEntity cityEntity = new CityEntity();
         cityEntity.setLatitude(city.location().latitude());
         cityEntity.setLongitude(city.location().longitude());
         cityEntity.setName(city.name());
-        cityEntity.setSelected(select);
+        cityEntity.setSelected(false);
         cityEntity.setPlace_id(city.id());
         return cityEntity;
     }

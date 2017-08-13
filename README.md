@@ -1,7 +1,7 @@
 # Yamblzweather
 [![CircleCI](https://circleci.com/gh/Mishkun/yamblzweather.svg?style=svg)](https://circleci.com/gh/Mishkun/yamblzweather)[![codecov](https://codecov.io/gh/Mishkun/yamblzweather/branch/master/graph/badge.svg)](https://codecov.io/gh/Mishkun/yamblzweather)
 
-Homework for yamblz 2017. Weather app of your deams!
+Homework for yamblz 2017. Weather app of your dreams!
 ## License
 Copyright (c) 2017 Mikhail Levchenko, Vladimir Kondenko
 

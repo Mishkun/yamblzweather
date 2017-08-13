@@ -17,6 +17,7 @@ class ForecastResponse {
         this.list = list;
     }
 
+    @SuppressWarnings("unused")
     ForecastResponse() {
     }
 
@@ -54,6 +55,7 @@ class ForecastResponse {
             this.weatherCondition = weatherCondition;
         }
 
+        @SuppressWarnings("unused")
         ForecastWeather() {
         }
 
@@ -95,6 +97,7 @@ class ForecastResponse {
                 this.night = night;
             }
 
+            @SuppressWarnings("unused")
             Temp() {
             }
 

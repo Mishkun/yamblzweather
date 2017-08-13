@@ -72,9 +72,7 @@ public class CityEntity {
 
         CityEntity that = (CityEntity) o;
 
-        if (Double.compare(that.latitude, latitude) != 0) return false;
-        if (Double.compare(that.longitude, longitude) != 0) return false;
-        return place_id.equals(that.place_id);
+        return Double.compare(that.latitude, latitude) == 0 && Double.compare(that.longitude, longitude) == 0 && place_id.equals(that.place_id);
 
     }
 

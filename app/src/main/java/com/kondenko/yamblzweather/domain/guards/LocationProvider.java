@@ -5,7 +5,6 @@ import com.kondenko.yamblzweather.domain.entity.City;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 

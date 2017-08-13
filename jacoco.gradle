@@ -16,8 +16,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/*_Impl*.*',
             '**/di/*',
             '**/dagger/*',
-            '**/*AutoValue_*.*',
-            '**/di/modules/*'
+            '**/*AutoValue_*.*'
     ]
 
     def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)

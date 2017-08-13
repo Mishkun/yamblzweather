@@ -15,15 +15,15 @@ import io.reactivex.Scheduler;
  * Created by Mishkun on 27.07.2017.
  */
 
-public class FetchCityCoordsInteractor {
+public class FetchCityCoordinatesInteractor {
     private final Scheduler jobScheduler;
     private final Scheduler uiScheduler;
     private final CitySuggestProvider citySuggestProvider;
     private final LocationProvider locationProvider;
 
     @Inject
-    FetchCityCoordsInteractor(@Job Scheduler jobScheduler, @Ui Scheduler uiScheduler, CitySuggestProvider citiesSuggestProvider,
-                              LocationProvider locationProvider) {
+    FetchCityCoordinatesInteractor(@Job Scheduler jobScheduler, @Ui Scheduler uiScheduler, CitySuggestProvider citiesSuggestProvider,
+                                   LocationProvider locationProvider) {
         this.jobScheduler = jobScheduler;
         this.uiScheduler = uiScheduler;
         this.citySuggestProvider = citiesSuggestProvider;

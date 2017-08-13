@@ -11,6 +11,7 @@ import okhttp3.Response;
 
 public class LoggingInterceptor implements Interceptor {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "HTTP-Log";
 
     @Override

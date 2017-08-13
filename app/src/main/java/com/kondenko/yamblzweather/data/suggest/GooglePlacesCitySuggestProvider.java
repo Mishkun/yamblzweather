@@ -1,8 +1,5 @@
 package com.kondenko.yamblzweather.data.suggest;
 
-import android.util.Log;
-
-import com.kondenko.yamblzweather.di.Lang;
 import com.kondenko.yamblzweather.domain.entity.City;
 import com.kondenko.yamblzweather.domain.entity.Prediction;
 import com.kondenko.yamblzweather.domain.guards.CitySuggestProvider;
@@ -19,6 +16,7 @@ import io.reactivex.Single;
  */
 
 public class GooglePlacesCitySuggestProvider implements CitySuggestProvider {
+    @SuppressWarnings("unused")
     private static final String TAG = GooglePlacesCitySuggestProvider.class.getSimpleName();
     private static final String GEOCODE_KEY = "(cities)";
     private final CitiesSuggestService citiesSuggestService;

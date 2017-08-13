@@ -8,7 +8,7 @@
     </style>
 
     <style name="App.Weather.Button.City" parent="Base.Widget.AppCompat.Button.Colored">
-        <item name="android:background">@drawable/backgound_weather_button_city</item>
+        <item name="android:background">@drawable/background_weather_button_city</item>
     </style>
 
 

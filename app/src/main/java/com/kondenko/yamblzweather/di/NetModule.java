@@ -1,8 +1,9 @@
-package com.kondenko.yamblzweather.di.modules;
+package com.kondenko.yamblzweather.di;
 
 import android.content.Context;
 
-import com.kondenko.yamblzweather.di.Lang;
+import com.kondenko.yamblzweather.data.suggest.CitiesSuggestService;
+import com.kondenko.yamblzweather.data.weather.WeatherService;
 import com.kondenko.yamblzweather.infrastructure.SettingsManager;
 import com.kondenko.yamblzweather.utils.interceptors.CacheInterceptor;
 import com.kondenko.yamblzweather.utils.interceptors.LoggingInterceptor;
@@ -23,21 +24,30 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-public class NetModule {
+class NetModule {
 
-    final static String GOOGLE_SUGGESTS_API = "GOOGLE_SUGGESTS_API";
-    final static String OPEN_WEATHER_MAP_API = "OPEN_WEATHER_MAP_API";
+    private final static String GOOGLE_SUGGESTS_API = "GOOGLE_SUGGESTS_API";
+    private final static String OPEN_WEATHER_MAP_API = "OPEN_WEATHER_MAP_API";
 
     private static final String OPEN_WEATHER_MAP_API_KEY_QUERYNAME = "APPID";
     private static final String OPEN_WEATHER_MAP_API_KEY = "55b2afa5241f9e7efe29e0c11fd124be";
     private static final String OPEN_WEATHER_MAP_BASE_URL = "http://api.openweathermap.org/data/2.5/";
 
-    private static final String GOOGLE_API_KEY = "AIzaSyDAR4vuMn57JCPaCeyNPeA4Vkcv7VPno3k";
     private static final String GOOGLE_API_KEY_QUERYNAME = "key";
+    private static final String GOOGLE_API_KEY = "AIzaSyDAR4vuMn57JCPaCeyNPeA4Vkcv7VPno3k";
     private static final String GOOGLE_API_BASE_URL = "https://maps.googleapis.com/maps/api/place/";
     private static final String GOOGLE_API_LANG_QUERYNAME = "language";
 
-    public NetModule() {
+    @Provides
+    @Singleton
+    CitiesSuggestService provideCitiesSuggestService(@Named(NetModule.GOOGLE_SUGGESTS_API) Retrofit retrofit) {
+        return retrofit.create(CitiesSuggestService.class);
+    }
+
+    @Provides
+    @Singleton
+    WeatherService provideWeatherService(@Named(NetModule.OPEN_WEATHER_MAP_API) Retrofit retrofit) {
+        return retrofit.create(WeatherService.class);
     }
 
     @Provides
@@ -104,4 +114,5 @@ public class NetModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
+
 }

@@ -11,64 +11,64 @@ import com.kondenko.yamblzweather.domain.entity.WeatherConditions;
 class ConditionMapper {
     @DrawableRes
     static int map(WeatherConditions condition) {
-        int dresource = R.drawable.sun;
+        int drawable = R.drawable.sun;
         switch (condition) {
             case RAIN:
-                dresource = R.drawable.rain;
+                drawable = R.drawable.rain;
                 break;
             case CLOUDY:
-                dresource = R.drawable.cloudy;
+                drawable = R.drawable.cloudy;
                 break;
             case PARTLY_CLOUDY:
-                dresource = R.drawable.partly_cloudy;
+                drawable = R.drawable.partly_cloudy;
                 break;
             case THUNDERSTORM:
-                dresource = R.drawable.thunderstorm;
+                drawable = R.drawable.thunderstorm;
                 break;
             case FOG:
-                dresource = R.drawable.fog;
+                drawable = R.drawable.fog;
                 break;
             case CLEAR:
-                dresource = R.drawable.sun;
+                drawable = R.drawable.sun;
                 break;
             case DRIZZLE:
-                dresource = R.drawable.drizzle;
+                drawable = R.drawable.drizzle;
                 break;
             case SNOW:
-                dresource = R.drawable.snowflake;
+                drawable = R.drawable.snowflake;
                 break;
         }
-        return dresource;
+        return drawable;
     }
     @DrawableRes
     static int mapDark(WeatherConditions condition) {
-        int dresource = R.drawable.sun_dark;
+        int drawable = R.drawable.sun_dark;
         switch (condition) {
             case RAIN:
-                dresource = R.drawable.rain_dark;
+                drawable = R.drawable.rain_dark;
                 break;
             case CLOUDY:
-                dresource = R.drawable.cloudy_dark;
+                drawable = R.drawable.cloudy_dark;
                 break;
             case PARTLY_CLOUDY:
-                dresource = R.drawable.partly_cloudy_dark;
+                drawable = R.drawable.partly_cloudy_dark;
                 break;
             case THUNDERSTORM:
-                dresource = R.drawable.thunderstorm_dark;
+                drawable = R.drawable.thunderstorm_dark;
                 break;
             case FOG:
-                dresource = R.drawable.fog_dark;
+                drawable = R.drawable.fog_dark;
                 break;
             case CLEAR:
-                dresource = R.drawable.sun_dark;
+                drawable = R.drawable.sun_dark;
                 break;
             case DRIZZLE:
-                dresource = R.drawable.drizzle_dark;
+                drawable = R.drawable.drizzle_dark;
                 break;
             case SNOW:
-                dresource = R.drawable.snowflake_dark;
+                drawable = R.drawable.snowflake_dark;
                 break;
         }
-        return dresource;
+        return drawable;
     }
 }

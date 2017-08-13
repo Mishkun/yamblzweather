@@ -7,7 +7,7 @@ import dagger.Binds;
 import dagger.Module;
 
 @Module
-public abstract class WeatherModule {
+abstract class WeatherModule {
 
     @Binds
     abstract WeatherView provideView(WeatherActivity activity);

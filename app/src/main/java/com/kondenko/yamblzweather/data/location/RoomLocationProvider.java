@@ -5,6 +5,8 @@ import com.kondenko.yamblzweather.domain.guards.LocationProvider;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -15,11 +17,13 @@ import io.reactivex.processors.BehaviorProcessor;
  */
 
 public class RoomLocationProvider implements LocationProvider {
+    @SuppressWarnings("unused")
     private static final String TAG = RoomLocationProvider.class.getSimpleName();
     private final CityDao cityDao;
     private final BehaviorProcessor<CityEntity> cityBehaviour;
 
-    public RoomLocationProvider(CityDao cityDao) {
+    @Inject
+    RoomLocationProvider(CityDao cityDao) {
         this.cityDao = cityDao;
         cityBehaviour = BehaviorProcessor.create();
         cityDao.getSelectedCity().subscribe(cityBehaviour);

@@ -9,10 +9,11 @@ jacoco {
 }
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.kondenko.yamblzweather"
         minSdkVersion 17
+        //noinspection OldTargetApi
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"

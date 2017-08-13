@@ -1,7 +1,7 @@
 package com.kondenko.yamblzweather.ui.citysuggest;
 
 import com.kondenko.yamblzweather.domain.usecase.DeleteCityInteractor;
-import com.kondenko.yamblzweather.domain.usecase.FetchCityCoordsInteractor;
+import com.kondenko.yamblzweather.domain.usecase.FetchCityCoordinatesInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCitySuggestsInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetFavoredCitiesInteractor;
@@ -18,22 +18,22 @@ import io.reactivex.Maybe;
  */
 
 public class SuggestsPresenter extends BasePresenter<SuggestsView> {
-    private static final String TAG = SuggestsPresenter.class.getSimpleName();
+    @SuppressWarnings("unused")     private static final String TAG = SuggestsPresenter.class.getSimpleName();
     private final GetCitySuggestsInteractor getCitySuggestsInteractor;
     private final GetFavoredCitiesInteractor getFavoredCitiesInteractor;
     private final SetCurrentCityInteractor setCurrentCityInteractor;
     private final DeleteCityInteractor deleteCityInteractor;
     private final GetCurrentCityInteractor getCurrentCityInteractor;
-    private final FetchCityCoordsInteractor fetchCityCoordsInteractor;
+    private final FetchCityCoordinatesInteractor fetchCityCoordinatesInteractor;
 
     @Inject
     SuggestsPresenter(GetCitySuggestsInteractor getCitySuggestsInteractor,
-                      FetchCityCoordsInteractor fetchCityCoordsInteractor,
+                      FetchCityCoordinatesInteractor fetchCityCoordinatesInteractor,
                       GetFavoredCitiesInteractor getFavoredCitiesInteractor,
                       SetCurrentCityInteractor setCurrentCityInteractor,
                       DeleteCityInteractor deleteCityInteractor,
                       GetCurrentCityInteractor getCurrentCityInteractor) {
-        this.fetchCityCoordsInteractor = fetchCityCoordsInteractor;
+        this.fetchCityCoordinatesInteractor = fetchCityCoordinatesInteractor;
         this.getCitySuggestsInteractor = getCitySuggestsInteractor;
         this.getFavoredCitiesInteractor = getFavoredCitiesInteractor;
         this.setCurrentCityInteractor = setCurrentCityInteractor;
@@ -100,8 +100,8 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
 
         view.getSuggestsClicks()
             .compose(bindToLifecycle())
-            .flatMapCompletable(prediction -> fetchCityCoordsInteractor.run(prediction)
-                                                                       .doOnComplete(() -> {
+            .flatMapCompletable(prediction -> fetchCityCoordinatesInteractor.run(prediction)
+                                                                            .doOnComplete(() -> {
                                                                            if (isViewAttached()) {
                                                                                getView().finishScreen();
                                                                            }
@@ -113,8 +113,4 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
             .subscribe();
     }
 
-    @Override
-    public void detachView() {
-        super.detachView();
-    }
 }

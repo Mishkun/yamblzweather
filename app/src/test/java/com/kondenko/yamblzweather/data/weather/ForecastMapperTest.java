@@ -19,7 +19,8 @@ import static junit.framework.Assert.assertEquals;
  */
 public class ForecastMapperTest {
 
-    private static final double PRESSURE = 765.3;
+    private static final double PRESSURE_HPA = 765.3;
+    private static final double PRESSURE_HHMG = 574.0221128651858;
     private static final double TEMP = 273;
     private static final double HUMIDITY = 1280;
     private static final long TIMESTAMP = 9999999999L;
@@ -41,7 +42,7 @@ public class ForecastMapperTest {
         WeatherCondition weatherCondition = new WeatherCondition(CONDITION_CODE);
         forecastWeatherResponse = new ForecastWeather(TIMESTAMP,
                                                       temp,
-                                                      PRESSURE,
+                                                      PRESSURE_HPA,
                                                       HUMIDITY,
                                                       WINDSPEED,
                                                       new ArrayList<WeatherCondition>() {{
@@ -55,7 +56,7 @@ public class ForecastMapperTest {
         weatherForecastEntity.setDayTemperature(TEMP);
         weatherForecastEntity.setTemperature(TEMP);
         weatherForecastEntity.setTimestamp(TIMESTAMP);
-        weatherForecastEntity.setPressure(PRESSURE);
+        weatherForecastEntity.setPressure(PRESSURE_HHMG);
         weatherForecastEntity.setForecast("FORECAST_ID");
         weatherForecastEntity.setHumidity(HUMIDITY);
         weatherForecastEntity.setWindSpeed(WINDSPEED);
@@ -69,7 +70,7 @@ public class ForecastMapperTest {
                          .dayTemperature(temperature)
                          .nightTemperature(temperature)
                          .temperature(temperature)
-                         .pressure(PRESSURE)
+                         .pressure(PRESSURE_HHMG)
                          .humidity(HUMIDITY)
                          .timestamp(TIMESTAMP)
                          .windSpeed(WINDSPEED)
@@ -78,7 +79,7 @@ public class ForecastMapperTest {
 
     @Test
     public void shouldConvertResponseToWeatherForecastdb() throws Exception {
-        WeatherForecastEntity testWeatherForecastEntity = ForecastMapper.responseToWeatherForecastdb(forecastWeatherResponse);
+        WeatherForecastEntity testWeatherForecastEntity = ForecastMapper.responseToWeatherForecastDb(forecastWeatherResponse);
         assertEquals(testWeatherForecastEntity.getDayTemperature(), weatherForecastEntity.getDayTemperature());
         assertEquals(testWeatherForecastEntity.getNightTemperature(),weatherForecastEntity.getNightTemperature());
         assertEquals(testWeatherForecastEntity.getTemperature(),weatherForecastEntity.getTemperature());

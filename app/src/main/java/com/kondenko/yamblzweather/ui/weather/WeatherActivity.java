@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,8 +47,8 @@ import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 
 public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPresenter> implements WeatherView {
-
-    private static final java.lang.String TAG = "WeatherActivity";
+    @SuppressWarnings("unused")
+    private static final String TAG = WeatherActivity.class.getSimpleName();
 
     @BindView(R.id.weather_button_city)
     Spinner spinnerCity;
@@ -69,6 +71,10 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     @BindView(R.id.weather_title)
     TextView weatherSummaryTitle;
 
+    @BindView(R.id.scroll_view)
+    @Nullable
+    NestedScrollView scrollView;
+
     @BindView(R.id.weather_subtitle)
     TextView weatherSummarySubtitle;
 
@@ -77,6 +83,10 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
 
     @BindView(R.id.bottom_guideline)
     Guideline bottomGuideline;
+
+    @BindView(R.id.arrow_image_view)
+    @Nullable
+    ImageButton arrowButton;
 
     private ArrayAdapter<City> spinnerAdapter;
     private ForecastAdapter forecastAdapter;
@@ -110,6 +120,9 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) bottomGuideline.getLayoutParams();
         layoutParams.guideBegin = point.y;
         bottomGuideline.setLayoutParams(layoutParams);
+        if (arrowButton != null && scrollView != null) {
+            arrowButton.setOnClickListener(v -> scrollView.smoothScrollTo(0, point.y));
+        }
 
         spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
         spinnerCity.setAdapter(spinnerAdapter);
@@ -132,7 +145,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         setCity(weather.city(), weather.cities());
         showTemperature(weather.weather().temperature(), weather.tempUnit());
         showCondition(ConditionMapper.map(weather.weather().weatherConditions()));
-        showForecast(weather.forecast().weatherList());
+        showForecast(weather.forecast().weatherList(), weather.tempUnit());
         showLatestUpdate(weather.weather().timestamp());
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if (hour < 3 || hour > 16) {
@@ -163,7 +176,7 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         weatherSummarySubtitle.setText(subtitle);
     }
 
-    private void showTextualTomorrow(Weather weatherToday, Weather weatherTomorow) {
+    private void showTextualTomorrow(Weather weatherToday, Weather weatherTomorrow) {
         int titleResource = TitleMapper.map(weatherToday.temperature(),
                                             weatherToday.weatherConditions(),
                                             weatherToday.humidity());
@@ -171,23 +184,22 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
                                      getString(R.string.title_text),
                                      getString(titleResource));
         weatherSummaryTitle.setText(title);
-        int subtitleResource = TitleMapper.map(weatherTomorow.temperature(),
-                                               weatherTomorow.weatherConditions(),
-                                               weatherTomorow.humidity());
+        int subtitleResource = TitleMapper.map(weatherTomorrow.temperature(),
+                                               weatherTomorrow.weatherConditions(),
+                                               weatherTomorrow.humidity());
         String subtitle = String.format(Locale.getDefault(),
                                         getString(titleResource == subtitleResource
-                                                          ? R.string.subtitle_tomorow_also_text
-                                                          : R.string.subtitle_tomorow_text),
+                                                          ? R.string.subtitle_tomorrow_also_text
+                                                          : R.string.subtitle_tomorrow_text),
                                         getString(subtitleResource));
         weatherSummarySubtitle.setText(subtitle);
     }
 
-    private void showForecast(List<Weather> weathers) {
-        forecastAdapter.setWeather(weathers);
+    private void showForecast(List<Weather> weathers, TempUnit tempUnit) {
+        forecastAdapter.setWeather(weathers, tempUnit);
     }
 
-    @Override
-    public void setCity(City city, List<City> cities) {
+    private void setCity(City city, List<City> cities) {
         spinnerAdapter.clear();
         spinnerAdapter.addAll(cities);
         spinnerAdapter.notifyDataSetChanged();
@@ -207,27 +219,14 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
     // Precise data formatting
 
     private void showTemperature(Temperature temperature, TempUnit units) {
-        double temp = 0;
-        switch (units) {
-            case IMPERIAL:
-                temp = temperature.fahrenheitDegrees();
-                break;
-            case METRIC:
-                temp = temperature.celsiusDegrees();
-                break;
-            case SCIENTIFIC:
-                temp = temperature.kelvinDegrees();
-                break;
-        }
-        String tempText = String.format(Locale.getDefault(), "%.1f°%s", temp, units.getUnitLetter());
-        textTemperature.setText(tempText);
+        textTemperature.setText(TemperatureFormatter.format(temperature, units, Locale.getDefault()));
     }
 
     private void showCondition(int condition) {
         weatherIcon.setBackgroundResource(condition);
     }
 
-    public void showLatestUpdate(long updateTime) {
+    private void showLatestUpdate(long updateTime) {
         Date date = new Date(updateTime);
         DateFormat formatter = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
         String latestUpdateTime = formatter.format(date);

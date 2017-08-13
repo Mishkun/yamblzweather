@@ -7,11 +7,8 @@ import com.kondenko.yamblzweather.domain.guards.WeatherProvider;
 
 import javax.inject.Inject;
 
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
 
 public class GetCurrentWeatherInteractor {
 

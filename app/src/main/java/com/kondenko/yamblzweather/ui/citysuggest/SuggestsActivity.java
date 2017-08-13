@@ -28,7 +28,7 @@ import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 
 public class SuggestsActivity extends BaseMvpActivity<SuggestsViewModel, SuggestsPresenter> implements SuggestsView {
-    private static final String TAG = SuggestsActivity.class.getSimpleName();
+    @SuppressWarnings("unused")     private static final String TAG = SuggestsActivity.class.getSimpleName();
     @BindView(R.id.search_field)
     EditText searchField;
 

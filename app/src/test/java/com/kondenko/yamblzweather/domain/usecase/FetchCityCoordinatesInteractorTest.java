@@ -27,11 +27,11 @@ import static org.mockito.Mockito.when;
  * Created by Mishkun on 11.08.2017.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class FetchCityCoordsInteractorTest {
+public class FetchCityCoordinatesInteractorTest {
     private static final String NAME = "NAME";
     private static final String ID = "ID";
 
-    private FetchCityCoordsInteractor fetchCityCoordsInteractor;
+    private FetchCityCoordinatesInteractor fetchCityCoordinatesInteractor;
     private TestScheduler testScheduler;
 
     @Mock
@@ -45,7 +45,7 @@ public class FetchCityCoordsInteractorTest {
     @Before
     public void setUp() throws Exception {
         testScheduler = new TestScheduler();
-        fetchCityCoordsInteractor = new FetchCityCoordsInteractor(testScheduler, testScheduler, citySuggestProvider, locationProvider);
+        fetchCityCoordinatesInteractor = new FetchCityCoordinatesInteractor(testScheduler, testScheduler, citySuggestProvider, locationProvider);
         city = City.create(Location.builder().longitude(0).latitude(0).build(), NAME, ID);
         prediction = Prediction.create(NAME, ID);
     }
@@ -56,7 +56,7 @@ public class FetchCityCoordsInteractorTest {
         when(locationProvider.setCurrentCity(any())).thenReturn(Completable.complete());
         when(locationProvider.addFavoredCity(any())).thenReturn(Completable.complete());
 
-        TestObserver<Void> voidTestObserver = fetchCityCoordsInteractor.run(prediction).test();
+        TestObserver<Void> voidTestObserver = fetchCityCoordinatesInteractor.run(prediction).test();
         testScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
 
         voidTestObserver.assertComplete();

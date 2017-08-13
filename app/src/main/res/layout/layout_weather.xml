@@ -9,8 +9,10 @@
     tools:context=".ui.weather.WeatherActivity">
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="InconsistentLayout">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -20,16 +22,17 @@
                 android:id="@+id/settings_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@null"
                 android:src="@drawable/ic_settings_black_24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/weather_button_city"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.82"
                 app:layout_constraintLeft_toRightOf="@+id/weather_button_city"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="@+id/weather_button_city"/>
 
             <Spinner
                 android:id="@+id/weather_button_city"
@@ -40,7 +43,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="36dp"
                 android:gravity="center"
                 android:paddingEnd="@dimen/text_margin"
                 app:layout_constraintBottom_toTopOf="@+id/weather_text_temperature"
@@ -63,7 +66,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/backgound_weather_button_city"
+                android:background="@drawable/background_weather_button_city"
                 android:paddingBottom="@dimen/text_margin"
                 android:paddingEnd="@dimen/text_big_margin"
                 android:paddingStart="@dimen/text_big_margin"
@@ -116,11 +119,11 @@
                 android:text="@string/no_server_connection"
                 android:textSize="@dimen/text_large_size"
                 app:layout_constraintBottom_toTopOf="@+id/weather_subtitle"
-                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/center_circle"
-                app:layout_constraintVertical_bias="0.521"
+                app:layout_constraintVertical_bias="0.0"
                 app:layout_constraintVertical_chainStyle="packed"/>
 
 
@@ -139,18 +142,20 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/weather_title"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/arrow_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:background="@null"
                 android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
                 app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintVertical_bias="1.0"/>
+                app:layout_constraintVertical_bias="1.0"
+                tools:ignore="InconsistentLayout"/>
 
             <android.support.constraint.Guideline
                 android:id="@+id/bottom_guideline"

@@ -47,7 +47,7 @@ class TitleMapper {
             case SNOW:
                 return snow[temp];
             default:
-                return R.string.defaultweather;
+                return R.string.default_weather;
         }
     }
 }

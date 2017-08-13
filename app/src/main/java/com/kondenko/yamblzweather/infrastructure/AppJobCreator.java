@@ -15,7 +15,7 @@ public class AppJobCreator implements JobCreator {
     private final UpdateWeatherInteractor updateWeatherInteractor;
 
     @Inject
-    public AppJobCreator(UpdateWeatherInteractor updateWeatherInteractor, GetCurrentCityInteractor getCurrentCityInteractor) {
+    AppJobCreator(UpdateWeatherInteractor updateWeatherInteractor, GetCurrentCityInteractor getCurrentCityInteractor) {
         this.updateWeatherInteractor = updateWeatherInteractor;
         this.getCurrentCityInteractor = getCurrentCityInteractor;
     }
