@@ -1,14 +1,12 @@
 apply plugin: "com.android.application"
 apply plugin: "me.tatarka.retrolambda"
 
-apply from: rootProject.file('keystore-functions.gradle')
 apply plugin: 'jacoco'
 apply from: "$rootDir/jacoco.gradle"
 
 jacoco {
     toolVersion = "0.7.9"
 }
-
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.1"
@@ -20,14 +18,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    signingConfigs {
-        release {
-            keyAlias keystore_properties['keyAlias']
-            keyPassword keystore_properties['keyPassword']
-            storeFile file(keystore_properties['storeFile'])
-            storePassword keystore_properties['storePassword']
-        }
     }
     buildTypes {
         release {
