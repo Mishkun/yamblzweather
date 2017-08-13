@@ -29,16 +29,12 @@ android {
             testCoverageEnabled true
         }
     }
-    buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', openWeatherKey
-        it.buildConfigField 'String', 'GOOGLE_PLACES_API_KEY', googlePlacesKey
-    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
     lintOptions {
-        disable 'TypographyFractions', 'TypographyQuotes', 'InvalidPackage', 'RestrictedApi'
+        disable 'TypographyFractions','TypographyQuotes', 'InvalidPackage', 'RestrictedApi'
     }
 }
 

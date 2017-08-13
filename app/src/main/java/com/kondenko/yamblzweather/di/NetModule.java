@@ -2,7 +2,6 @@ package com.kondenko.yamblzweather.di;
 
 import android.content.Context;
 
-import com.kondenko.yamblzweather.BuildConfig;
 import com.kondenko.yamblzweather.data.suggest.CitiesSuggestService;
 import com.kondenko.yamblzweather.data.weather.WeatherService;
 import com.kondenko.yamblzweather.infrastructure.SettingsManager;
@@ -31,9 +30,11 @@ class NetModule {
     private final static String OPEN_WEATHER_MAP_API = "OPEN_WEATHER_MAP_API";
 
     private static final String OPEN_WEATHER_MAP_API_KEY_QUERYNAME = "APPID";
+    private static final String OPEN_WEATHER_MAP_API_KEY = "55b2afa5241f9e7efe29e0c11fd124be";
     private static final String OPEN_WEATHER_MAP_BASE_URL = "http://api.openweathermap.org/data/2.5/";
 
     private static final String GOOGLE_API_KEY_QUERYNAME = "key";
+    private static final String GOOGLE_API_KEY = "AIzaSyDAR4vuMn57JCPaCeyNPeA4Vkcv7VPno3k";
     private static final String GOOGLE_API_BASE_URL = "https://maps.googleapis.com/maps/api/place/";
     private static final String GOOGLE_API_LANG_QUERYNAME = "language";
 
@@ -71,7 +72,7 @@ class NetModule {
     OkHttpClient provideHttpClient(Cache cache, CacheInterceptor cacheInterceptor) {
         return new OkHttpClient.Builder()
                 .cache(cache)
-                .addInterceptor(new ParameterInterceptor(OPEN_WEATHER_MAP_API_KEY_QUERYNAME, BuildConfig.OPEN_WEATHER_MAP_API_KEY))
+                .addInterceptor(new ParameterInterceptor(OPEN_WEATHER_MAP_API_KEY_QUERYNAME, OPEN_WEATHER_MAP_API_KEY))
                 .addInterceptor(cacheInterceptor)
                 .addInterceptor(new LoggingInterceptor())
                 .build();
@@ -95,7 +96,7 @@ class NetModule {
     OkHttpClient provideGooglePlacesHttpClient(Cache cache, CacheInterceptor cacheInterceptor, @Lang String language) {
         return new OkHttpClient.Builder()
                 .cache(cache)
-                .addInterceptor(new ParameterInterceptor(GOOGLE_API_KEY_QUERYNAME, BuildConfig.GOOGLE_PLACES_API_KEY))
+                .addInterceptor(new ParameterInterceptor(GOOGLE_API_KEY_QUERYNAME, GOOGLE_API_KEY))
                 .addInterceptor(new ParameterInterceptor(GOOGLE_API_LANG_QUERYNAME, language))
                 .addInterceptor(cacheInterceptor)
                 .addInterceptor(new LoggingInterceptor())
