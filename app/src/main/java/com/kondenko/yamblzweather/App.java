@@ -3,7 +3,8 @@ package com.kondenko.yamblzweather;
 import android.app.Activity;
 import android.app.Application;
 
-import com.evernote.android.job.JobManager;
+import com.evernote.android.job.*;
+import com.evernote.android.job.BuildConfig;
 import com.facebook.stetho.Stetho;
 import com.kondenko.yamblzweather.di.DaggerAppComponent;
 import com.kondenko.yamblzweather.di.AppModule;
@@ -31,14 +32,16 @@ public class App extends Application implements HasActivityInjector {
     public void onCreate() {
         super.onCreate();
         if (LeakCanary.isInAnalyzerProcess(this)) return;
-        LeakCanary.install(this);
+        if (BuildConfig.DEBUG) {
+            LeakCanary.install(this);
+            Stetho.initializeWithDefaults(this);
+        }
         JobManager.create(this);
         DaggerAppComponent.builder()
                           .application(this)
                           .appModule(new AppModule(this))
                           .build()
                           .inject(this);
-        Stetho.initializeWithDefaults(this);
         weatherJobsScheduler.scheduleUpdateJob(settingsManager.getRefreshRateHr());
     }
 
