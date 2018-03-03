@@ -1,8 +1,10 @@
 package com.kondenko.yamblzweather.ui.weather;
 
+import android.os.Build;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,27 +27,32 @@ import java.util.Locale;
 class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHolder> {
     @SuppressWarnings("unused")
     private static final String TAG = ForecastAdapter.class.getSimpleName();
-    private final static DateFormat containerDateFormat = new SimpleDateFormat("E, dd MMM", Locale.getDefault());
+    private final static DateFormat containerDateFormat =
+        new SimpleDateFormat("E, dd MMM", Locale.getDefault());
     private final SortedList<Weather> weatherSortedList;
+    private final RecyclerView recyclerView;
     private TempUnit tempUnit;
+    private int expandedPosition = -1;
 
-    ForecastAdapter(List<Weather> items) {
-        weatherSortedList = new SortedList<>(Weather.class, new SortedListAdapterCallback<Weather>(this) {
-            @Override
-            public int compare(Weather o1, Weather o2) {
-                return (int) (o1.timestamp() - o2.timestamp());
-            }
+    ForecastAdapter(List<Weather> items, RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+        weatherSortedList =
+            new SortedList<>(Weather.class, new SortedListAdapterCallback<Weather>(this) {
+                @Override
+                public int compare(Weather o1, Weather o2) {
+                    return (int) (o1.timestamp() - o2.timestamp());
+                }
 
-            @Override
-            public boolean areContentsTheSame(Weather oldItem, Weather newItem) {
-                return oldItem.equals(newItem);
-            }
+                @Override
+                public boolean areContentsTheSame(Weather oldItem, Weather newItem) {
+                    return oldItem.equals(newItem);
+                }
 
-            @Override
-            public boolean areItemsTheSame(Weather item1, Weather item2) {
-                return item1.equals(item2);
-            }
-        });
+                @Override
+                public boolean areItemsTheSame(Weather item1, Weather item2) {
+                    return item1.equals(item2);
+                }
+            });
         weatherSortedList.addAll(items);
     }
 
@@ -67,13 +74,21 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ForecastAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Weather weather = weatherSortedList.get(position);
+        Boolean expanded = position == expandedPosition;
         holder.weather = weather;
         holder.dateView.setText(containerDateFormat.format(weather.timestamp() * 1000L));
         holder.dayTemp.setText(TemperatureFormatter.format(weather.dayTemperature(), tempUnit, Locale.getDefault()));
         holder.nightTemp.setText(TemperatureFormatter.format(weather.nightTemperature(), tempUnit, Locale.getDefault()));
         holder.weatherIconView.setBackgroundResource(ConditionMapper.mapDark(weather.weatherConditions()));
+        holder.expand(expanded);
+        holder.view.setOnClickListener(v -> {
+            int previousPosition = expandedPosition;
+            expandedPosition = expanded ? -1 : position;
+            if (previousPosition != -1) notifyItemChanged(previousPosition);
+            if (position != -1) notifyItemChanged(position);
+        });
     }
 
     @Override
@@ -87,6 +102,7 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHolder> {
         final TextView nightTemp;
         final TextView dayTemp;
         final ImageView weatherIconView;
+        final TextView container;
         Weather weather;
 
         ViewHolder(View view) {
@@ -96,11 +112,16 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHolder> {
             dayTemp = (TextView) view.findViewById(R.id.forecast_day_temp);
             nightTemp = (TextView) view.findViewById(R.id.forecast_night_temp);
             weatherIconView = (ImageView) view.findViewById(R.id.weather_forecast_icon_condition);
+            container = (TextView) view.findViewById(R.id.tvContainer);
         }
 
         @Override
         public String toString() {
             return super.toString() + " '" + dateView.getText() + "'";
+        }
+
+        void expand(Boolean expanded) {
+            container.setVisibility(expanded ? View.VISIBLE : View.GONE);
         }
     }
 }
