@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    android:id="@+id/viewHolderContainer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewHolderContainer"
     android:layout_width="match_parent"
     android:animateLayoutChanges="true"
     android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="96dp"/>
+        app:layout_constraintGuide_begin="100dp"/>
 
     <TextView
         android:id="@+id/forecast_date_text"
@@ -80,18 +80,17 @@
         app:layout_constraintTop_toTopOf="@id/guideline1"
         />
 
-    <TextView
-        android:id="@+id/tvContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Хоба!"
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChart"
+        android:layout_width="0dp"
+        android:layout_height="128dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:background="@color/colorPrimaryLightDark"
         android:visibility="gone"
-        android:textColor="@color/colorTextSecondary"
-        android:textSize="@dimen/text_large_large_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weather_forecast_icon_condition"
-        tools:visibility="visible"/>
+        app:layout_constraintTop_toTopOf="@id/guideline1"/>
 
 </android.support.constraint.ConstraintLayout>

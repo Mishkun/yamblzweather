@@ -23,15 +23,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@null"
                 android:src="@drawable/ic_settings_black_24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/weather_button_city"
                 app:layout_constraintHorizontal_bias="0.961"
-                app:layout_constraintLeft_toRightOf="@+id/weather_button_city"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/weather_button_city"
                 app:layout_constraintTop_toTopOf="@+id/weather_button_city"/>
 
             <Spinner
@@ -39,16 +39,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="36dp"
                 android:gravity="center"
                 android:paddingEnd="@dimen/text_margin"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/settings_button"
                 app:layout_constraintRight_toLeftOf="@id/weather_text_temperature"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
@@ -72,29 +69,29 @@
                 android:textSize="@dimen/text_large_size"
                 app:layout_constraintBottom_toBottomOf="@+id/weather_button_city"
                 app:layout_constraintLeft_toRightOf="@+id/weather_button_city"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/forecast_container"
                 app:layout_constraintTop_toTopOf="@+id/weather_button_city"
                 app:layout_constraintVertical_bias="0.4"/>
 
             <ImageView
                 android:id="@+id/center_circle"
-                android:layout_width="256dp"
-                android:layout_height="256dp"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:layout_marginTop="8dp"
                 android:src="@drawable/circle"
                 app:layout_constraintBottom_toTopOf="@id/bottom_guideline"
-                app:layout_constraintHorizontal_bias="0.941"
+                app:layout_constraintHorizontal_bias="0.07"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/weather_text_temperature"
-                app:layout_constraintVertical_bias="0.362"/>
+                app:layout_constraintTop_toBottomOf="@+id/weather_text_temperature"
+                app:layout_constraintVertical_bias="0.0"/>
 
             <ImageView
                 android:id="@+id/weather_icon_condition"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
@@ -110,14 +107,15 @@
                 android:id="@+id/weather_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/no_server_connection"
                 android:textAlignment="textEnd"
                 android:textSize="@dimen/text_large_size"
                 app:layout_constraintBottom_toTopOf="@id/weather_subtitle"
                 app:layout_constraintHorizontal_bias="0.503"
-                app:layout_constraintLeft_toLeftOf="@+id/weather_button_city"
-                app:layout_constraintRight_toLeftOf="@+id/center_circle"
-                app:layout_constraintTop_toTopOf="@+id/center_circle"
+                app:layout_constraintLeft_toLeftOf="@+id/center_circle"
+                app:layout_constraintRight_toRightOf="@+id/center_circle"
+                app:layout_constraintTop_toBottomOf="@+id/center_circle"
                 app:layout_constraintVertical_bias="0.5"
                 app:layout_constraintVertical_chainStyle="packed"/>
 
@@ -130,25 +128,11 @@
                 android:text="@string/please_try_again"
                 android:textAlignment="textEnd"
                 android:textSize="@dimen/text_medium_size"
+                app:layout_constraintStart_toStartOf="@id/weather_title"
                 app:layout_constraintBottom_toBottomOf="@+id/center_circle"
                 app:layout_constraintRight_toRightOf="@+id/weather_title"
                 app:layout_constraintTop_toBottomOf="@+id/weather_title"/>
 
-            <ImageButton
-                android:id="@+id/arrow_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@null"
-                android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
-                android:textAlignment="textEnd"
-                app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                tools:ignore="InconsistentLayout"/>
 
             <android.support.constraint.Guideline
                 android:id="@+id/bottom_guideline"
@@ -156,7 +140,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="330dp"/>
-
 
             <TextView
                 android:id="@+id/weather_text_latest_update"
@@ -170,8 +153,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/weather_subtitle"
+                app:layout_constraintRight_toRightOf="@id/weather_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/forecast_container"
                 app:layout_constraintVertical_bias="1.0"
                 tools:text="Updated 15:00"/>
@@ -179,14 +162,16 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/forecast_container"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/weather_text_latest_update"
+                android:layout_height="0dp"
+                android:layout_marginLeft="24dp"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/weather_text_temperature"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bottom_guideline"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:listitem="@layout/item_forecast"/>
+
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
