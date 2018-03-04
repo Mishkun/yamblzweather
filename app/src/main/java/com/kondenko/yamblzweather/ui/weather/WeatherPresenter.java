@@ -3,6 +3,7 @@ package com.kondenko.yamblzweather.ui.weather;
 
 import android.support.v4.util.Pair;
 
+import com.kondenko.yamblzweather.domain.entity.Weather;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentCityInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetCurrentWeatherInteractor;
 import com.kondenko.yamblzweather.domain.usecase.GetFavoredCitiesInteractor;
@@ -24,7 +25,7 @@ import io.reactivex.Observable;
 @Singleton
 public class WeatherPresenter extends BasePresenter<WeatherView> {
 
-    @SuppressWarnings("unused")     private static final String TAG = WeatherPresenter.class.getSimpleName();
+    @SuppressWarnings("unused") private static final String TAG = WeatherPresenter.class.getSimpleName();
     private final GetCurrentWeatherInteractor currentWeatherInteractor;
     private final GetForecastInteractor getForecastInteractor;
     private final UpdateWeatherInteractor updateWeatherInteractor;
@@ -34,6 +35,8 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
     private final GetUnitsInteractor getUnitsInteractor;
 
     private boolean initialized = false;
+
+    private WeatherViewModel weatherViewModel;
 
     @Inject
     WeatherPresenter(GetCurrentWeatherInteractor currentWeatherInteractor, GetForecastInteractor getForecastInteractor,
@@ -65,9 +68,9 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
                                                   getForecastInteractor.run(),
                                                   getUnitsInteractor.run().toMaybe(),
                                                   (cities, forecast, unit) -> WeatherViewModel
-                                                          .create(pair.second, forecast,
-                                                                  pair.first,
-                                                                  cities, unit)).onErrorComplete())
+                                                      .create(pair.second, forecast,
+                                                              pair.first,
+                                                              cities, unit)).onErrorComplete())
                   .doAfterNext(ignore -> {
                       if (!initialized && isViewAttached()) {
                           subscribeCitySelections(getView());
@@ -76,6 +79,7 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
                   })
                   .subscribe(result -> {
                       if (isViewAttached()) {
+                          weatherViewModel = result;
                           getView().setData(result);
                       }
                   });
@@ -114,4 +118,13 @@ public class WeatherPresenter extends BasePresenter<WeatherView> {
                                 .subscribe();
     }
 
+    void onSelected(Weather weather, boolean isSelected) {
+        if (weatherViewModel != null) {
+            getView().setData(WeatherViewModel.create(isSelected ? weather : weatherViewModel.weather(),
+                                                      weatherViewModel.forecast(),
+                                                      weatherViewModel.city(),
+                                                      weatherViewModel.cities(),
+                                                      weatherViewModel.tempUnit()));
+        }
+    }
 }

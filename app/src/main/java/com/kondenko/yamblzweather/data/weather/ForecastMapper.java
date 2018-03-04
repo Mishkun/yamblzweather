@@ -13,7 +13,7 @@ class ForecastMapper {
         WeatherForecastEntity weatherEntity = new WeatherForecastEntity();
         weatherEntity.setHumidity(weatherModel.getHumidity());
         weatherEntity.setPressure(hPaToMmHg(weatherModel.getPressure()));
-        weatherEntity.setTemperature(weatherModel.getTemp().getDay());
+        weatherEntity.setTemperature(weatherModel.getTemp().getMorning());
         weatherEntity.setDayTemperature(weatherModel.getTemp().getDay());
         weatherEntity.setNightTemperature(weatherModel.getTemp().getNight());
         weatherEntity.setWindSpeed(weatherModel.getWindspeed());

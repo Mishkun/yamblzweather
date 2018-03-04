@@ -3,6 +3,7 @@ package com.kondenko.yamblzweather.ui.weather;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,6 +15,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -127,14 +129,19 @@ public class WeatherActivity extends BaseMvpActivity<WeatherViewModel, WeatherPr
         spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
         spinnerCity.setAdapter(spinnerAdapter);
 
-        forecastAdapter = new ForecastAdapter(new ArrayList<>());
+        forecastAdapter = new ForecastAdapter(new ArrayList<>(), forecastView, presenter::onSelected);
         forecastView.setAdapter(forecastAdapter);
-        forecastView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            forecastView.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                });
+        } else {
+            forecastView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        }
         forecastView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 

@@ -92,9 +92,13 @@ class ForecastResponse {
             @SerializedName("night")
             private double night;
 
-            Temp(double day, double night) {
+            @SerializedName("morn")
+            private double morning;
+
+            Temp(double day, double night, double morn) {
                 this.day = day;
                 this.night = night;
+                this.morning = morn;
             }
 
             @SuppressWarnings("unused")
@@ -108,6 +112,10 @@ class ForecastResponse {
 
             double getNight() {
                 return night;
+            }
+
+            double getMorning() {
+                return morning;
             }
         }
     }
